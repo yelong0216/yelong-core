@@ -5,7 +5,6 @@ package org.yelong.core.jdbc.sql.defaults;
 
 import static org.yelong.core.jdbc.sql.SpliceSqlUtils.spliceSqlFragment;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,21 +12,13 @@ import org.yelong.core.jdbc.sql.exception.InvalidSortException;
 import org.yelong.core.jdbc.sql.sort.AbstractSortSqlFragment;
 
 /**
- * 默认动态排序<br/>
+ * 默认排序实现<br/>
  * 默认添加排序验证器
- * @author 彭飞
- * @date 2019年7月26日下午1:58:13
+ * @author PengFei
  */
-public class DefaultSortSqlFragment extends AbstractSortSqlFragment implements Serializable,Cloneable{
-	
-	private static final long serialVersionUID = -8439959626692552209L;
+public class DefaultSortSqlFragment extends AbstractSortSqlFragment{
 	
 	private static final String COMMA = ",";
-	
-	@Override
-	public DefaultSortSqlFragment clone() throws CloneNotSupportedException {
-		return (DefaultSortSqlFragment) super.clone();
-	}
 	
 	@Override
 	protected void validSort(String fieldName, String direction) throws InvalidSortException {
@@ -51,9 +42,6 @@ public class DefaultSortSqlFragment extends AbstractSortSqlFragment implements S
 	
 	/**
 	 * 排序方向
-	 * @author 彭飞
-	 * @date 2019年8月23日下午2:59:26
-	 * @version 1.2
 	 */
 	public enum SortDirection{
 		
@@ -72,9 +60,6 @@ public class DefaultSortSqlFragment extends AbstractSortSqlFragment implements S
 		
 		/**
 		 * 根据排序方向获取排序方向对象<br/>
-		 * @author 彭飞
-		 * @date 2019年8月23日下午3:02:32
-		 * @version 1.2
 		 * @param direction 排序方向
 		 * @return <tt>true</tt> 排序方向的对象
 		 */
@@ -89,9 +74,6 @@ public class DefaultSortSqlFragment extends AbstractSortSqlFragment implements S
 		
 		/**
 		 * 测试是否存在此排序方向
-		 * @author 彭飞
-		 * @date 2019年8月23日下午3:01:50
-		 * @version 1.2
 		 * @param direction 排序方向
 		 * @return <tt>true</tt>如果存在此排序方向
 		 */
@@ -103,6 +85,5 @@ public class DefaultSortSqlFragment extends AbstractSortSqlFragment implements S
 		}
 		
 	}
-	
 	
 }

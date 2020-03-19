@@ -7,17 +7,13 @@ import org.yelong.core.jdbc.sql.SqlFragment;
 import org.yelong.core.jdbc.sql.exception.InvalidSortException;
 
 /**
- * 动态排序<br/>
- * @author 彭飞
- * @date 2019年8月7日下午2:52:42
- * @version 1.0
+ * 排序sql<br/>
+ * @author PengFei
  */
 public interface SortSqlFragment extends SqlFragment{
 
 	/**
 	 * 添加一个排序条件。<br/>
-	 * @author 彭飞
-	 * @date 2019年7月26日下午2:03:31
 	 * @param fieldName 字段名称
 	 * @param direction 排序方向：DESC(降序)、ASC（升序）
 	 * @throws InvalidSortException 如果这个排序是无效的
@@ -26,8 +22,6 @@ public interface SortSqlFragment extends SqlFragment{
 	
 	/**
 	 * 是否存在排序
-	 * @author 彭飞
-	 * @date 2019年7月26日下午2:10:55
 	 * @return <tt>true</tt> 如果不存在排序
 	 */
 	boolean isEmpty();

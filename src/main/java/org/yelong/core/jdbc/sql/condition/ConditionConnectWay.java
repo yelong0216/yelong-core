@@ -7,9 +7,7 @@ import org.yelong.core.jdbc.SqlKeyword;
 
 /**
  * 条件拼接方式
- * @author 彭飞
- * @date 2019年8月12日下午5:25:06
- * @version 1.0
+ * @author PengFei
  */
 public enum ConditionConnectWay {
 	
@@ -26,8 +24,5 @@ public enum ConditionConnectWay {
 	public String getKeyword() {
 		return keyword;
 	}
-
-	
-	
 	
 }

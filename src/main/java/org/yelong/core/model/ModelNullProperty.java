@@ -11,9 +11,7 @@ import java.util.Date;
  * 在根据可选的属性进行save和modify时，属性设置为此类中对应的属性值，会被设置为null，而不是忽略
  * model中的对象必须为包装类型，而不是基本类型
  * 注意：model的属性不要是基础数据类型
- * @author 彭飞
- * @date 2019年10月24日上午9:59:36
- * @version 1.2
+ * @author PengFei
  */
 public final class ModelNullProperty {
 	
@@ -40,10 +38,7 @@ public final class ModelNullProperty {
 	
 	/**
 	 * 验证model属性值是否是伪装的null
-	 * @author 彭飞
-	 * @date 2019年10月24日上午11:56:48
-	 * @version 1.2
-	 * @param value
+	 * @param value 值
 	 * @return <tt>true</tt>是伪装Null值
 	 */
 	public static boolean isPretendNull(Object value) {
@@ -58,7 +53,6 @@ public final class ModelNullProperty {
 				}
 			}
 		}
-		//throw new IllegalStateException("未找到："+type+"类型的model伪装空值");
 		return false;
 	}
 	
@@ -93,6 +87,5 @@ public final class ModelNullProperty {
 		}
 		
 	}
-	
 	
 }

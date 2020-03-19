@@ -11,16 +11,14 @@ import org.yelong.core.jdbc.sql.AbstractSqlFragment;
 import org.yelong.core.jdbc.sql.exception.InvalidSortException;
 
 /**
- * @author 彭飞
- * @date 2019年8月9日下午5:13:30
- * @version 1.0
+ * 抽象的排序sql实现
+ * @author PengFei
  */
 public abstract class AbstractSortSqlFragment extends AbstractSqlFragment implements SortSqlFragment{
 
 	private boolean orderBy = true;
 	
 	private final List<SortFragmentWrapper> sortFragmentList = new ArrayList<>();
-	
 	
 	@Override
 	public void addSort(String fieldName, String direction) {
@@ -30,9 +28,6 @@ public abstract class AbstractSortSqlFragment extends AbstractSqlFragment implem
 	
 	/**
 	 * 验证排序是否符合规范
-	 * @author 彭飞
-	 * @date 2019年8月23日下午2:45:55
-	 * @version 1.2
 	 * @param fieldName 排序字段名称
 	 * @param direction 排序方向
 	 * @throws InvalidSortException 如果这不是一个符合规范的异常
@@ -97,6 +92,5 @@ public abstract class AbstractSortSqlFragment extends AbstractSqlFragment implem
 		}
 		
 	}
-	
 	
 }

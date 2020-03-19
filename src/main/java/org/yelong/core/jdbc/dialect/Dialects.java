@@ -3,9 +3,12 @@
  */
 package org.yelong.core.jdbc.dialect;
 
+import org.yelong.core.jdbc.dialect.impl.MySqlDialect;
+import org.yelong.core.jdbc.dialect.impl.OracleDialect;
+
 /**
+ * 默认的数据库方言对应的实现
  * @author PengFei
- * @date 2020年2月11日下午2:23:59
  */
 public enum Dialects {
 	

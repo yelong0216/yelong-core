@@ -13,12 +13,14 @@ import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
 import org.yelong.core.model.resolve.ModelAndTableManager;
 
 /**
+ * sql model 解析器
  * @author PengFei
- * @date 2020年3月2日上午10:20:53
- * @since 1.0
  */
 public interface SqlModelResolver {
 	
+	/**
+	 * @see #resolveToCondition(SqlModel, boolean)
+	 */
 	@Nullable
 	default ConditionSqlFragment resolveToCondition(SqlModel sqlModel) {
 		return resolveToCondition(sqlModel, true);
@@ -35,13 +37,16 @@ public interface SqlModelResolver {
 	 * 6、拓展字段会覆盖与sqlModel中相同的名称的字段
 	 * 7、{@link Condition}对象可以完成复杂的条件拼接。这个和{@link CombinationConditionSqlFragment}功能相似。具体详见{@link ConditionResolver}
 	 * 
-	 * @param sqlModel
-	 * @param tableAlias
-	 * @return
+	 * @param sqlModel sqlModel
+	 * @param tableAlias 是否拼接表别名
+	 * @return 条件sql
 	 */
 	@Nullable
 	ConditionSqlFragment resolveToCondition(SqlModel sqlModel , boolean tableAlias);
 	
+	/**
+	 * @see #resolveToSort(SqlModel, boolean)
+	 */
 	@Nullable
 	default SortSqlFragment resolveToSort(SqlModel sqlModel) {
 		return resolveToSort(sqlModel, true);
@@ -51,15 +56,21 @@ public interface SqlModelResolver {
 	 * 解析{@link SqlModel#getSortFieldMap()}为排序sql
 	 * 1、如果defaultTableAlias = true，将会在排序的列中默认添加SqlModel映射的表的别名。
 	 * 2、如果列自带别名(存在“.”)将不会添加默认别名
-	 * @param sqlModel
+	 * @param sqlModel sqlModel
 	 * @param tableAlias 是否在字段前添加表别名
-	 * @return
+	 * @return 排序sql
 	 */
 	@Nullable
 	SortSqlFragment resolveToSort(SqlModel sqlModel , boolean tableAlias);
 	
+	/**
+	 * @return model 与 table 的管理者
+	 */
 	ModelAndTableManager getModelAndTableManager();
 	
+	/**
+	 * @return sql片段工厂
+	 */
 	SqlFragmentFactory getSqlFragmentFactory();
 	
 }

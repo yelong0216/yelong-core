@@ -15,22 +15,15 @@ import java.lang.annotation.Target;
 @Target(TYPE)
 /**
  * 标注在model上面。
- * 替换默认的查询语句
- * @author 彭飞
- * @date 2019年9月30日下午2:46:22
- * @version 1.2
+ * 替换默认的 select sql
+ * @author PengFei
  */
 public @interface Select {
 
 	/**
 	 * 查询语句。默认： select alias.* from tableName alias
-	 * @author 彭飞
-	 * @date 2019年9月30日下午2:47:08
-	 * @version 1.2
-	 * @return
+	 * @return select sql
 	 */
 	String value() default "";
-	
-	
 	
 }

@@ -4,9 +4,8 @@
 package org.yelong.core.jdbc;
 
 /**
- * @author pengfei<yl1430834495@163.com>
- * @date 2019年11月6日下午4:23:10
- * @version 1.2
+ * 数据库属性配置
+ * @author PengFei
  */
 public class DataSourceProperties {
 
@@ -49,8 +48,5 @@ public class DataSourceProperties {
 	public void setDriverClassName(String driverClassName) {
 		this.driverClassName = driverClassName;
 	}
-	
-	
-	
 	
 }

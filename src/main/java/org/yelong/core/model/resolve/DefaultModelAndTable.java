@@ -6,9 +6,8 @@ package org.yelong.core.model.resolve;
 import java.util.List;
 
 /**
+ * 默认的模型和表实现
  * @author PengFei
- * @date 2019年12月29日下午7:23:25
- * @since 1.0
  */
 public class DefaultModelAndTable extends AbstractModelAndTable{
 

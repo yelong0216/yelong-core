@@ -12,8 +12,6 @@ import org.yelong.core.model.sql.SqlModel;
 
 /**
  * @author PengFei
- * @date 2020年3月4日下午5:42:06
- * @since 1.0
  */
 public interface SqlModelService extends ModelService{
 

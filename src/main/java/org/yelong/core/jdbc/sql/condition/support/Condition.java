@@ -9,6 +9,7 @@ import java.util.List;
 import org.yelong.core.jdbc.sql.condition.ConditionConnectWay;
 
 /**
+ * 条件对象
  * @author PengFei
  * @date 2020年2月24日上午8:54:07
  * @since 1.0

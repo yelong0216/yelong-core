@@ -17,6 +17,7 @@ import org.yelong.core.model.ModelProperties;
 import org.yelong.core.model.annotation.Column;
 import org.yelong.core.model.annotation.ExtendColumn;
 import org.yelong.core.model.annotation.Id;
+import org.yelong.core.model.annotation.PrimaryKey;
 import org.yelong.core.model.annotation.SelectColumn;
 import org.yelong.core.model.annotation.SelectColumnConditionalOnProperty;
 import org.yelong.core.model.annotation.Table;
@@ -30,10 +31,7 @@ import org.yelong.core.model.exception.ModelException;
  * 如果此modelClass未标注{@link Table}注解，将通过父类来尝试获取{@link Table}注解，直至{@link Object}类。
  * 均未找到Table注解则表示无法解析此类为ModelAndTable
  * 
- * 
- * @author 彭飞
- * @date 2019年9月29日上午9:02:48
- * @version 1.2
+ * @author PengFei
  */
 public class AnnotationModelResolver implements ModelResolver {
 
@@ -116,7 +114,7 @@ public class AnnotationModelResolver implements ModelResolver {
 			columnName = org.yelong.commons.lang.StringUtils.camelCaseToUnderscore(columnName);
 		} 
 		//id列默认不允许为空
-		if( field.isAnnotationPresent(Id.class)) {
+		if( field.isAnnotationPresent(Id.class) || field.isAnnotationPresent(PrimaryKey.class)) {
 			allowBlank = false;
 			allowNull = false;
 			isPrimaryKey = true;

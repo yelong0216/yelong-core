@@ -14,9 +14,8 @@ import org.yelong.core.jdbc.DataBaseOperationType;
 import org.yelong.core.jdbc.sql.attribute.AbstractAttributeSqlFragment;
 
 /**
- * @author 彭飞
- * @date 2019年9月17日下午2:47:35
- * @version 1.2
+ * 默认的属性sql片段实现
+ * @author PengFei
  */
 public class DefaultAttributeSqlFragment extends AbstractAttributeSqlFragment{
 
@@ -29,13 +28,12 @@ public class DefaultAttributeSqlFragment extends AbstractAttributeSqlFragment{
 	//默认参数占位符
 	public static final String DEFAULT_PARAM_PLACEHOLDER = "?";
 
-
-	public DefaultAttributeSqlFragment(DataBaseOperationType dataBaseOperationType) {
-		setDataBaseOperationType(dataBaseOperationType);
-	}
-
 	public DefaultAttributeSqlFragment() {
 		
+	}
+	
+	public DefaultAttributeSqlFragment(DataBaseOperationType dataBaseOperationType) {
+		setDataBaseOperationType(dataBaseOperationType);
 	}
 	
 	@Override
@@ -52,10 +50,7 @@ public class DefaultAttributeSqlFragment extends AbstractAttributeSqlFragment{
 
 	/**
 	 * 新增属性的sql片段
-	 * @author 彭飞
-	 * @date 2019年9月11日下午6:41:00
-	 * @version 1.2
-	 * @return
+	 * @return 新增的属性sql片段 (columns...) VALUES (values...)
 	 */
 	public String getInsertAttrSqlFragment() {
 		if(isEmpty()) {
@@ -83,10 +78,7 @@ public class DefaultAttributeSqlFragment extends AbstractAttributeSqlFragment{
 
 	/**
 	 * 修改的sql片段
-	 * @author 彭飞
-	 * @date 2019年9月11日下午6:40:50
-	 * @version 1.2
-	 * @return
+	 * @return 修改的sql片段 column = value , ...
 	 */
 	public String getUpdateAttrSqlFragment() {
 		if(isEmpty()) {

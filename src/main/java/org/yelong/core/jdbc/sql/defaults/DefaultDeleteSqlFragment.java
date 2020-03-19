@@ -11,9 +11,8 @@ import org.yelong.core.jdbc.sql.executable.AbstractSqlFragmentExecutable;
 import org.yelong.core.jdbc.sql.executable.DeleteSqlFragment;
 
 /**
- * 
+ * 默认的delete sql片段实现
  * @author PengFei
- * @date 2020年1月20日上午11:47:58
  */
 public class DefaultDeleteSqlFragment extends AbstractSqlFragmentExecutable implements DeleteSqlFragment{
 
@@ -54,6 +53,5 @@ public class DefaultDeleteSqlFragment extends AbstractSqlFragmentExecutable impl
 	public ConditionSqlFragment getConditionSqlFragment() {
 		return this.conditionSqlFragment;
 	}
-
 
 }

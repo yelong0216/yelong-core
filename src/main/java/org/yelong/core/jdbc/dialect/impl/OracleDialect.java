@@ -1,11 +1,14 @@
 /**
  * 
  */
-package org.yelong.core.jdbc.dialect;
+package org.yelong.core.jdbc.dialect.impl;
+
+import org.yelong.core.jdbc.dialect.AbstractDialect;
+import org.yelong.core.jdbc.dialect.DialectType;
 
 /**
+ * oracle 方言
  * @author PengFei
- * @date 2020年1月20日下午3:05:42
  */
 public class OracleDialect extends AbstractDialect{
 	

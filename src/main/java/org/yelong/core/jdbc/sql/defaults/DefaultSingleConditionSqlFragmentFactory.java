@@ -10,9 +10,8 @@ import org.yelong.core.jdbc.sql.condition.single.SingleConditionSqlFragmentFacto
 import org.yelong.core.jdbc.sql.exception.InvalidConditionException;
 
 /**
- * @author 彭飞
- * @date 2019年8月22日下午6:26:36
- * @version 1.2
+ * 默认的单一条件工厂实现
+ * @author PengFei
  */
 public class DefaultSingleConditionSqlFragmentFactory implements SingleConditionSqlFragmentFactory{
 
@@ -47,9 +46,6 @@ public class DefaultSingleConditionSqlFragmentFactory implements SingleCondition
 
 	/**
 	 * 根据条件需要的参数个数来验证条件
-	 * @author 彭飞
-	 * @date 2019年8月23日上午8:23:32
-	 * @version 1.2
 	 * @param condition
 	 * @param valueNum
 	 * @throws InvalidConditionException
@@ -70,9 +66,6 @@ public class DefaultSingleConditionSqlFragmentFactory implements SingleCondition
 	 * 条件关键字<br/>
 	 * 包含条件极其该条件所需要的参数个数<br/>
 	 * 如果参数个数不限量则为 -1 
-	 * @author 彭飞
-	 * @date 2019年8月13日下午3:50:38
-	 * @version 1.0
 	 */
 	public static enum ConditionKeyword{
 
@@ -150,9 +143,6 @@ public class DefaultSingleConditionSqlFragmentFactory implements SingleCondition
 		public Integer getNeedMostParamNumber() {
 			return needMostParamNumber;
 		}
-
-
-
 
 	}
 

@@ -6,9 +6,7 @@ package org.yelong.core.jdbc;
 /**
  * SQL 保留关键字
  * 
- * @author 彭飞
- * @date 2019年8月8日下午5:20:42
- * @version 1.0
+ * @author PengFei
  */
 public enum SqlKeyword {
 
@@ -45,9 +43,6 @@ public enum SqlKeyword {
 
 	/**
 	 * 是否存在keyword关键字
-	 * @author 彭飞
-	 * @date 2019年8月9日下午3:33:05
-	 * @version 1.0
 	 * @param keyword 关键字
 	 * @return <tt>true</tt> 如果关键字存在
 	 */

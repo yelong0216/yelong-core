@@ -1,11 +1,14 @@
 /**
  * 
  */
-package org.yelong.core.jdbc.dialect;
+package org.yelong.core.jdbc.dialect.impl;
+
+import org.yelong.core.jdbc.dialect.AbstractDialect;
+import org.yelong.core.jdbc.dialect.DialectType;
 
 /**
+ * mysql 数据库方言
  * @author PengFei
- * @date 2020年2月11日下午2:15:11
  */
 public class MySqlDialect extends AbstractDialect{
 	

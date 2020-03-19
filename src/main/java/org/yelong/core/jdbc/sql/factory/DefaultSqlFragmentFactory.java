@@ -5,8 +5,8 @@ package org.yelong.core.jdbc.sql.factory;
 
 import org.yelong.core.jdbc.dialect.Dialect;
 import org.yelong.core.jdbc.sql.attribute.AttributeSqlFragment;
-import org.yelong.core.jdbc.sql.condition.ConditionSqlFragment;
 import org.yelong.core.jdbc.sql.condition.combination.CombinationConditionSqlFragment;
+import org.yelong.core.jdbc.sql.condition.simple.SimpleConditionSqlFragment;
 import org.yelong.core.jdbc.sql.condition.single.SingleConditionSqlFragmentFactory;
 import org.yelong.core.jdbc.sql.defaults.DefaultAttributeSqlFragment;
 import org.yelong.core.jdbc.sql.defaults.DefaultCombinationConditionSqlFragment;
@@ -26,13 +26,15 @@ import org.yelong.core.jdbc.sql.executable.UpdateSqlFragment;
 import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
 
 /**
+ * 默认的sql片段工厂实现
  * @author PengFei
- * @date 2020年1月20日上午11:05:25
  */
 public class DefaultSqlFragmentFactory implements SqlFragmentFactory{
 
-	private final Dialect dialect;
+	private Dialect dialect;
 
+	private SingleConditionSqlFragmentFactory singleConditionSqlFragmentFactory;
+	
 	public DefaultSqlFragmentFactory(Dialect dialect) {
 		this.dialect = dialect;
 	}
@@ -43,13 +45,24 @@ public class DefaultSqlFragmentFactory implements SqlFragmentFactory{
 	}
 
 	@Override
-	public ConditionSqlFragment createConditionSqlFragment(String conditionFragment, Object... params) {
+	public SimpleConditionSqlFragment createConditionSqlFragment(String conditionFragment, Object... params) {
 		return new DefaultSimpleConditionSqlFragment(conditionFragment, params);
 	}
 
 	@Override
 	public SingleConditionSqlFragmentFactory getSingleConditionSqlFragmentFactory() {
-		return new DefaultSingleConditionSqlFragmentFactory();
+		if( null == singleConditionSqlFragmentFactory ) {
+			synchronized (this) {
+				singleConditionSqlFragmentFactory = new DefaultSingleConditionSqlFragmentFactory();
+			}
+		}
+		return singleConditionSqlFragmentFactory;
+	}
+	
+	@Override
+	public void setSingleConditionSqlFragmentFactory(
+			SingleConditionSqlFragmentFactory singleConditionSqlFragmentFactory) {
+		this.singleConditionSqlFragmentFactory = singleConditionSqlFragmentFactory;
 	}
 	
 	@Override
@@ -101,4 +114,9 @@ public class DefaultSqlFragmentFactory implements SqlFragmentFactory{
 		return dialect;
 	}
 
+	@Override
+	public void setDialect(Dialect dialect) {
+		this.dialect = dialect;
+	}
+	
 }

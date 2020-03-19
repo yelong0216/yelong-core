@@ -6,9 +6,8 @@ package org.yelong.core.model.resolve;
 import java.lang.reflect.Field;
 
 /**
+ * 默认的字段和列实现
  * @author PengFei
- * @date 2019年12月29日下午7:31:34
- * @since 1.0
  */
 public class DefaultFieldAndColumn extends AbstractFieldAndColumn{
 	

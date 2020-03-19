@@ -8,10 +8,9 @@ import java.util.List;
 
 import org.yelong.core.model.Model;
 
-/**模型与表的映射信息
- * 
+/**
+ * 模型与表的映射信息
  * @author PengFei
- * @date 2019年12月26日下午9:20:01
  */
 public interface ModelAndTable {
 	

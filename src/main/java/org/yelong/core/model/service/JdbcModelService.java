@@ -12,9 +12,7 @@ import org.yelong.core.model.ModelConfiguration;
 import org.yelong.core.model.sql.ModelSqlFragmentFactory;
 
 /**
- * @author 彭飞
- * @date 2019年10月25日上午9:50:14
- * @version 1.2
+ * @author PengFei
  */
 public class JdbcModelService extends AbstractModelService{
 

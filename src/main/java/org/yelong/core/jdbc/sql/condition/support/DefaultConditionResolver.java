@@ -17,9 +17,8 @@ import org.yelong.core.jdbc.sql.condition.single.SingleConditionSqlFragmentFacto
 import org.yelong.core.jdbc.sql.factory.SqlFragmentFactory;
 
 /**
+ * 默认的条件解析器实现
  * @author PengFei
- * @date 2020年2月25日上午11:47:27
- * @since 1.0
  */
 public class DefaultConditionResolver extends AbstractConditionResolver{
 
@@ -100,5 +99,4 @@ public class DefaultConditionResolver extends AbstractConditionResolver{
 		}
 	}
 
-	
 }

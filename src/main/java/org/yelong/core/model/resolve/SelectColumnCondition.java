@@ -4,14 +4,16 @@
 package org.yelong.core.model.resolve;
 
 import org.yelong.core.annotation.Nullable;
+import org.yelong.core.annotation.test.NotImplemented;
+import org.yelong.core.annotation.test.NotTest;
 
 /**
  * 查询列条件。
  * 根据条件判断列是否进行映射
- * 
  * @author PengFei
- * @date 2019年12月27日下午6:54:44
  */
+@NotTest
+@NotImplemented
 public class SelectColumnCondition {
 	
 	private final String propertyName;

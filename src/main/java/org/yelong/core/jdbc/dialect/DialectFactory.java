@@ -4,8 +4,8 @@
 package org.yelong.core.jdbc.dialect;
 
 /**
+ * 数据库方言工厂
  * @author PengFei
- * @date 2020年2月11日下午2:16:44
  */
 public class DialectFactory {
 	

@@ -6,10 +6,10 @@ package org.yelong.core.jdbc.sql;
 import org.yelong.core.jdbc.dialect.Dialect;
 
 /**
+ * 抽象的sql片段
  * @author PengFei
- * @date 2020年1月20日上午11:12:38
  */
-public abstract class AbstractSqlFragment {
+public abstract class AbstractSqlFragment implements SqlFragment{
 	
 	private Dialect dialect;
 	

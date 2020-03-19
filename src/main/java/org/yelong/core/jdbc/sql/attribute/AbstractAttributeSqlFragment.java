@@ -13,9 +13,8 @@ import org.yelong.core.jdbc.DataBaseOperationType;
 import org.yelong.core.jdbc.sql.AbstractSqlFragment;
 
 /**
- * @author 彭飞
- * @date 2019年9月17日下午2:35:00
- * @version 1.2
+ * 抽象的属性sql片段实现
+ * @author PengFei
  */
 public abstract class AbstractAttributeSqlFragment extends AbstractSqlFragment implements AttributeSqlFragment{
 
@@ -23,12 +22,10 @@ public abstract class AbstractAttributeSqlFragment extends AbstractSqlFragment i
 	
 	private final Map<String,Object> attributes = new LinkedHashMap<>();
 
-
 	@Override
 	public void addAttr(String attrName, Object value) {
 		attributes.put(attrName, value);
 	}
-
 
 	@Override
 	public boolean addAttrByValueNotNull(String attrName, Object value) {
@@ -39,18 +36,15 @@ public abstract class AbstractAttributeSqlFragment extends AbstractSqlFragment i
 		return true;
 	}
 
-
 	@Override
 	public boolean removeAttr(String attrName) {
 		return attributes.remove(attrName)!=null;
 	}
 
-
 	@Override
 	public Set<String> getAllAttrName() {
 		return attributes.keySet();
 	}
-
 
 	@Override
 	public Collection<Object> getAllValue() {
@@ -87,6 +81,5 @@ public abstract class AbstractAttributeSqlFragment extends AbstractSqlFragment i
 		}
 		return this.dataBaseOperationType;
 	}
-	
 
 }

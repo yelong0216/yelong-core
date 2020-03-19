@@ -17,9 +17,8 @@ import org.yelong.core.model.sql.SqlModel;
 import org.yelong.core.model.sql.SqlModelResolver;
 
 /**
+ * 抽象的sqlModel实现
  * @author PengFei
- * @date 2020年3月4日下午6:01:53
- * @since 1.0
  */
 public abstract class AbstractSqlModelService extends AbstractModelService implements SqlModelService{
 
@@ -109,6 +108,5 @@ public abstract class AbstractSqlModelService extends AbstractModelService imple
 	protected SqlModelResolver getSqlModelResolver() {
 		return getModelConfiguration().getSqlModelResolver();
 	}
-	
 
 }

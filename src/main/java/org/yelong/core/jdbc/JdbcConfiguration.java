@@ -3,14 +3,18 @@
  */
 package org.yelong.core.jdbc;
 
+import org.yelong.core.annotation.test.NotImplemented;
+import org.yelong.core.annotation.test.NotTest;
 import org.yelong.core.jdbc.dialect.Dialect;
 import org.yelong.core.jdbc.sql.factory.DefaultSqlFragmentFactory;
 import org.yelong.core.jdbc.sql.factory.SqlFragmentFactory;
 
 /**
+ * Jdbc配置
  * @author PengFei
- * @date 2020年1月20日上午10:53:36
  */
+@NotTest
+@NotImplemented
 public class JdbcConfiguration {
 
 	private final Dialect dialect;
@@ -22,7 +26,6 @@ public class JdbcConfiguration {
 	}
 	
 	public JdbcConfiguration(Dialect dialect, SqlFragmentFactory sqlFragmentFactory) {
-		super();
 		this.dialect = dialect;
 		this.sqlFragmentFactory = sqlFragmentFactory;
 	}

@@ -10,10 +10,8 @@ import org.yelong.core.jdbc.BaseDataBaseOperation;
 import org.yelong.core.jdbc.sql.BoundSql;
 
 /**
- * sql片段执行器默认实现
- * @author 彭飞
- * @date 2019年11月4日下午2:20:57
- * @version 1.2
+ * sql片段执行器抽象实现
+ * @author PengFei
  */
 public abstract class AbstractSqlFragmentExecutor implements SqlFragmentExecutor{
 
@@ -53,12 +51,8 @@ public abstract class AbstractSqlFragmentExecutor implements SqlFragmentExecutor
 	}
 	
 	/**
-	 * @author 彭飞
-	 * @date 2019年11月4日下午2:22:00
-	 * @version 1.2
 	 * @return 基本数据库操作对象
 	 */
 	public abstract BaseDataBaseOperation getBaseDataBaseOperation();
-	
 
 }

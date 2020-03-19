@@ -8,9 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.yelong.core.jdbc.sql.AbstractSqlFragment;
 
 /**
- * 
+ * 抽象的可执行的sql片段实现
  * @author PengFei
- * @date 2020年1月20日上午11:36:17
  */
 public abstract class AbstractSqlFragmentExecutable extends AbstractSqlFragment implements SqlFragmentExecutable{
 

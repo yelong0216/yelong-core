@@ -11,9 +11,8 @@ import org.yelong.core.jdbc.SqlKeyword;
 import org.yelong.core.jdbc.sql.condition.single.AbstractSingleConditionSqlFragment;
 
 /**
- * 条件
- * @author 彭飞
- * @date 2019年7月26日下午1:58:06
+ * 默认的单一条件实现
+ * @author PengFei
  */
 public class DefaultSingleConditionSqlFragment extends AbstractSingleConditionSqlFragment{
 

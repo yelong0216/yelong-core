@@ -5,9 +5,7 @@ package org.yelong.core.jdbc.sql.exception;
 
 /**
  * 无效的条件异常
- * @author 彭飞
- * @date 2019年8月12日下午12:05:00
- * @version 1.0
+ * @author PengFei
  */
 public class InvalidConditionException extends SqlFragmentException{
 
@@ -24,7 +22,5 @@ public class InvalidConditionException extends SqlFragmentException{
 	public InvalidConditionException(Throwable t) {
 		super(t);
 	}
-	
-	
 	
 }

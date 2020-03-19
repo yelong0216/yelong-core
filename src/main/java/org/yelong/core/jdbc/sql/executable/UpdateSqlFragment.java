@@ -4,28 +4,27 @@ import org.yelong.core.jdbc.sql.attribute.AttributeSqlFragment;
 import org.yelong.core.jdbc.sql.condition.ConditionSqlFragment;
 
 /**
- * 修改sql片段
+ * update sql片段
  * @author PengFei
- * @date 2020年1月20日下午12:08:14
  */
 public interface UpdateSqlFragment extends SqlFragmentExecutable{
 
 	/**
 	 * 设置条件
-	 * @param conditionSqlFragment
-	 * @return
+	 * @param conditionSqlFragment 条件
+	 * @return this
 	 */
 	UpdateSqlFragment setConditionSqlFragment(ConditionSqlFragment conditionSqlFragment);
 
 	/**
 	 * 获取条件
-	 * @return
+	 * @return 条件
 	 */
 	ConditionSqlFragment getConditionSqlFragment();
 
 	/**
 	 * 是否存在条件
-	 * @return
+	 * @return  <tt>true</tt> 存在条件
 	 */
 	default boolean existConditionSqlFragment() {
 		return null != getConditionSqlFragment();
@@ -33,7 +32,7 @@ public interface UpdateSqlFragment extends SqlFragmentExecutable{
 
 	/**
 	 * 获取属性sql
-	 * @return
+	 * @return 属性sql
 	 */
 	AttributeSqlFragment getAttributeSqlFragment();
 

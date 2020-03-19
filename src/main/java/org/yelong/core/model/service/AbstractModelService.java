@@ -35,9 +35,8 @@ import org.yelong.core.model.resolve.ModelAndTableManager;
 import org.yelong.core.model.sql.ModelSqlFragmentFactory;
 
 /**
- * @author 彭飞
- * @date 2019年9月12日上午11:56:10
- * @version 1.2
+ * 抽象的modelService实现
+ * @author PengFei
  */
 public abstract class AbstractModelService extends AbstractSqlFragmentExecutor implements ModelService{
 	
@@ -122,9 +121,6 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	}
 	/**
 	 * 
-	 * @author 彭飞
-	 * @date 2019年10月24日下午3:48:39
-	 * @version 1.2
 	 * @param <M>
 	 * @param model
 	 * @param selective 可选择性
@@ -227,9 +223,6 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	
 	/**
 	 * 保存
-	 * @author 彭飞
-	 * @date 2019年10月24日下午3:21:54
-	 * @version 1.2
 	 * @param <M>
 	 * @param <A>
 	 * @param model 保存的模块
@@ -244,9 +237,6 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	
 	/**
 	 * 删除
-	 * @author 彭飞
-	 * @date 2019年10月24日下午3:23:01
-	 * @version 1.2
 	 * @param <M>
 	 * @param <C>
 	 * @param modelClass
@@ -263,9 +253,6 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	
 	/**
 	 * 查询记录
-	 * @author 彭飞
-	 * @date 2019年10月24日下午3:23:01
-	 * @version 1.2
 	 * @param <M>
 	 * @param <C>
 	 * @param modelClass
@@ -282,9 +269,6 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	
 	/**
 	 * 修改
-	 * @author 彭飞
-	 * @date 2019年10月24日下午3:25:05
-	 * @version 1.2
 	 * @param <M>
 	 * @param <C>
 	 * @param model
@@ -306,9 +290,6 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	
 	/**
 	 * 
-	 * @author 彭飞
-	 * @date 2019年11月1日上午11:47:45
-	 * @version 1.2
 	 * @param <M>
 	 * @param modelClass
 	 * @param conditionFragment 条件
@@ -336,9 +317,6 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	/**
 	 * 创建属性sql
 	 * 如果是可选择性的，则根据{@link ModelNullProperty}来判断是属性是否保存或修改为null
-	 * @author 彭飞
-	 * @date 2019年10月24日上午11:06:13
-	 * @version 1.2
 	 * @param <M> model
 	 * @param <A> attributeFragment
 	 * @param model 
@@ -380,9 +358,6 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	/**
 	 * 验证列属性。
 	 * 验证是否非空、字段长度是否符合
-	 * @author 彭飞
-	 * @date 2019年9月29日下午1:54:16
-	 * @version 1.2
 	 * @param modelFieldColumn
 	 * @param value
 	 * @throws ModelException
@@ -475,9 +450,6 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	
 	/**
 	 * model列验证方式
-	 * @author 彭飞
-	 * @date 2019年10月24日上午11:17:44
-	 * @version 1.2
 	 */
 	public enum ModelColumnValidateWay {
 		/**

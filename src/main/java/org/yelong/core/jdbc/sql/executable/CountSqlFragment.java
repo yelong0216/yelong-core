@@ -6,29 +6,27 @@ package org.yelong.core.jdbc.sql.executable;
 import org.yelong.core.jdbc.sql.condition.ConditionSqlFragment;
 
 /**
- * 查询记录数sql
+ * count sql 片段
  * @author PengFei
- * @date 2020年3月4日下午6:25:42
- * @since 1.0
  */
 public interface CountSqlFragment extends SqlFragmentExecutable{
 
 	/**
 	 * 设置条件
-	 * @param conditionSqlFragment
-	 * @return
+	 * @param conditionSqlFragment 条件
+	 * @return this
 	 */
 	CountSqlFragment setConditionSqlFragment(ConditionSqlFragment conditionSqlFragment);
 
 	/**
 	 * 获取条件
-	 * @return
+	 * @return 条件
 	 */
 	ConditionSqlFragment getConditionSqlFragment();
 
 	/**
 	 * 是否存在条件
-	 * @return
+	 * @return  <tt>true</tt> 存在条件
 	 */
 	default boolean existConditionSqlFragment() {
 		return null != getConditionSqlFragment();

@@ -19,9 +19,8 @@ import java.util.Set;
 import org.yelong.commons.lang.StringUtils;
 
 /**
+ * 抽象的记录实现
  * @author PengFei
- * @date 2019年12月22日上午1:23:36
- * @since 1.0
  */
 public abstract class AbstractRecord implements Record{
 

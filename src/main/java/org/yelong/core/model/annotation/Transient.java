@@ -16,12 +16,8 @@ import java.lang.annotation.Target;
  * 标注的字段不进行映射
  * 这个属性会直接排除，不映射。
  * 此注解优先级最高
- * @author 彭飞
- * @date 2019年8月1日上午11:52:44
- * @version 1.0
+ * @author PengFei
  */
 public @interface Transient {
-	
-	
 	
 }

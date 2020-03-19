@@ -10,14 +10,16 @@ import java.sql.SQLException;
 import org.apache.commons.lang3.ClassUtils;
 
 /**
+ * 默认的数据库操作实现
  * 使用jdbc连接操作数据库
- * @author 彭飞
- * @date 2019年7月16日下午12:57:59
+ * @author PengFei
  */
 public class DefaultBaseDataBaseOperation extends AbstractBaseDataBaseOperation{
 
 	private String url;
+	
 	private String username;
+	
 	private String password;
 	
 	public DefaultBaseDataBaseOperation(DataSourceProperties dataSourceProperties) throws ClassNotFoundException {
@@ -33,8 +35,6 @@ public class DefaultBaseDataBaseOperation extends AbstractBaseDataBaseOperation{
 		this.password = password;
 		ClassUtils.getClass(driver);
 	}
-
-	
 
 	@Override
 	public Connection getConnection(){

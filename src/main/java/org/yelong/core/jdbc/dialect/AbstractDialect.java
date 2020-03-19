@@ -4,8 +4,8 @@
 package org.yelong.core.jdbc.dialect;
 
 /**
+ * 抽象的方言实现
  * @author PengFei
- * @date 2020年1月20日下午3:03:35
  */
 public abstract class AbstractDialect implements Dialect{
 	

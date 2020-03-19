@@ -11,7 +11,6 @@ import org.yelong.core.model.exception.ModelException;
 
 /**
  * @author PengFei
- * @date 2020年1月20日下午5:44:01
  */
 public class ModelAndTableManager {
 	

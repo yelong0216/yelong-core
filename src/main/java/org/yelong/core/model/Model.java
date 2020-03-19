@@ -6,10 +6,9 @@ package org.yelong.core.model;
 import java.io.Serializable;
 
 /**
- * 标识性类
- * @author 彭飞
- * @date 2019年9月12日下午3:22:15
- * @version 1.2
+ * 所有模型的父类
+ * 一个模型应该与数据库的一张表进行对应
+ * @author PengFei
  */
 public abstract class Model implements Serializable{
 

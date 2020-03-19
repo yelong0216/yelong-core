@@ -6,8 +6,8 @@ package org.yelong.core.jdbc.sql.condition;
 import org.yelong.core.jdbc.sql.AbstractSqlFragment;
 
 /**
+ * 抽象的条件片段实现
  * @author PengFei
- * @date 2020年1月20日下午4:25:42
  */
 public abstract class AbstractConditionSqlFragment extends AbstractSqlFragment implements ConditionSqlFragment{
 
@@ -32,7 +32,5 @@ public abstract class AbstractConditionSqlFragment extends AbstractSqlFragment i
 			return conditionSqlFragment;
 		}
 	}
-	
-	
 	
 }

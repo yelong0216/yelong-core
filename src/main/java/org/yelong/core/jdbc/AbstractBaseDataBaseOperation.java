@@ -19,11 +19,10 @@ import org.apache.commons.collections4.IteratorUtils;
 import org.yelong.core.annotation.Nullable;
 
 /**
- * @author 彭飞
- * @date 2019年7月18日下午10:07:46
+ * 抽象的数据库操作实现
+ * @author PengFei
  */
 public abstract class AbstractBaseDataBaseOperation implements BaseDataBaseOperation{
-
 	
 	@Override
 	@SuppressWarnings("unchecked")
@@ -59,7 +58,6 @@ public abstract class AbstractBaseDataBaseOperation implements BaseDataBaseOpera
 			}).collect(Collectors.toList());
 		}
 	}
-
 	
 	@Override
 	public <T> T selectSingleObject(String sql, Object ... params) {
@@ -100,12 +98,10 @@ public abstract class AbstractBaseDataBaseOperation implements BaseDataBaseOpera
 
 	/**
 	 * 创建PreparedStatement 并将占位符替换
-	 * @author 彭飞
-	 * @date 2019年4月30日上午11:09:09
 	 * @param conn 连接对象
-	 * @param sql 
-	 * @param params
-	 * @return
+	 * @param sql sql语句
+	 * @param params 参数
+	 * @return {@link PreparedStatement}
 	 * @throws SQLException
 	 */
 	protected PreparedStatement createPreparedStatement(Connection conn,String sql,Object ... params) throws SQLException{
@@ -122,8 +118,6 @@ public abstract class AbstractBaseDataBaseOperation implements BaseDataBaseOpera
 	
 	/**
 	 * 执行数据库操作之后
-	 * @author 彭飞
-	 * @date 2019年7月18日下午11:14:13
 	 * @param conn 连接对象
 	 * @param result 执行结果
 	 * @param operationType 操作类型
@@ -133,8 +127,6 @@ public abstract class AbstractBaseDataBaseOperation implements BaseDataBaseOpera
 	
 	/**
 	 * 执行SQL
-	 * @author 彭飞
-	 * @date 2019年7月26日上午9:52:24
 	 * @param sql sql
 	 * @param params 参数 需要的参数在sql中应该用占位符"?"来代替
 	 * @param operationType 操作类型

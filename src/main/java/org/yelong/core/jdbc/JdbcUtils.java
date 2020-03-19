@@ -18,19 +18,16 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Jdbc 工具类
  * @author PengFei
- * @date 2019年7月16日下午2:26:43
- * @since 1.0
  */
 public class JdbcUtils {
 
 	/**
 	 * 获取结果集中查询的所有列名
 	 * 
-	 * @author 彭飞
-	 * @date 2019年4月30日上午10:47:13
-	 * @param rs
-	 * @return
+	 * @param rs 结果集
+	 * @return 结果集中所有的列名
 	 * @throws SQLException
 	 */
 	public static String[] getColumnNames(ResultSet rs) throws SQLException {

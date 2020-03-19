@@ -8,9 +8,8 @@ import org.yelong.core.jdbc.sql.condition.AbstractConditionSqlFragment;
 import org.yelong.core.jdbc.sql.condition.simple.SimpleConditionSqlFragment;
 
 /**
- * @author 彭飞
- * @date 2019年10月24日下午5:40:33
- * @version 1.2
+ * 默认的简单条件条件实现
+ * @author PengFei
  */
 public class DefaultSimpleConditionSqlFragment extends AbstractConditionSqlFragment implements SimpleConditionSqlFragment{
 
@@ -33,7 +32,5 @@ public class DefaultSimpleConditionSqlFragment extends AbstractConditionSqlFragm
 	public Object[] getParams() {
 		return this.params;
 	}
-	
-	
 	
 }

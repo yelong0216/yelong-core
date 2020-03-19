@@ -14,8 +14,6 @@ import org.yelong.core.jdbc.sql.splice.SpliceSql;
  * 数据库记录操作
  * 
  * @author PengFei
- * @date 2019年12月22日上午1:59:24
- * @since 1.0
  */
 public class DataBaseRecordOperation {
 	

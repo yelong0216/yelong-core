@@ -11,11 +11,8 @@ import org.yelong.core.jdbc.sql.executable.AbstractSqlFragmentExecutable;
 import org.yelong.core.jdbc.sql.executable.CountSqlFragment;
 
 /**
- * jdbc 查询记录数sql片段
- * 
- * @author 彭飞
- * @date 2019年11月1日上午8:59:52
- * @version 1.2
+ * 默认查询记录数sql片段实现
+ * @author PengFei
  */
 public class DefaultCountSqlFragment extends AbstractSqlFragmentExecutable implements CountSqlFragment{
 

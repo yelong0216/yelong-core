@@ -5,12 +5,9 @@ package org.yelong.core.jdbc.sql.exception;
 
 /**
  * 未定义排序验证器异常
- * @author 彭飞
- * @date 2019年8月18日下午5:40:43
- * @version 1.0
+ * @author PengFei
  */
 public class NotFoundSortVerifierException extends SqlFragmentException{
-	
 	
 	private static final long serialVersionUID = 8148883319238683020L;
 

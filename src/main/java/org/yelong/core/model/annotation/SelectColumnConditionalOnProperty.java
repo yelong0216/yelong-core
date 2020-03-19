@@ -17,13 +17,10 @@ import org.yelong.core.model.Model;
 /**
  * 
  * 指定列是否进行映射。
- * 
  * @author PengFei
- * @date 2019年12月26日下午8:53:42
  */
 @NotImplemented
 public @interface SelectColumnConditionalOnProperty {
-
 
 	/**
 	 * Alias for {@link #name()}.
@@ -34,7 +31,6 @@ public @interface SelectColumnConditionalOnProperty {
 	/**
 	 * 列测试的属性名称。此属性在验证时通过{@link Model#getProperty(String)}去获取
 	 * 这个名称默认值为字段名称
-	 * @date 2019年12月26日下午8:59:57
 	 * @return the names
 	 */
 	String name() default "";

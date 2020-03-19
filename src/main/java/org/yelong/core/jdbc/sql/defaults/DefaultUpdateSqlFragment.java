@@ -13,9 +13,8 @@ import org.yelong.core.jdbc.sql.executable.AbstractSqlFragmentExecutable;
 import org.yelong.core.jdbc.sql.executable.UpdateSqlFragment;
 
 /**
- * @author 彭飞
- * @date 2019年10月31日上午11:22:35
- * @version 1.2
+ * 默认的 update sql 实现
+ * @author PengFei
  */
 public class DefaultUpdateSqlFragment extends AbstractSqlFragmentExecutable implements UpdateSqlFragment{
 

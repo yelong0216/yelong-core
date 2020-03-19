@@ -6,8 +6,8 @@ package org.yelong.core.model.resolve;
 import java.lang.reflect.Field;
 
 /**
+ * 抽象的字段和列
  * @author PengFei
- * @date 2019年12月27日下午7:05:29
  */
 public abstract class AbstractFieldAndColumn implements FieldAndColumn{
 

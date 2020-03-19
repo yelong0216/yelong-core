@@ -7,9 +7,7 @@ import java.lang.reflect.Field;
 
 /**
  * 字段与列的映射信息
- * 
  * @author PengFei
- * @date 2019年12月26日下午9:29:02
  */
 public interface FieldAndColumn {
 	

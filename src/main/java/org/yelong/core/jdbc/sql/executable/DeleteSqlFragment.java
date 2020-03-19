@@ -6,29 +6,27 @@ package org.yelong.core.jdbc.sql.executable;
 import org.yelong.core.jdbc.sql.condition.ConditionSqlFragment;
 
 /**
- * 删除条件sql
+ * delete sql
  * @author PengFei
- * @date 2020年3月4日下午6:26:32
- * @since 1.0
  */
 public interface DeleteSqlFragment extends SqlFragmentExecutable{
 
 	/**
 	 * 设置条件
-	 * @param conditionSqlFragment
-	 * @return
+	 * @param conditionSqlFragment条件
+	 * @return this
 	 */
 	DeleteSqlFragment setConditionSqlFragment(ConditionSqlFragment conditionSqlFragment);
 
 	/**
 	 * 获取条件
-	 * @return
+	 * @return 条件
 	 */
 	ConditionSqlFragment getConditionSqlFragment();
 
 	/**
 	 * 是否存在条件
-	 * @return
+	 * @return <tt>true</tt> 存在条件
 	 */
 	default boolean existConditionSqlFragment() {
 		return null != getConditionSqlFragment();

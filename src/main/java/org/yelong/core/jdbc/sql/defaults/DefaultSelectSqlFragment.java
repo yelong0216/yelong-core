@@ -12,9 +12,8 @@ import org.yelong.core.jdbc.sql.executable.SelectSqlFragment;
 import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
 
 /**
- * @author 彭飞
- * @date 2019年10月31日上午11:00:45
- * @version 1.2
+ * 默认的 select sql 实现
+ * @author PengFei
  */
 public class DefaultSelectSqlFragment extends AbstractSqlFragmentExecutable implements SelectSqlFragment{
 

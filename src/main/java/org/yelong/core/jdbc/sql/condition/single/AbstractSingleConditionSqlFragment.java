@@ -10,10 +10,8 @@ import org.yelong.core.jdbc.sql.SpliceSqlUtils;
 import org.yelong.core.jdbc.sql.condition.AbstractConditionSqlFragment;
 
 /**
- * 一个条件语句的抽象实现
- * @author 彭飞
- * @date 2019年8月22日下午6:04:52
- * @version 1.2
+ * 单一条件语句的抽象实现
+ * @author PengFei
  */
 public abstract class AbstractSingleConditionSqlFragment extends AbstractConditionSqlFragment implements SingleConditionSqlFragment{
 

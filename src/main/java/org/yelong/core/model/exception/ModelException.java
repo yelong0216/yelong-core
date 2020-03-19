@@ -5,10 +5,7 @@ package org.yelong.core.model.exception;
 
 /**
  * 模型类信息异常
- * 
  * @author PengFei
- * @date 2019年9月12日下午4:06:01
- * @version 1.2
  */
 public class ModelException extends RuntimeException{
 

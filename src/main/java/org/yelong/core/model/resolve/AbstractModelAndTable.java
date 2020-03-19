@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 import org.yelong.core.model.Model;
 
 /**
+ * 抽象的模型和表
  * @author PengFei
- * @date 2019年12月27日下午7:04:50
  */
 public abstract class AbstractModelAndTable implements ModelAndTable{
 

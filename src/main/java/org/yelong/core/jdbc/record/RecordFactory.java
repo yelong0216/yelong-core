@@ -6,9 +6,8 @@ package org.yelong.core.jdbc.record;
 import java.util.Map;
 
 /**
+ * 记录工厂
  * @author PengFei
- * @date 2019年12月22日上午2:02:08
- * @since 1.0
  */
 public interface RecordFactory {
 	

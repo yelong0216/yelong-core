@@ -4,9 +4,8 @@
 package org.yelong.core.jdbc.dialect;
 
 /**
+ * 方言类型
  * @author PengFei
- * @date 2020年2月25日下午12:28:14
- * @since 1.0
  */
 public enum DialectType {
 	

@@ -21,8 +21,6 @@ import java.util.Map;
  * 5、均未找到则视为不存在此列
  * 
  * @author PengFei
- * @date 2019年12月22日上午12:58:05
- * @since 1.0
  */
 public interface Record {
 

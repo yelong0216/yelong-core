@@ -4,6 +4,7 @@
 package org.yelong.core.model.sql;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,8 +16,8 @@ import org.yelong.core.model.Model;
 import org.yelong.core.model.annotation.Transient;
 
 /**
+ * 支持sql化的模型
  * @author PengFei
- * @since 1.0
  */
 public class SqlModel extends Model{
 
@@ -155,7 +156,7 @@ public class SqlModel extends Model{
 	}
 	
 	/**
-	 * 添加一个查询条件
+	 * 添加一个条件
 	 * @param condition 条件
 	 * @return this
 	 */
@@ -164,6 +165,16 @@ public class SqlModel extends Model{
 		return this;
 	}
 
+	/**
+	 * 添加一组条件
+	 * @param conditions 条件s
+	 * @return this
+	 */
+	public SqlModel addConditions(Collection<Condition> conditions) {
+		this.conditions.addAll(conditions);
+		return this;
+	}
+	
 	/**
 	 * @return 所有条件
 	 */
@@ -174,7 +185,7 @@ public class SqlModel extends Model{
 	/**
 	 * 获取sqlModel对应的class
 	 * 如果{@link #modelClass} != null 则返回{@link #modelClass} ，否则返回{@link #getClass()}
-	 * @return
+	 * @return modelClass
 	 */
 	public Class<? extends Model> getModelClass() {
 		return modelClass != null ? modelClass : getClass();

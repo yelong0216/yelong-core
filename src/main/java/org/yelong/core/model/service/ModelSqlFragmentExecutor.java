@@ -12,17 +12,12 @@ import org.yelong.core.model.Model;
 
 /**
  * model sql片段执行器
- * @author 彭飞
- * @date 2019年11月4日下午2:26:50
- * @version 1.2
+ * @author PengFei
  */
 public interface ModelSqlFragmentExecutor extends SqlFragmentExecutor{
 	
 	/**
 	 * 执行查询sql，并映射到model上面
-	 * @author 彭飞
-	 * @date 2019年11月4日下午2:28:30
-	 * @version 1.2
 	 * @param <M>
 	 * @param modelClass model的类型
 	 * @param selectSqlFragment 查询sql片段

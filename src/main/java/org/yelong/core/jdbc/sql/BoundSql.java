@@ -10,9 +10,7 @@ import org.yelong.core.annotation.Nullable;
 /**
  * 绑定的sql 执行的sql语句及sql所需要的参数
  * 
- * @author 彭飞
- * @date 2019年8月19日上午11:16:29
- * @version 1.2
+ * @author PengFei
  */
 public class BoundSql {
 

@@ -14,9 +14,7 @@ import org.yelong.core.model.sql.SqlModelResolver;
 /**
  * model核心配置
  * 
- * @author 彭飞
- * @date 2019年9月27日下午6:30:14
- * @version 1.2
+ * @author PengFei
  */
 public class ModelConfiguration {
 

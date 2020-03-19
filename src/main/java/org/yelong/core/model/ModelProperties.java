@@ -4,9 +4,8 @@
 package org.yelong.core.model;
 
 /**
- * @author 彭飞
- * @date 2019年10月30日下午5:24:48
- * @version 1.2
+ * 模型的配置
+ * @author PengFei
  */
 public class ModelProperties {
 
@@ -52,7 +51,5 @@ public class ModelProperties {
 	public void setCamelCaseToUnderscore(boolean camelCaseToUnderscore) {
 		this.camelCaseToUnderscore = camelCaseToUnderscore;
 	}
-	
-	 
 	
 }

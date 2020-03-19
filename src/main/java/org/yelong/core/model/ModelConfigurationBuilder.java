@@ -14,9 +14,8 @@ import org.yelong.core.model.sql.ModelSqlFragmentFactory;
 import org.yelong.core.model.sql.SqlModelResolver;
 
 /**
+ * {@link ModelConfiguration}的建造者
  * @author PengFei
- * @date 2020年3月2日上午10:57:19
- * @since 1.0
  */
 public class ModelConfigurationBuilder {
 	
@@ -32,6 +31,10 @@ public class ModelConfigurationBuilder {
 	
 	private SqlModelResolver sqlModelResolver;
 	
+	/**
+	 * @param dialect 数据库方言
+	 * @param modelProperties 模型属性配置
+	 */
 	public ModelConfigurationBuilder(Dialect dialect,ModelProperties modelProperties) {
 		this.dialect = dialect;
 		this.modelProperties = modelProperties;
@@ -57,6 +60,10 @@ public class ModelConfigurationBuilder {
 		this.conditionResolver = conditionResolver;
 	}
 
+	/**
+	 * 构建模型配置
+	 * @return {@link ModelConfiguration}
+	 */
 	public ModelConfiguration build() {
 		return new ModelConfiguration(dialect, modelProperties, modelAndTableManager, modelSqlFragmentFactory, conditionResolver, sqlModelResolver);
 	}

@@ -20,9 +20,8 @@ import org.yelong.core.model.resolve.ModelAndTable;
 import org.yelong.core.model.resolve.ModelAndTableManager;
 
 /**
+ * 默认的 sql model 解析器
  * @author PengFei
- * @date 2020年3月2日下午3:25:32
- * @since 1.0
  */
 public class DefaultSqlModelResolver implements SqlModelResolver{
 
