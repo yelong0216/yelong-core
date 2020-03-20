@@ -71,17 +71,16 @@ public class AnnotationModelResolver implements ModelResolver {
 
 	/**
 	 * 获取字段映射的字段列
-	 * @author 彭飞
-	 * @date 2019年9月29日上午11:09:42
-	 * @version 1.2
 	 * @param field
 	 * @return
 	 */
 	public FieldAndColumn getFieldAndColumn(Field field) throws ModelException{
 		//列名称
-		String columnName = "";
+		String column = "";
 		//查询时映射的列名称
 		String selectColumn = "";
+		//列名称
+		String columnName = "";
 		Long minLength = 0L;
 		Long maxLength = Long.MAX_VALUE;
 		boolean allowBlank = true;
@@ -91,27 +90,28 @@ public class AnnotationModelResolver implements ModelResolver {
 		boolean isPrimaryKey = false;
 		boolean isExtend = false;
 		if( field.isAnnotationPresent(Column.class) ){
-			Column column = field.getAnnotation(Column.class);
-			columnName = column.value();
-			minLength = column.minLength();
-			maxLength = column.maxLength();
+			Column c = field.getAnnotation(Column.class);
+			column = c.value();
+			minLength = c.minLength();
+			maxLength = c.maxLength();
 			if( CharSequence.class.isAssignableFrom(field.getType()) ) {
-				allowBlank = column.allowBlank();
+				allowBlank = c.allowBlank();
 				if( !allowBlank ) {
 					allowNull = false;
 				}
 			} else {
-				allowNull = column.allowNull();
+				allowNull = c.allowNull();
 			}
-			jdbcType = column.jdbcType();
-			desc = column.desc();
+			columnName = c.columnName();
+			jdbcType = c.jdbcType();
+			desc = c.desc();
 		}
 		//默认列名称为字段名称
-		if(StringUtils.isEmpty(columnName)) {
-			columnName = field.getName();
+		if(StringUtils.isEmpty(column)) {
+			column = field.getName();
 		}
 		if( modelProperties.isCamelCaseToUnderscore() ) {
-			columnName = org.yelong.commons.lang.StringUtils.camelCaseToUnderscore(columnName);
+			column = org.yelong.commons.lang.StringUtils.camelCaseToUnderscore(column);
 		} 
 		//id列默认不允许为空
 		if( field.isAnnotationPresent(Id.class) || field.isAnnotationPresent(PrimaryKey.class)) {
@@ -130,11 +130,12 @@ public class AnnotationModelResolver implements ModelResolver {
 							selectColumnConditionalOnProperty.name() : field.getName();//否则为字段名称
 			selectColumnCondition = new SelectColumnCondition(property, selectColumnConditionalOnProperty.havingValue(), selectColumnConditionalOnProperty.matchIfMissing());
 		}
-		selectColumn = getSelectColumnName(field, columnName);
-		DefaultFieldAndColumn fieldAndColumn = new DefaultFieldAndColumn(field, columnName);
+		selectColumn = getSelectColumnName(field, column);
+		DefaultFieldAndColumn fieldAndColumn = new DefaultFieldAndColumn(field, column);
 		fieldAndColumn.setAllowBlank(allowBlank);
 		fieldAndColumn.setAllowNull(allowNull);
 		fieldAndColumn.setDesc(desc);
+		fieldAndColumn.setColumnName(columnName);
 		fieldAndColumn.setExtend(isExtend);
 		fieldAndColumn.setJdbcType(jdbcType);
 		fieldAndColumn.setMaxLength(maxLength);
@@ -154,16 +155,16 @@ public class AnnotationModelResolver implements ModelResolver {
 	 * @param column 列名称
 	 * @return 查询列名称
 	 */
-	public String getSelectColumnName(Field field,String columnName) {
+	public String getSelectColumnName(Field field,String column) {
 		String selectColumn = "";
 		//是否映射查询列名称
 		if( field.isAnnotationPresent(SelectColumn.class)) {
 			selectColumn = field.getAnnotation(SelectColumn.class).value();
 			if(StringUtils.isEmpty(selectColumn)) {
-				selectColumn = columnName;
+				selectColumn = column;
 			}
 		} else {
-			selectColumn = columnName;
+			selectColumn = column;
 		}
 		return selectColumn;
 	}

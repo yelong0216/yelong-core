@@ -27,6 +27,8 @@ public class DefaultFieldAndColumn extends AbstractFieldAndColumn{
 	
 	private SelectColumnCondition selectColumnCondition;
 	
+	private String columnName;
+	
 	private String desc;
 	
 	private String jdbcType;
@@ -113,6 +115,14 @@ public class DefaultFieldAndColumn extends AbstractFieldAndColumn{
 
 	public void setJdbcType(String jdbcType) {
 		this.jdbcType = jdbcType;
+	}
+
+	public String getColumnName() {
+		return columnName;
+	}
+
+	public void setColumnName(String columnName) {
+		this.columnName = columnName;
 	}
 
 }

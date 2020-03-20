@@ -87,4 +87,10 @@ public interface FieldAndColumn {
 	 */
 	String getDesc();
 	
+	/**
+	 * @return 列说明。如：age则一般为年龄。name则为名称
+	 * @since 1.0.1
+	 */
+	String getColumnName();
+	
 }

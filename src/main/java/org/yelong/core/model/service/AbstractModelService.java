@@ -348,8 +348,10 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 						value = ModelNullProperty.isPretendNull(value) ? null : value;
 					attributeSqlFragment.addAttr(fieldAndColumn.getColumn(), value);
 				}
+			} catch (ModelException e) { //1.0.1 版本修改。修复了长度验证错误但是没有抛出异常的问题
+				throw e;
 			} catch (Exception e) {
-
+				throw new ModelException(e);
 			}
 		}
 		return attributeSqlFragment;
