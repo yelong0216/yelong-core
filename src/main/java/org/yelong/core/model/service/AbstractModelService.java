@@ -130,13 +130,21 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 		Object value;
 		try {
 			value = getBeanProperty(model,fieldAndColumn.getFieldName());
+			//修改前将主键值清空，不让其修改
 			setBeanProperty(model, fieldAndColumn.getFieldName(), null);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
+		} catch (NoSuchMethodException e) {
+			throw new ModelException(e);
 		}
 		CombinationConditionSqlFragment conditionFragment = getModelSqlFragmentFactory().createCombinationConditionSqlFragment();
 		conditionFragment.and(fieldAndColumn.getColumn(), "=", value);
-		return modify(model, selective,ModelColumnValidateWay.SELECTIVE, conditionFragment) > 0;
+		boolean result = modify(model, selective,ModelColumnValidateWay.SELECTIVE, conditionFragment) > 0;
+		//修改完之后将主键值重新设置上。
+		try {
+			setBeanProperty(model, fieldAndColumn.getFieldName(), value);
+		} catch (NoSuchMethodException e) {
+			throw new ModelException(e);
+		}
+		return result;
 	}
 	
 	@Override

@@ -7,3 +7,6 @@
 2020-03-29 v->1.0.2
 	1、修改AbstractSqlModelService对Sql执行时，sqlModel中不存在条件时空指针异常的问题
 	2、优化model的解析
+	
+2020-03-29 v->1.0.3
+	1、修改modelService对根据id修改后 model中的id为空的问题

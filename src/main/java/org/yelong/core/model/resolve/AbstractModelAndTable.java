@@ -86,7 +86,7 @@ public abstract class AbstractModelAndTable implements ModelAndTable{
 
 	@Override
 	public String toString() {
-		return "modelClass:"+modelClass.getClass()+"\ntableName:"+tableName;
+		return "modelClass:"+modelClass+"\ntableName:"+tableName;
 	}
 	
 }
