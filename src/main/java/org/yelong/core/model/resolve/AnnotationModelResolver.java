@@ -98,6 +98,8 @@ public class AnnotationModelResolver implements ModelResolver {
 				allowBlank = c.allowBlank();
 				if( !allowBlank ) {
 					allowNull = false;
+				} else {
+					allowNull = c.allowNull();
 				}
 			} else {
 				allowNull = c.allowNull();

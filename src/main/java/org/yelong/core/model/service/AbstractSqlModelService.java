@@ -34,7 +34,10 @@ public abstract class AbstractSqlModelService extends AbstractModelService imple
 	@Override
 	public <M extends Model, S extends SqlModel> Integer removeBySqlModel(String sql, S sqlModel) {
 		DeleteSqlFragment deleteSqlFragment = getModelSqlFragmentFactory().createDeleteSqlFragment(sql);
-		deleteSqlFragment.setConditionSqlFragment(getSqlModelResolver().resolveToCondition(sqlModel, false));
+		ConditionSqlFragment conditionSqlFragment = getSqlModelResolver().resolveToCondition(sqlModel, false);
+		if( null != conditionSqlFragment ) {
+			deleteSqlFragment.setConditionSqlFragment(conditionSqlFragment);
+		}
 		return execute(deleteSqlFragment);
 	}
 
@@ -54,7 +57,9 @@ public abstract class AbstractSqlModelService extends AbstractModelService imple
 	public <M extends Model, S extends SqlModel> Integer modifyBySqlModel(String sql, Object[] params, S sqlModel) {
 		UpdateSqlFragment updateSqlFragment = getModelSqlFragmentFactory().createUpdateSqlFragment(sql, params);
 		ConditionSqlFragment conditionSqlFragment = getSqlModelResolver().resolveToCondition(sqlModel, false);
-		updateSqlFragment.setConditionSqlFragment(conditionSqlFragment);
+		if( null != conditionSqlFragment ) {
+			updateSqlFragment.setConditionSqlFragment(conditionSqlFragment);
+		}
 		return execute(updateSqlFragment);
 	}
 
@@ -68,7 +73,9 @@ public abstract class AbstractSqlModelService extends AbstractModelService imple
 	public <M extends Model, S extends SqlModel> Long countBySqlModel(String sql, S sqlModel) {
 		ConditionSqlFragment conditionSqlFragment = getSqlModelResolver().resolveToCondition(sqlModel);
 		CountSqlFragment countSqlFragment = getModelSqlFragmentFactory().createCountSqlFragment(sql);
-		countSqlFragment.setConditionSqlFragment(conditionSqlFragment);
+		if( null != conditionSqlFragment ) {
+			countSqlFragment.setConditionSqlFragment(conditionSqlFragment);
+		}
 		return execute(countSqlFragment);
 	}
 
@@ -82,7 +89,9 @@ public abstract class AbstractSqlModelService extends AbstractModelService imple
 	public <M extends Model, S extends SqlModel> List<M> findBySqlModel(Class<M> modelClass,String sql, S sqlModel) {
 		ConditionSqlFragment conditionSqlFragment = getSqlModelResolver().resolveToCondition(sqlModel);
 		SelectSqlFragment selectSqlFragment = getModelSqlFragmentFactory().createSelectSqlFragment(sql);
-		selectSqlFragment.setConditionSqlFragment(conditionSqlFragment);
+		if( null != selectSqlFragment ) {
+			selectSqlFragment.setConditionSqlFragment(conditionSqlFragment);
+		}
 		return execute(modelClass, selectSqlFragment);
 	}
 
@@ -100,8 +109,12 @@ public abstract class AbstractSqlModelService extends AbstractModelService imple
 		ConditionSqlFragment conditionSqlFragment = getSqlModelResolver().resolveToCondition(sqlModel);
 		SortSqlFragment sortSqlFragment = getSqlModelResolver().resolveToSort(sqlModel);
 		SelectSqlFragment selectSqlFragment = getModelSqlFragmentFactory().createSelectSqlFragment(sql);
-		selectSqlFragment.setConditionSqlFragment(conditionSqlFragment);
-		selectSqlFragment.setSortSqlFragment(sortSqlFragment);
+		if( null != conditionSqlFragment ) {
+			selectSqlFragment.setConditionSqlFragment(conditionSqlFragment);
+		}
+		if( null != sortSqlFragment ) {
+			selectSqlFragment.setSortSqlFragment(sortSqlFragment);
+		}
 		return execute(modelClass, selectSqlFragment);
 	}
 	

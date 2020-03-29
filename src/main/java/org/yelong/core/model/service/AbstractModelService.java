@@ -3,8 +3,6 @@
  */
 package org.yelong.core.model.service;
 
-import java.beans.IntrospectionException;
-import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
@@ -132,6 +130,7 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 		Object value;
 		try {
 			value = getBeanProperty(model,fieldAndColumn.getFieldName());
+			setBeanProperty(model, fieldAndColumn.getFieldName(), null);
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -280,7 +279,7 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 			ModelColumnValidateWay modelColumnValidateWay,@Nullable C conditionFragment) {
 		AttributeSqlFragment attributeSqlFragment = createAttributeFragment(model, DataBaseOperationType.UPDATE, selective, modelColumnValidateWay);
 		//不修改id
-		attributeSqlFragment.removeAttr(getOnlyPrimaryKey(model.getClass()).getColumn());
+		//attributeSqlFragment.removeAttr(getOnlyPrimaryKey(model.getClass()).getColumn());
 		UpdateSqlFragment updateSqlFragment = getModelSqlFragmentFactory().createUpdateSqlFragment(model.getClass(), attributeSqlFragment);
 		if( null != conditionFragment ) {
 			updateSqlFragment.setConditionSqlFragment(conditionFragment);
@@ -418,18 +417,18 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	}
 	
 	/**
-	 * 
-	 * 获取对象属性值
-	 * @param bean
-	 * @param fieldName
-	 * @return
-	 * @throws IllegalAccessException
-	 * @throws InvocationTargetException
-	 * @throws NoSuchMethodException
-	 * @throws IntrospectionException 
+	 * @see BeanUtils#getProperty(Object, String)
 	 */
-	protected Object getBeanProperty(Object bean , String fieldName) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, IntrospectionException{
+	protected Object getBeanProperty(Object bean , String fieldName) throws NoSuchMethodException{
 		return BeanUtils.getProperty(bean, fieldName);
+	}
+	
+	/**
+	 * @throws NoSuchMethodException 
+	 * @see BeanUtils#setProperty(Object, String, Object)
+	 */
+	protected void setBeanProperty(Object bean , String propertyName , Object value) throws NoSuchMethodException {
+		BeanUtils.setProperty(bean, propertyName, value);
 	}
 	
 	/**
