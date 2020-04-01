@@ -91,7 +91,10 @@ public class AnnotationModelResolver implements ModelResolver {
 		boolean isExtend = false;
 		if( field.isAnnotationPresent(Column.class) ){
 			Column c = field.getAnnotation(Column.class);
-			column = c.value();
+			column = c.column();
+			if(StringUtils.isBlank(column)) {
+				column = c.value();
+			}
 			minLength = c.minLength();
 			maxLength = c.maxLength();
 			if( CharSequence.class.isAssignableFrom(field.getType()) ) {

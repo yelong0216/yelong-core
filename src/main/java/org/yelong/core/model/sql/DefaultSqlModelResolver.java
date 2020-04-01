@@ -75,6 +75,8 @@ public class DefaultSqlModelResolver implements SqlModelResolver{
 				if (isTableAlias) {
 					if(!fieldName.contains(".")) {
 						attributeMap.put(tableAlias+"."+fieldName, value);
+					} else {
+						attributeMap.put(fieldName, value);
 					}
 				} else {
 					attributeMap.put(fieldName, value);
@@ -89,6 +91,8 @@ public class DefaultSqlModelResolver implements SqlModelResolver{
 			if (isTableAlias) {
 				if(!column.contains(".")) {
 					attributeMap.put(tableAlias+"."+column, value);
+				} else {
+					attributeMap.put(column, value);
 				}
 			} else {
 				attributeMap.put(column, value);

@@ -327,8 +327,6 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 
 	/**
 	 * 获取数据库操作对象
-	 * @date 2019年11月6日上午11:11:22
-	 * @version 1.2
 	 * @return 基础数据库操作对象
 	 */
 	BaseDataBaseOperation getBaseDataBaseOperation();

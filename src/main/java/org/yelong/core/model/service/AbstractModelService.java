@@ -340,6 +340,9 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 		ModelAndTable modelAndTable = getModelAndTable(model.getClass());
 		List<FieldAndColumn> fieldAndColumns = modelAndTable.getFieldAndColumns();
 		for (FieldAndColumn fieldAndColumn : fieldAndColumns) {
+			if(fieldAndColumn.isExtend()) {//不对拓展字段进行新增、修改操作
+				continue;
+			}
 			try {
 				Object value = getBeanProperty(model, fieldAndColumn.getFieldName());
 				boolean valueIsNull = null == value;
