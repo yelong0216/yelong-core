@@ -17,7 +17,7 @@
 	3、修复了Column注解对column没有起作用的问题
 	
 
-???? v->1.0.5
+2020-04-20 v->1.0.5
 	1、修复了SqlModel添加数组类型的拓展属性没有转换为集合的为题
 	2、FieldAndColumn新增可以获取ModelAndTable的方法
 	3、Dialect新增分页sql
