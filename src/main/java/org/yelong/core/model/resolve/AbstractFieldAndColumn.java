@@ -4,6 +4,7 @@
 package org.yelong.core.model.resolve;
 
 import java.lang.reflect.Field;
+import java.util.Objects;
 
 /**
  * 抽象的字段和列
@@ -11,13 +12,29 @@ import java.lang.reflect.Field;
  */
 public abstract class AbstractFieldAndColumn implements FieldAndColumn{
 
-	private Field field;
+	private final ModelAndTable modelAndTable;
 	
-	private String column;
+	private final Field field;
 	
-	public AbstractFieldAndColumn(Field field, String column) {
+	private final String column;
+	
+	public AbstractFieldAndColumn(ModelAndTable modelAndTable ,Field field, String column) {
+		Objects.requireNonNull(modelAndTable, "'modelAndTable'不允许为 null");
+		this.modelAndTable = modelAndTable;
 		this.field = field;
 		this.column = column;
+	}
+	
+	@Deprecated
+	public AbstractFieldAndColumn(Field field, String column) {
+		this.modelAndTable = null;
+		this.field = field;
+		this.column = column;
+	}
+	
+	@Override
+	public ModelAndTable getModelAndTable() {
+		return modelAndTable;
 	}
 	
 	@Override
@@ -42,7 +59,7 @@ public abstract class AbstractFieldAndColumn implements FieldAndColumn{
 
 	@Override
 	public String toString() {
-		return "fieldName:"+field.getName()+"\ncolumn:"+column;
+		return "fieldName:"+field.getName()+"\tcolumn:"+column;
 	}
 	
 }

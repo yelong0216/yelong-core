@@ -115,6 +115,7 @@ public abstract class AbstractSqlModelService extends AbstractModelService imple
 		if( null != sortSqlFragment ) {
 			selectSqlFragment.setSortSqlFragment(sortSqlFragment);
 		}
+		selectSqlFragment.startPage(pageNum, pageSize);//1.0.5版本修改。之前版本这里没有启动分页
 		return execute(modelClass, selectSqlFragment);
 	}
 	

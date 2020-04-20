@@ -4,6 +4,7 @@
 package org.yelong.core.model.sql;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -13,36 +14,34 @@ import java.util.Map;
 import org.yelong.core.annotation.Nullable;
 import org.yelong.core.jdbc.sql.condition.support.Condition;
 import org.yelong.core.model.Model;
-import org.yelong.core.model.annotation.Transient;
 
 /**
  * 支持sql化的模型
  * @author PengFei
+ * @see SqlModelResolver
  */
 public class SqlModel extends Model{
 
 	private static final long serialVersionUID = -3986147639250539909L;
 
-	@Transient
-	private transient final Map<String, String> conditionOperatorMap = new HashMap<>();
+	private final Map<String, String> conditionOperators = new HashMap<>();
 
-	@Transient
-	private transient final Map<String, Object> extendAttributesMap = new LinkedHashMap<>();
+	private final Map<String, Object> extendAttributes = new LinkedHashMap<>();
 
-	@Transient
-	private transient final Map<String, String> sortFieldMap = new LinkedHashMap<>();
+	private final Map<String, String> sortFields = new LinkedHashMap<>();
 
-	@Transient
-	private transient final List<Condition> conditions = new ArrayList<>();
+	private final List<Condition> conditions = new ArrayList<>();
 	
-	@Transient
-	private transient final Class<? extends Model> modelClass;
+	private final Class<? extends Model> modelClass;
+	
+	private final Model model;
 	
 	/**
 	 * 指定sql model为其本身
 	 */
-	protected SqlModel(){
-		this(null);
+	public SqlModel(){
+		this.modelClass = null;
+		this.model = null;
 	}
 	
 	/**
@@ -51,6 +50,18 @@ public class SqlModel extends Model{
 	 */
 	public SqlModel(Class<? extends Model> modelClass) {
 		this.modelClass = modelClass;
+		this.model = null;
+	}
+	
+	/**
+	 * @param model 指定model实体
+	 */
+	public SqlModel( Model model ) {
+		if( model.getClass() == SqlModel.class ) {
+			throw new UnsupportedOperationException("指定的model不能是SqlModel！");
+		}
+		this.modelClass = model.getClass();
+		this.model = model;
 	}
 	
 	/**
@@ -61,51 +72,89 @@ public class SqlModel extends Model{
 	 * @return this
 	 */
 	public SqlModel addConditionOperator(String column, String operator){
-		this.conditionOperatorMap.put(column, operator);
+		this.conditionOperators.put(column, operator);
 		return this;
 	}
 
 	/**
 	 * @return 所有条件操作符
+	 * @since 1.0.5
 	 */
+	public Map<String, String> getConditionOperators() {
+		return conditionOperators;
+	}
+	
+	/**
+	 * @return 所有条件操作符
+	 * @deprecated 不规范的命名
+	 * @see #getConditionOperators
+	 * @since 1.0.5
+	 */
+	@Deprecated
 	public Map<String, String> getConditionOperatorMap() {
-		return this.conditionOperatorMap;
+		return getConditionOperators();
 	}
 
 	/**
 	 * 添加一个拓展属性
-	 * @param attrName 属性名称 。推荐添加别名。否则会出现未知的为题
-	 * @param attrValue 属性值
+	 * 如果拓展属性已经存在则不会被替换，将会把拓展属性值转换为集合进行存储。
+	 * 如果attrValue为数组将默认转换为list
+	 * @param attrName 属性名称
+	 * @param attrValue 属性值 该值为数组时默认转换为集合
 	 * @return this
 	 */
 	@SuppressWarnings("unchecked")
 	public SqlModel addExtendAttribute(String attrName, Object attrValue) {
-		if (this.extendAttributesMap.containsKey(attrName)) {
-			Object value = this.extendAttributesMap.get(attrName);
+		if (this.extendAttributes.containsKey(attrName)) {
+			Object value = this.extendAttributes.get(attrName);
 			List<Object> valueList = null;
-
+			//获取原值。如果原值不是List则改变原值为list
 			if ((value instanceof List)) {
 				valueList = (List<Object>)value;
 			} else {
 				valueList = new ArrayList<>();
 				valueList.add(value);
 			}
-			valueList.add(attrValue);
-			this.extendAttributesMap.put(attrName, valueList);
-		}
-		else {
-			this.extendAttributesMap.put(attrName, attrValue);
+			
+			if( attrValue instanceof Collection ) {
+				valueList.addAll((Collection<Object>)attrValue);
+			} else if( attrValue.getClass().isArray() ) {
+				valueList.addAll(Arrays.asList(attrValue));
+			} else {
+				valueList.add(attrValue);
+			}
+			this.extendAttributes.put(attrName, valueList);
+		} else {
+			if(attrValue.getClass().isArray()) {
+				List<Object> newValue = new ArrayList<>();
+				newValue.addAll(Arrays.asList((Object [])attrValue));
+				attrValue = newValue;
+			}
+			this.extendAttributes.put(attrName, attrValue);
 		}
 		return this;
 	}
 
+	/**
+	 * 添加拓展属性
+	 * 如果存在拓展属性则会覆盖这个属性
+	 * @param attrName 属性名称
+	 * @param attrValue 属性值
+	 * @return this
+	 * @since 1.0.5
+	 */
+	public SqlModel addExtendAttributeOverride(String attrName, Object attrValue) {
+		this.extendAttributes.put(attrName, attrValue);
+		return this;
+	}
+	
 	/**
 	 * 移除一个拓展属性
 	 * @param attrName 属性 name
 	 * @return this
 	 */
 	public SqlModel removeExtendAttribute(String attrName){
-		this.extendAttributesMap.remove(attrName);
+		this.extendAttributes.remove(attrName);
 		return this;
 	}
 
@@ -116,14 +165,45 @@ public class SqlModel extends Model{
 	 */
 	@Nullable
 	public Object getExtendAttribute(String attrName){
-		return this.extendAttributesMap.get(attrName);
+		return this.extendAttributes.get(attrName);
+	}
+	
+	/**
+	 * 判断拓展属性中是否存在attrName
+	 * @param attrName 属性 name
+	 * @return <tt>true</tt> attrName属性存在
+	 * @since 1.0.5
+	 */
+	public boolean containsExtendAttribute(String attrName) {
+		return this.extendAttributes.containsKey(attrName);
 	}
 
 	/**
-	 * @return 取所有拓展属性
+	 * 是否存在拓展属性
+	 * @return <tt>true</tt> 存在拓展属性
+	 * @since 1.0.5
 	 */
+	public boolean existExtendAttribute() {
+		return !this.extendAttributes.isEmpty();
+	}
+	
+	/**
+	 * @return 取所有拓展属性
+	 * @since 1.0.5
+	 */
+	public Map<String, Object> getExtendAttributes() {
+		return extendAttributes;
+	}
+	
+	/**
+	 * @return 取所有拓展属性
+	 * @deprecated 不规范的命名
+	 * @since 1.0.5
+	 * @see #getExtendAttributes()
+	 */
+	@Deprecated
 	public Map<String, Object> getExtendAttributesMap(){
-		return this.extendAttributesMap;
+		return getExtendAttributes();
 	}
 
 	/**
@@ -133,7 +213,7 @@ public class SqlModel extends Model{
 	 * @return this
 	 */
 	public SqlModel addSortField(String sortField, String sortOrder) {
-		this.sortFieldMap.put(sortField, sortOrder);
+		this.sortFields.put(sortField, sortOrder);
 		return this;
 	}
 	
@@ -144,15 +224,57 @@ public class SqlModel extends Model{
 	 * @return this
 	 */
 	public SqlModel addSortFields(Map<String,String> sortFields) {
-		this.sortFieldMap.putAll(sortFields);
+		this.sortFields.putAll(sortFields);
 		return this;
 	}
 
 	/**
-	 * @return 获取所有的排序字段
+	 * 移除一个排序字段
+	 * @param sortField 字段
+	 * @return this
+	 * @since 1.0.5
 	 */
+	public SqlModel removeSortField(String sortField) {
+		this.sortFields.remove(sortField);
+		return this;
+	}
+	
+	/**
+	 * 排序中是否包含sortField字段
+	 * @param sortField 字段
+	 * @return <tt>true</tt> 包含
+	 * @since 1.0.5
+	 */
+	public boolean containsSortField(String sortField) {
+		return this.sortFields.containsKey(sortField);
+	}
+	
+	/**
+	 * 是否存在排序
+	 * @return <tt>true</tt> 存在排序
+	 * @since 1.0.5
+	 */
+	public boolean existSortField() {
+		return ! this.sortFields.isEmpty();
+	}
+	
+	/**
+	 * @return 所有的排序字段
+	 * @since 1.0.5
+	 */
+	public Map<String, String> getSortFields() {
+		return sortFields;
+	}
+	
+	/**
+	 * @return 获取所有的排序字段
+	 * @deprecated 不规范的名称
+	 * @see #getSortFields()
+	 * @since 1.0.5
+	 */
+	@Deprecated
 	public Map<String, String> getSortFieldMap() {
-		return this.sortFieldMap;
+		return getSortFields();
 	}
 	
 	/**
@@ -176,6 +298,15 @@ public class SqlModel extends Model{
 	}
 	
 	/**
+	 * 是否存在条件
+	 * @return <tt>true</tt> 存在条件
+	 * @since 1.0.5
+	 */
+	public boolean existCondition() {
+		return !this.conditions.isEmpty();
+	}
+	
+	/**
 	 * @return 所有条件
 	 */
 	public List<Condition> getConditions() {
@@ -189,6 +320,15 @@ public class SqlModel extends Model{
 	 */
 	public Class<? extends Model> getModelClass() {
 		return modelClass != null ? modelClass : getClass();
+	}
+	
+	/**
+	 * 获取model实体。如果没有设置model实体，则返回本身
+	 * @return model实体
+	 * @since 1.0.5
+	 */
+	public Model getModel() {
+		return model != null ? model : this;
 	}
 	
 }

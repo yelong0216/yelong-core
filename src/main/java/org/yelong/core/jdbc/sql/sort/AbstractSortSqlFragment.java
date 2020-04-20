@@ -72,6 +72,11 @@ public abstract class AbstractSortSqlFragment extends AbstractSqlFragment implem
 		return sortFragmentList.isEmpty();
 	}
 	
+	@Override
+	public String toString() {
+		return getSqlFragment();
+	}
+	
 	protected class SortFragmentWrapper{
 		
 		private final String fieldName;

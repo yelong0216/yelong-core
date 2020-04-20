@@ -21,7 +21,7 @@ public interface AttributeSqlFragment extends SqlFragment{
 	/**
 	 * 添加属性<br/>
 	 * 注意：如果attrName属性已存在，则之前的会被替换
-	 * @param attrName 属性名称（这应该是是列名称，将以此名称生成sql片段）
+	 * @param attrName 属性名称（这应该是列名称，将以此名称生成sql片段）
 	 * @param value 属性值
 	 */
 	void addAttr(String attrName,@Nullable Object value);

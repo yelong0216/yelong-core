@@ -50,7 +50,7 @@ public interface ModelAndTable {
 	
 	/**
 	 * 获取所有的字段列（只包含进行了字段与列映射的字段）
-	 * @return
+	 * @return 所有映射的字段与列
 	 */
 	List<FieldAndColumn> getFieldAndColumns();
 	

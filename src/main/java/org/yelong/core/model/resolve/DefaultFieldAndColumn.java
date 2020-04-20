@@ -33,6 +33,11 @@ public class DefaultFieldAndColumn extends AbstractFieldAndColumn{
 	
 	private String jdbcType;
 	
+	public DefaultFieldAndColumn(ModelAndTable modelAndTable ,Field field, String column) {
+		super(modelAndTable,field, column);
+	}
+	
+	@Deprecated
 	public DefaultFieldAndColumn(Field field, String column) {
 		super(field, column);
 	}

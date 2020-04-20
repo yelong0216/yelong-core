@@ -12,6 +12,11 @@ import java.lang.reflect.Field;
 public interface FieldAndColumn {
 	
 	/**
+	 * @return 该字段列所属的模型表
+	 */
+	ModelAndTable getModelAndTable();
+	
+	/**
 	 * @return 字段
 	 */
 	Field getField();

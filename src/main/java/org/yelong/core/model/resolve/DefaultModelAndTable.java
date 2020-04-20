@@ -15,6 +15,10 @@ public class DefaultModelAndTable extends AbstractModelAndTable{
 	
 	private String tableDesc;
 	
+	public DefaultModelAndTable(Class<?> modelClass, String tableName) {
+		super(modelClass, tableName);
+	}
+	
 	public DefaultModelAndTable(Class<?> modelClass, String tableName, List<FieldAndColumn> fieldAndColumns) {
 		super(modelClass, tableName, fieldAndColumns);
 	}

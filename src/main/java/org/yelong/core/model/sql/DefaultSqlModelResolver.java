@@ -16,6 +16,7 @@ import org.yelong.core.jdbc.sql.condition.support.Condition;
 import org.yelong.core.jdbc.sql.condition.support.ConditionResolver;
 import org.yelong.core.jdbc.sql.factory.SqlFragmentFactory;
 import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
+import org.yelong.core.model.Model;
 import org.yelong.core.model.resolve.ModelAndTable;
 import org.yelong.core.model.resolve.ModelAndTableManager;
 
@@ -46,10 +47,14 @@ public class DefaultSqlModelResolver implements SqlModelResolver{
 
 	@Override
 	public ConditionSqlFragment resolveToCondition(SqlModel sqlModel, boolean isTableAlias) {
-		ModelAndTable modelTable = modelAndTableManager.getModelAndTable(sqlModel.getModelClass());
-		String tableAlias = modelTable.getTableAlias();
+		Class<? extends Model> modelClass = sqlModel.getModelClass();
+		Model model = sqlModel.getModel();
+		boolean isSqlModel = modelClass == SqlModel.class;
+		isTableAlias = isSqlModel ? false : isTableAlias;//如果时sqlModel，则不支持使用别名
+		ModelAndTable modelAndTable = isSqlModel ? null : modelAndTableManager.getModelAndTable(modelClass);
+		String tableAlias = isSqlModel ? null : modelAndTable.getTableAlias();
 		//字段的条件符
-		Map<String, String> conditionOperatorMap = sqlModel.getConditionOperatorMap();
+		Map<String, String> conditionOperatorMap = sqlModel.getConditionOperators();
 		if(isTableAlias) {
 			final Map<String,String> newconditionOperatorMap = new HashMap<String, String>(conditionOperatorMap.size());
 			conditionOperatorMap.entrySet().forEach(x->{
@@ -63,12 +68,12 @@ public class DefaultSqlModelResolver implements SqlModelResolver{
 		}
 		//所有的条件（拓展属性与model所有非空属性）
 		Map<String,Object> attributeMap = new HashMap<String, Object>();
-		if( sqlModel.getClass() != SqlModel.class ) {//当sqlModel对象实例为SqlModel时，不进行属性获取和映射
+		if( model.getClass() != SqlModel.class ) {//当sqlModel对象实例为SqlModel时，不进行属性获取和映射
 			//model 中映射的字段
-			List<String> mappingFieldName = modelTable.getFieldNames();
+			List<String> mappingFieldName = modelAndTable.getFieldNames();
 			// model 中非空字段条件
 			for (String fieldName : mappingFieldName) {
-				Object value = getBeanProperty(sqlModel, fieldName);
+				Object value = getBeanProperty(model, fieldName);
 				if( null == value || (value instanceof String && StringUtils.isBlank((String)value))) {
 					continue;
 				}
@@ -84,7 +89,7 @@ public class DefaultSqlModelResolver implements SqlModelResolver{
 			}
 		}
 		//拓展字段条件。如果拓展字段存在于源model相同的条件则会覆盖
-		Map<String, Object> extendAttributesMap = sqlModel.getExtendAttributesMap();
+		Map<String, Object> extendAttributesMap = sqlModel.getExtendAttributes();
 		for (Entry<String,Object> entry : extendAttributesMap.entrySet()) {
 			String column = entry.getKey();
 			Object value = entry.getValue();
@@ -110,8 +115,10 @@ public class DefaultSqlModelResolver implements SqlModelResolver{
 		//直接设置的Condition
 		for (Condition condition : sqlModel.getConditions()) {
 			String column = condition.getColumn();
-			if(!column.contains(".")) {
-				column = tableAlias + "." + column;
+			if(isTableAlias) {
+				if(!column.contains(".")) {
+					column = tableAlias + "." + column;
+				}
 			}
 			condition.setColumn(column);
 			conditions.add(condition);
@@ -123,19 +130,22 @@ public class DefaultSqlModelResolver implements SqlModelResolver{
 	}
 
 	@Override
-	public SortSqlFragment resolveToSort(SqlModel sqlModel, boolean tableAlias) {
-		Map<String, String> sortFieldMap = sqlModel.getSortFieldMap();
+	public SortSqlFragment resolveToSort(SqlModel sqlModel, boolean isTableAlias) {
+		Class<? extends Model> modelClass = sqlModel.getModelClass();
+		boolean isSqlModel = modelClass == SqlModel.class;
+		isTableAlias = isSqlModel ? false : isTableAlias;//如果时sqlModel，则不支持使用别名
+		ModelAndTable modelAndTable = isSqlModel ? null : modelAndTableManager.getModelAndTable(modelClass);
+		String tableAlias = isSqlModel ? null : modelAndTable.getTableAlias();
+		Map<String, String> sortFieldMap = sqlModel.getSortFields();
 		if(sortFieldMap.isEmpty()) {
 			return null;
 		}
-		ModelAndTable modelAndTable = modelAndTableManager.getModelAndTable(sqlModel.getModelClass());
 		SortSqlFragment sort = sqlFragmentFactory.createSortSqlFragment();
-		String ta = modelAndTable.getTableAlias();
 		for (Entry<String, String> entry : sortFieldMap.entrySet()) {
 			String fieldName = entry.getKey();
-			if(tableAlias) {
+			if(isTableAlias) {
 				if(!fieldName.contains(".")) {
-					fieldName = ta+"."+fieldName;
+					fieldName = tableAlias+"."+fieldName;
 				}
 			}
 			sort.addSort(fieldName, entry.getValue());

@@ -30,5 +30,10 @@ public abstract class AbstractSqlFragment implements SqlFragment{
 		this.dialect = dialect;
 		return (S) this;
 	}
+	
+	@Override
+	public String toString() {
+		return getSqlFragment();
+	}
 
 }

@@ -3,13 +3,17 @@
  */
 package org.yelong.core.model.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.yelong.commons.util.map.MapBeanConverter;
 import org.yelong.core.jdbc.BaseDataBaseOperation;
+import org.yelong.core.jdbc.sql.BoundSql;
 import org.yelong.core.jdbc.sql.executable.SelectSqlFragment;
 import org.yelong.core.model.Model;
 import org.yelong.core.model.ModelConfiguration;
-import org.yelong.core.model.sql.ModelSqlFragmentFactory;
+import org.yelong.core.model.exception.ModelException;
 
 /**
  * @author PengFei
@@ -17,12 +21,17 @@ import org.yelong.core.model.sql.ModelSqlFragmentFactory;
 public class JdbcModelService extends AbstractModelService{
 
 	private BaseDataBaseOperation db;
-	
-	private ModelSqlFragmentFactory modelSqlFragmentFactory;
-	
-	public JdbcModelService(ModelConfiguration modelConfiguration,BaseDataBaseOperation db , ModelSqlFragmentFactory modelSqlFragmentFactory) {
+
+	private MapBeanConverter mapBeanConverter;
+
+	public JdbcModelService(ModelConfiguration modelConfiguration,BaseDataBaseOperation db) {
+		this(modelConfiguration,db,new MapBeanConverter());
+	}
+
+	public JdbcModelService(ModelConfiguration modelConfiguration,BaseDataBaseOperation db , MapBeanConverter mapBeanConverter) {
 		super(modelConfiguration);
-		this.modelSqlFragmentFactory = modelSqlFragmentFactory;
+		this.db = db;
+		this.mapBeanConverter = mapBeanConverter;
 	}
 
 	@Override
@@ -32,12 +41,29 @@ public class JdbcModelService extends AbstractModelService{
 
 	@Override
 	public <M extends Model> List<M> execute(Class<M> modelClass, SelectSqlFragment selectSqlFragment) {
-		throw new UnsupportedOperationException("不支持查询，请通过ORM框架进行查询");
+		BoundSql boundSql = selectSqlFragment.getBoundSql();
+		if(selectSqlFragment.isPage()) {
+			boundSql = getModelConfiguration().getDialect().page(boundSql, selectSqlFragment.getPageNum(), selectSqlFragment.getPageSize());
+		}
+		List<Map<String, Object>> result = getBaseDataBaseOperation().select(boundSql.getSql(), boundSql.getParams());
+		List<M> modelList = new ArrayList<>(result.size());
+		for (Map<String, Object> map : result) {
+			try {
+				M model = mapBeanConverter.mapConvertBean(map, modelClass);
+				modelList.add(model);
+			} catch (Exception e) {
+				throw new ModelException("map转换为bean异常",e);
+			}
+		}
+		return modelList;
 	}
-	
-	@Override
-	public ModelSqlFragmentFactory getModelSqlFragmentFactory() {
-		return this.modelSqlFragmentFactory;
+
+	public MapBeanConverter getMapBeanConverter() {
+		return mapBeanConverter;
 	}
-	
+
+	public void setMapBeanConverter(MapBeanConverter mapBeanConverter) {
+		this.mapBeanConverter = mapBeanConverter;
+	}
+
 }

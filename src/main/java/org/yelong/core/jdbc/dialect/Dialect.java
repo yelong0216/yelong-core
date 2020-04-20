@@ -3,6 +3,8 @@
  */
 package org.yelong.core.jdbc.dialect;
 
+import org.yelong.core.jdbc.sql.BoundSql;
+
 /**
  * 数据库方言
  * @author PengFei
@@ -37,5 +39,16 @@ public interface Dialect {
 	 * @return 方言类型
 	 */
 	DialectType getDialectType();
+	
+	/**
+	 * 分页
+	 * @param boundSql 源sql与参数
+	 * @param pageNum 页码
+	 * @param pageSize 页面大小
+	 * @return 分页后的boundSql
+	 */
+	default BoundSql page(BoundSql boundSql , int pageNum , int pageSize) {
+		throw new UnsupportedOperationException("方言["+getDialectType()+"]当前不支持分页！");
+	}
 	
 }

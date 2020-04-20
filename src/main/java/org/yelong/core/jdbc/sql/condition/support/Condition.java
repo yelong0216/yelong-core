@@ -52,7 +52,8 @@ public class Condition {
 		this.operator = operator;
 		this.value = value;
 		if( value.getClass().isArray() ) {
-			this.value = Arrays.asList(value);
+			//this.value = Arrays.asList(value); value为数组时经常转换不为集合
+			this.value = Arrays.asList((Object[])value);
 			this.listValue = true;
 		} else if(value instanceof List) {
 			this.listValue = true;
