@@ -17,6 +17,17 @@ public class DataSourceProperties {
 
 	private String driverClassName;
 
+	public DataSourceProperties() {
+		
+	}
+	
+	public DataSourceProperties(String url, String username, String password, String driverClassName) {
+		this.url = url;
+		this.username = username;
+		this.password = password;
+		this.driverClassName = driverClassName;
+	}
+
 	public String getUrl() {
 		return url;
 	}

@@ -18,9 +18,9 @@ import org.yelong.core.model.sql.SqlModelResolver;
  */
 public class ModelConfiguration {
 
-	private final Dialect dialect;
+	private Dialect dialect;
 	
-	private final ModelProperties modelProperties;
+	private ModelProperties modelProperties;
 	
 	private ModelAndTableManager modelAndTableManager;
 	
@@ -82,6 +82,16 @@ public class ModelConfiguration {
 
 	public Dialect getDialect() {
 		return dialect;
+	}
+
+	public void setDialect(Dialect dialect) {
+		Objects.requireNonNull(dialect);
+		this.dialect = dialect;
+	}
+
+	public void setModelProperties(ModelProperties modelProperties) {
+		Objects.requireNonNull(modelProperties);
+		this.modelProperties = modelProperties;
 	}
 	
 }

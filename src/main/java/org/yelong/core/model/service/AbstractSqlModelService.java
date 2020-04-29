@@ -82,15 +82,20 @@ public abstract class AbstractSqlModelService extends AbstractModelService imple
 	@Override
 	public <M extends Model, S extends SqlModel> List<M> findBySqlModel(Class<M> modelClass, S sqlModel) {
 		ConditionSqlFragment conditionSqlFragment = getSqlModelResolver().resolveToCondition(sqlModel);
-		return findByCondition(modelClass, conditionSqlFragment);
+		SortSqlFragment sortSqlFragment = getSqlModelResolver().resolveToSort(sqlModel);
+		return findByConditionSort(modelClass, conditionSqlFragment,sortSqlFragment);
 	}
 
 	@Override
 	public <M extends Model, S extends SqlModel> List<M> findBySqlModel(Class<M> modelClass,String sql, S sqlModel) {
 		ConditionSqlFragment conditionSqlFragment = getSqlModelResolver().resolveToCondition(sqlModel);
+		SortSqlFragment sortSqlFragment = getSqlModelResolver().resolveToSort(sqlModel);
 		SelectSqlFragment selectSqlFragment = getModelSqlFragmentFactory().createSelectSqlFragment(sql);
 		if( null != selectSqlFragment ) {
 			selectSqlFragment.setConditionSqlFragment(conditionSqlFragment);
+		}
+		if( null != sortSqlFragment ) {
+			selectSqlFragment.setSortSqlFragment(sortSqlFragment);	
 		}
 		return execute(modelClass, selectSqlFragment);
 	}

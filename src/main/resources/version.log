@@ -22,3 +22,7 @@
 	2、FieldAndColumn新增可以获取ModelAndTable的方法
 	3、Dialect新增分页sql
 	4、修改AbstractSqlModelService.findPageBySqlModel没有分页的问题
+	
+2020-04-29 v->1.0.6
+	1、修复AbstractSqlModelService部分没有对sqlModel进行排序处理的方法
+	

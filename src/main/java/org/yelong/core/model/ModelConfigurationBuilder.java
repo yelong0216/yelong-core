@@ -3,6 +3,8 @@
  */
 package org.yelong.core.model;
 
+import java.util.Objects;
+
 import org.yelong.core.jdbc.dialect.Dialect;
 import org.yelong.core.jdbc.sql.condition.support.ConditionResolver;
 import org.yelong.core.jdbc.sql.condition.support.DefaultConditionResolver;
@@ -19,9 +21,9 @@ import org.yelong.core.model.sql.SqlModelResolver;
  */
 public class ModelConfigurationBuilder {
 	
-	private final Dialect dialect;
+	private Dialect dialect;
 	
-	private final ModelProperties modelProperties;
+	private ModelProperties modelProperties;
 	
 	private ModelAndTableManager modelAndTableManager;
 	
@@ -31,6 +33,17 @@ public class ModelConfigurationBuilder {
 	
 	private SqlModelResolver sqlModelResolver;
 	
+	public ModelConfigurationBuilder() {
+		
+	}
+	
+	/**
+	 * @param dialect 数据库方言
+	 */
+	public ModelConfigurationBuilder(Dialect dialect) {
+		this.dialect = dialect;
+	}
+	
 	/**
 	 * @param dialect 数据库方言
 	 * @param modelProperties 模型属性配置
@@ -38,33 +51,88 @@ public class ModelConfigurationBuilder {
 	public ModelConfigurationBuilder(Dialect dialect,ModelProperties modelProperties) {
 		this.dialect = dialect;
 		this.modelProperties = modelProperties;
-		this.modelAndTableManager = new ModelAndTableManager(new AnnotationModelResolver(modelProperties));
-		this.modelSqlFragmentFactory = new DefaultModelSqlFragmentFactory(dialect, modelAndTableManager);
-		this.conditionResolver = new DefaultConditionResolver(modelSqlFragmentFactory);
-		this.sqlModelResolver = new DefaultSqlModelResolver(modelAndTableManager, conditionResolver);
 	}
 	
-	public void setModelAndTableManager(ModelAndTableManager modelAndTableManager) {
+	//=======================set====================
+	
+	public ModelConfigurationBuilder setModelAndTableManager(ModelAndTableManager modelAndTableManager) {
 		this.modelAndTableManager = modelAndTableManager;
+		return this;
 	}
 
-	public void setModelSqlFragmentFactory(ModelSqlFragmentFactory modelSqlFragmentFactory) {
+	public ModelConfigurationBuilder setModelSqlFragmentFactory(ModelSqlFragmentFactory modelSqlFragmentFactory) {
 		this.modelSqlFragmentFactory = modelSqlFragmentFactory;
+		return this;
 	}
 
-	public void setSqlModelResolver(SqlModelResolver sqlModelResolver) {
+	public ModelConfigurationBuilder setSqlModelResolver(SqlModelResolver sqlModelResolver) {
 		this.sqlModelResolver = sqlModelResolver;
+		return this;
 	}
 
-	public void setConditionResolver(ConditionResolver conditionResolver) {
+	public ModelConfigurationBuilder setConditionResolver(ConditionResolver conditionResolver) {
 		this.conditionResolver = conditionResolver;
+		return this;
 	}
 
+	public ModelConfigurationBuilder setDialect(Dialect dialect) {
+		this.dialect = dialect;
+		return this;
+	}
+	
+	public void setModelProperties(ModelProperties modelProperties) {
+		this.modelProperties = modelProperties;
+	}
+	
+	//=======================get====================
+	
+	public Dialect getDialect() {
+		return dialect;
+	}
+
+	public ModelProperties getModelProperties() {
+		return modelProperties;
+	}
+
+	public ModelAndTableManager getModelAndTableManager() {
+		return modelAndTableManager;
+	}
+
+	public ModelSqlFragmentFactory getModelSqlFragmentFactory() {
+		return modelSqlFragmentFactory;
+	}
+
+	public ConditionResolver getConditionResolver() {
+		return conditionResolver;
+	}
+
+	public SqlModelResolver getSqlModelResolver() {
+		return sqlModelResolver;
+	}
+
+	//=======================build====================
+	
 	/**
 	 * 构建模型配置
 	 * @return {@link ModelConfiguration}
 	 */
 	public ModelConfiguration build() {
+		Objects.requireNonNull(dialect,"dialect not allow to null");
+		if( null == modelProperties ) {
+			this.modelProperties = new ModelProperties();
+		}
+		if( null ==  modelAndTableManager ) {
+			this.modelAndTableManager = new ModelAndTableManager(new AnnotationModelResolver(modelProperties));
+		}
+		if( null ==  modelSqlFragmentFactory ) {
+			this.modelSqlFragmentFactory = new DefaultModelSqlFragmentFactory(dialect, modelAndTableManager);
+		}
+		if( null ==  conditionResolver ) {
+			this.conditionResolver = new DefaultConditionResolver(modelSqlFragmentFactory);
+		}
+		if( null ==  sqlModelResolver ) {
+			this.sqlModelResolver = new DefaultSqlModelResolver(modelAndTableManager, conditionResolver);
+		}
 		return new ModelConfiguration(dialect, modelProperties, modelAndTableManager, modelSqlFragmentFactory, conditionResolver, sqlModelResolver);
 	}
 	
