@@ -5,6 +5,8 @@ package org.yelong.core.model.resolve;
 
 import java.lang.reflect.Field;
 
+import org.yelong.core.annotation.test.NotImplemented;
+
 /**
  * 字段与列的映射信息
  * @author PengFei
@@ -47,7 +49,14 @@ public interface FieldAndColumn {
 	 * 获取列映射的条件。根据某些条件可以选择性的映射这些列
 	 * @return 是否进行映射列的条件对象
 	 */
+	@NotImplemented
 	SelectColumnCondition getSelectColumnCondition();
+	
+	/**
+	 * 查询时，是否映射该字段
+	 * @return <tt>true</tt> 映射
+	 */
+	boolean isSelectMapping();
 	
 	/**
 	 * 该列是否是拓展列。

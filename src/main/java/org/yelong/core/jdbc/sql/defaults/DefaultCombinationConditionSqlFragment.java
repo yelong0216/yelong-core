@@ -32,7 +32,8 @@ public class DefaultCombinationConditionSqlFragment extends AbstractCombinationC
 	 * 获取条件语句<br/>
 	 * 可以重写此方法定制自定义规则
 	 */
-	protected String generateConditionFragment(List<ConditionSqlFragmentWrapper> conditionFragmentList) {
+	@Override
+	protected String generateConditionSqlFragment(List<ConditionSqlFragmentWrapper> conditionFragmentList) {
 		List<String> sqlFragment = new ArrayList<String>(conditionFragmentList.size()*2+2);
 		conditionFragmentList.forEach(x->{
 			ConditionSqlFragment conditionFragment = x.getConditionSqlFragment();

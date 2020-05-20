@@ -10,9 +10,9 @@ import org.yelong.core.annotation.Nullable;
 import org.yelong.core.jdbc.BaseDataBaseOperation;
 import org.yelong.core.jdbc.sql.condition.ConditionSqlFragment;
 import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
-import org.yelong.core.model.Model;
 import org.yelong.core.model.ModelConfiguration;
 import org.yelong.core.model.ModelNullProperty;
+import org.yelong.core.model.Modelable;
 
 /**
  * 模型业务处理
@@ -27,7 +27,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param model 实体对象
 	 * @return <tt>true</tt>保存成功
 	 */
-	<M extends Model> boolean save(M model);
+	<M extends Modelable> boolean save(M model);
 
 	/**
 	 * 保存数据
@@ -38,14 +38,14 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param model
 	 * @return <tt>true</tt>保存成功
 	 */
-	<M extends Model> boolean saveSelective(M model);
+	<M extends Modelable> boolean saveSelective(M model);
 	
 	/**
 	 * 根据条件删除记录数
 	 * @param modelClass 删除记录的模型class
 	 * @return 删除的记录数
 	 */
-	<M extends Model> Integer removeAll( Class<M> modelClass );
+	<M extends Modelable> Integer removeAll( Class<M> modelClass );
 	
 	/**
 	 * 根据主键删除记录
@@ -53,7 +53,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param id 记录id
 	 * @return <tt>true</tt> 删除记录数>0
 	 */
-	<M extends Model> boolean removeById(Class<M> modelClass,Object id);
+	<M extends Modelable> boolean removeById(Class<M> modelClass,Object id);
 
 	/**
 	 * 根据主键删除多条记录
@@ -61,7 +61,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param ids 记录ids
 	 * @return 删除记录数
 	 */
-	<M extends Model> Integer removeByIds(Class<M> modelClass,Object [] ids);
+	<M extends Modelable> Integer removeByIds(Class<M> modelClass,Object [] ids);
 	
 	/**
 	 * 根据条件删除记录数
@@ -69,7 +69,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param condition 条件
 	 * @return 删除的记录数
 	 */
-	<M extends Model> Integer removeByCondition( Class<M> modelClass , ConditionSqlFragment condition);
+	<M extends Modelable> Integer removeByCondition( Class<M> modelClass , ConditionSqlFragment condition);
 
 	/**
 	 * 根据id进行修改数据<br/>
@@ -77,7 +77,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param model 修改的模型对象
 	 * @return <tt>true</tt>修改记录数大于0
 	 */
-	<M extends Model> boolean modifyById(M model);
+	<M extends Modelable> boolean modifyById(M model);
 
 	/**
 	 * 根据id进行修改数据<br/>
@@ -88,7 +88,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param model
 	 * @return
 	 */
-	<M extends Model> boolean modifySelectiveById(M model);
+	<M extends Modelable> boolean modifySelectiveById(M model);
 	
 	/**
 	 * 根据条件修改数据<br/>
@@ -98,7 +98,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param condition 条件
 	 * @return 修改的记录数
 	 */
-	<M extends Model> Integer modifyByCondition(M model,ConditionSqlFragment condition);
+	<M extends Modelable> Integer modifyByCondition(M model,ConditionSqlFragment condition);
 
 	/**
 	 * 根据条件修改数据<br/>
@@ -110,14 +110,14 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param condition 条件
 	 * @return 修改的记录数
 	 */
-	<M extends Model> Integer modifySelectiveByCondition(M model,ConditionSqlFragment condition);
+	<M extends Modelable> Integer modifySelectiveByCondition(M model,ConditionSqlFragment condition);
 	
 	/**
 	 * 根据id查询记录数
 	 * @param modelClass 查询记录数的模型类
 	 * @return 所有的记录数
 	 */
-	<M extends Model> Long countAll(Class<M> modelClass);
+	<M extends Modelable> Long countAll(Class<M> modelClass);
 	
 	/**
 	 * 根据id查询记录数
@@ -125,7 +125,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param id 主键值
 	 * @return 符合条件的记录数
 	 */
-	<M extends Model> Long countById(Class<M> modelClass ,Object id);
+	<M extends Modelable> Long countById(Class<M> modelClass ,Object id);
 	
 	/**
 	 * 根据多个id查询记录数
@@ -133,7 +133,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param ids 主键值数组
 	 * @return 符合条件的记录数
 	 */
-	<M extends Model> Long countByIds(Class<M> modelClass ,Object [] ids);
+	<M extends Modelable> Long countByIds(Class<M> modelClass ,Object [] ids);
 
 	/**
 	 * 根据条件查询记录数
@@ -141,7 +141,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param condition 条件
 	 * @return 符合条件的记录数
 	 */
-	<M extends Model> Long countByCondition(Class<M> modelClass,ConditionSqlFragment condition);
+	<M extends Modelable> Long countByCondition(Class<M> modelClass,ConditionSqlFragment condition);
 
 	/**
 	 * 根据id查询该记录是否存在
@@ -149,7 +149,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param id 主键值
 	 * @return <tt>true</tt> 符合条件的记录存在
 	 */
-	default <M extends Model> boolean existById(Class<M> modelClass, Object id){
+	default <M extends Modelable> boolean existById(Class<M> modelClass, Object id){
 		return countById(modelClass, id) > 0;
 	}
 
@@ -159,7 +159,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param id 主键值
 	 * @return <tt>true</tt> 符合条件的记录都存在
 	 */
-	default <M extends Model> boolean existByIds(Class<M> modelClass, Object [] ids){
+	default <M extends Modelable> boolean existByIds(Class<M> modelClass, Object [] ids){
 		return countByIds(modelClass, ids) == ids.length;
 	}
 	
@@ -169,7 +169,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param condition 条件
 	 * @return <tt>true</tt> 符合条件的记录存在
 	 */
-	default <M extends Model> boolean existByCondition(Class<M> modelClass, ConditionSqlFragment condition){
+	default <M extends Modelable> boolean existByCondition(Class<M> modelClass, ConditionSqlFragment condition){
 		return countByCondition(modelClass, condition) > 0;
 	}
 
@@ -179,7 +179,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param modelClass modelClass
 	 * @return 模型对象集合
 	 */
-	<M extends Model> List<M> findAll(Class<M> modelClass);
+	<M extends Modelable> List<M> findAll(Class<M> modelClass);
 	
 	/**
 	 * 根据id查询模型对象
@@ -189,7 +189,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @return 模型对象
 	 */
 	@Nullable
-	<M extends Model> M findById(Class<M> modelClass,Object id);
+	<M extends Modelable> M findById(Class<M> modelClass,Object id);
 
 	/**
 	 * 根据条件查询模型对象
@@ -198,7 +198,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param condition 条件
 	 * @return 模型对象集合
 	 */
-	<M extends Model> List<M> findByCondition(Class<M> modelClass , ConditionSqlFragment condition);
+	<M extends Modelable> List<M> findByCondition(Class<M> modelClass , ConditionSqlFragment condition);
 
 	/**
 	 * 根据条件查询第一个模型对象
@@ -208,7 +208,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @return 模型对象
 	 */
 	@Nullable
-	default <M extends Model> M findFirstByCondition(Class<M> modelClass , ConditionSqlFragment condition){
+	default <M extends Modelable> M findFirstByCondition(Class<M> modelClass , ConditionSqlFragment condition){
 		List<M> modelList = findByCondition(modelClass, condition);
 		if( CollectionUtils.isEmpty(modelList) ) {
 			return null;
@@ -224,7 +224,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param sort 排序
 	 * @return 模型对象集合
 	 */
-	<M extends Model> List<M> findBySort(Class<M> modelClass , SortSqlFragment sort);
+	<M extends Modelable> List<M> findBySort(Class<M> modelClass , SortSqlFragment sort);
 	
 	/**
 	 * 根据条件查询模型对象
@@ -234,7 +234,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param sort 排序条件
 	 * @return 模型对象集合
 	 */
-	<M extends Model> List<M> findByConditionSort(Class<M> modelClass , ConditionSqlFragment condition , SortSqlFragment sort);
+	<M extends Modelable> List<M> findByConditionSort(Class<M> modelClass , ConditionSqlFragment condition , SortSqlFragment sort);
 	
 	/**
 	 * 分页查询
@@ -244,7 +244,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param pageSize 页面大小
 	 * @return 模型对象集合
 	 */
-	<M extends Model> List<M> findPage(Class<M> modelClass , Integer pageNum ,Integer pageSize);
+	<M extends Modelable> List<M> findPage(Class<M> modelClass , Integer pageNum ,Integer pageSize);
 	
 	/**
 	 * 分页条件查询
@@ -255,7 +255,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param pageSize 页面大小
 	 * @return 模型对象集合
 	 */
-	<M extends Model> List<M> findPageByCondition(Class<M> modelClass , ConditionSqlFragment condition , Integer pageNum ,Integer pageSize);
+	<M extends Modelable> List<M> findPageByCondition(Class<M> modelClass , ConditionSqlFragment condition , Integer pageNum ,Integer pageSize);
 	
 	/**
 	 * 分页排序查询
@@ -266,7 +266,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param pageSize 页面大小
 	 * @return 模型对象集合
 	 */
-	<M extends Model> List<M> findPageBySort(Class<M> modelClass , SortSqlFragment sort , Integer pageNum ,Integer pageSize);
+	<M extends Modelable> List<M> findPageBySort(Class<M> modelClass , SortSqlFragment sort , Integer pageNum ,Integer pageSize);
 	
 	/**
 	 * 分页条件加排序查询
@@ -278,7 +278,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param pageSize 页面大小
 	 * @return 模型对象集合
 	 */
-	<M extends Model> List<M> findPageByConditionSort(Class<M> modelClass , ConditionSqlFragment condition ,SortSqlFragment sort, Integer pageNum ,Integer pageSize);
+	<M extends Modelable> List<M> findPageByConditionSort(Class<M> modelClass , ConditionSqlFragment condition ,SortSqlFragment sort, Integer pageNum ,Integer pageSize);
 	
 	/**
 	 * 根据指定的sql和参数查询model
@@ -288,7 +288,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param params 参数
 	 * @return 模型对象集合
 	 */
-	<M extends Model> List<M> findBySQL(Class<M> modelClass , String sql , Object [] params);
+	<M extends Modelable> List<M> findBySQL(Class<M> modelClass , String sql , Object [] params);
 	
 	/**
 	 * 根据指定的sql和参数查询第一个记录的model
@@ -298,7 +298,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param params 参数
 	 * @return 模型对象
 	 */
-	default <M extends Model> M findFirstBySQL(Class<M> modelClass , String sql , Object [] params) {
+	default <M extends Modelable> M findFirstBySQL(Class<M> modelClass , String sql , Object [] params) {
 		List<M> modelList = findBySQL(modelClass, sql , params);
 		if( CollectionUtils.isEmpty(modelList) ) {
 			return null;
@@ -317,7 +317,7 @@ public interface ModelService extends ModelSqlFragmentExecutor{
 	 * @param pageSize 页面大小
 	 * @return 模型对象集合
 	 */
-	<M extends Model> List<M> findPageBySQL(Class<M> modelClass , String sql , Object [] params, Integer pageNum ,Integer pageSize);
+	<M extends Modelable> List<M> findPageBySQL(Class<M> modelClass , String sql , Object [] params, Integer pageNum ,Integer pageSize);
 	
 	/**
 	 * 获取model配置

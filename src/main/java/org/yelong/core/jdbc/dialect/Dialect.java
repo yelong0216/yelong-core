@@ -3,7 +3,12 @@
  */
 package org.yelong.core.jdbc.dialect;
 
+import org.yelong.core.annotation.Nullable;
+import org.yelong.core.jdbc.BaseDataBaseOperation;
 import org.yelong.core.jdbc.sql.BoundSql;
+import org.yelong.core.jdbc.sql.ddl.DataDefinitionLanguage;
+import org.yelong.core.jdbc.sql.factory.SqlFragmentFactory;
+import org.yelong.core.jdbc.sql.function.DatabaseFunction;
 
 /**
  * 数据库方言
@@ -38,7 +43,18 @@ public interface Dialect {
 	/**
 	 * @return 方言类型
 	 */
+	@Nullable
 	DialectType getDialectType();
+	
+	/**
+	 * 自定义的方言在{@link DialectType}中不存在时，请务必重写这个方法
+	 * 
+	 * @return 方言的名称
+	 * @since 1.0.7
+	 */
+	default String getName() {
+		return getDialectType() == null ? null : getDialectType().name();
+	}
 	
 	/**
 	 * 分页
@@ -48,7 +64,33 @@ public interface Dialect {
 	 * @return 分页后的boundSql
 	 */
 	default BoundSql page(BoundSql boundSql , int pageNum , int pageSize) {
-		throw new UnsupportedOperationException("方言["+getDialectType()+"]当前不支持分页！");
+		throw new UnsupportedOperationException("方言["+getName()+"]当前不支持分页！");
 	}
+	
+	/**
+	 * 创建数据库定义语言
+	 * @param db 数据库操作
+	 * @return 数据库定义语言
+	 * @since 1.1.0
+	 */
+	default DataDefinitionLanguage createDataDefinitionLanguage(BaseDataBaseOperation db) {
+		throw new UnsupportedOperationException("方言["+getName()+"]当前不支持DDL语言！");
+	}
+	
+	/**
+	 * 创建数据库方法、函数
+	 * @param db 数据库操作
+	 * @return 数据库方法、功能、函数的sql提供者
+	 * @since 1.1.0
+	 */
+	default DatabaseFunction createDatabaseFunction(BaseDataBaseOperation db) {
+		throw new UnsupportedOperationException("方言["+getName()+"]当前不支持数据库方法、功能、函数的功能！");
+	}
+	
+	/**
+	 * @return sql片段工厂
+	 * @since 1.1.0
+	 */
+	SqlFragmentFactory getSqlFragmentFactory();
 	
 }

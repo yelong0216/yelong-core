@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.yelong.core.jdbc.sql.executable.SelectSqlFragment;
 import org.yelong.core.jdbc.sql.executable.SqlFragmentExecutor;
-import org.yelong.core.model.Model;
+import org.yelong.core.model.Modelable;
 
 /**
  * model sql片段执行器
@@ -24,6 +24,6 @@ public interface ModelSqlFragmentExecutor extends SqlFragmentExecutor{
 	 * @return 查询到的model集合。这可能是一个空集合
 	 * @throws SQLException
 	 */
-	<M extends Model> List<M> execute(Class<M> modelClass,SelectSqlFragment selectSqlFragment);
+	<M extends Modelable> List<M> execute(Class<M> modelClass,SelectSqlFragment selectSqlFragment);
 
 }

@@ -10,13 +10,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
-import org.yelong.commons.beans.BeanUtils;
 import org.yelong.core.jdbc.sql.condition.ConditionSqlFragment;
 import org.yelong.core.jdbc.sql.condition.support.Condition;
 import org.yelong.core.jdbc.sql.condition.support.ConditionResolver;
 import org.yelong.core.jdbc.sql.factory.SqlFragmentFactory;
 import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
-import org.yelong.core.model.Model;
+import org.yelong.core.model.Modelable;
+import org.yelong.core.model.property.DefaultModelProperty;
+import org.yelong.core.model.property.ModelProperty;
 import org.yelong.core.model.resolve.ModelAndTable;
 import org.yelong.core.model.resolve.ModelAndTableManager;
 
@@ -33,6 +34,8 @@ public class DefaultSqlModelResolver implements SqlModelResolver{
 	private final ConditionResolver conditionResolver;
 
 	private final SqlFragmentFactory sqlFragmentFactory;
+	
+	private ModelProperty modelProperty = DefaultModelProperty.INSTANCE;
 
 	public DefaultSqlModelResolver(ModelAndTableManager modelAndTableManager, ConditionResolver conditionResolver) {
 		this(modelAndTableManager,conditionResolver,conditionResolver.getSqlFragmentFactory());
@@ -47,8 +50,8 @@ public class DefaultSqlModelResolver implements SqlModelResolver{
 
 	@Override
 	public ConditionSqlFragment resolveToCondition(SqlModel sqlModel, boolean isTableAlias) {
-		Class<? extends Model> modelClass = sqlModel.getModelClass();
-		Model model = sqlModel.getModel();
+		Class<? extends Modelable> modelClass = sqlModel.getModelClass();
+		Modelable model = sqlModel.getModel();
 		boolean isSqlModel = modelClass == SqlModel.class;
 		isTableAlias = isSqlModel ? false : isTableAlias;//如果时sqlModel，则不支持使用别名
 		ModelAndTable modelAndTable = isSqlModel ? null : modelAndTableManager.getModelAndTable(modelClass);
@@ -131,7 +134,7 @@ public class DefaultSqlModelResolver implements SqlModelResolver{
 
 	@Override
 	public SortSqlFragment resolveToSort(SqlModel sqlModel, boolean isTableAlias) {
-		Class<? extends Model> modelClass = sqlModel.getModelClass();
+		Class<? extends Modelable> modelClass = sqlModel.getModelClass();
 		boolean isSqlModel = modelClass == SqlModel.class;
 		isTableAlias = isSqlModel ? false : isTableAlias;//如果时sqlModel，则不支持使用别名
 		ModelAndTable modelAndTable = isSqlModel ? null : modelAndTableManager.getModelAndTable(modelClass);
@@ -154,12 +157,7 @@ public class DefaultSqlModelResolver implements SqlModelResolver{
 	}
 
 	protected Object getBeanProperty(Object bean , String fieldName) {
-		try {
-			return BeanUtils.getProperty(bean, fieldName);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+		return modelProperty.get(bean, fieldName);
 	}
 	
 	@Override
@@ -172,4 +170,12 @@ public class DefaultSqlModelResolver implements SqlModelResolver{
 		return this.sqlFragmentFactory;
 	}
 	
+	@Override
+	public ModelProperty getModelProperty() {
+		return this.modelProperty;
+	}
+	
+	public void setModelProperty(ModelProperty modelProperty) {
+		this.modelProperty = modelProperty;
+	}
 }

@@ -123,7 +123,7 @@ public abstract class AbstractCombinationConditionSqlFragment extends AbstractCo
 	 * @param conditionSqlFragmentList
 	 * @return
 	 */
-	protected String generateconditionSqlFragment(List<ConditionSqlFragmentWrapper> conditionSqlFragmentList) {
+	protected String generateConditionSqlFragment(List<ConditionSqlFragmentWrapper> conditionSqlFragmentList) {
 		List<String> sqlFragment = new ArrayList<String>(conditionSqlFragmentList.size()*2+2);
 		conditionSqlFragmentList.forEach(x->{
 			ConditionSqlFragment conditionSqlFragment = x.getConditionSqlFragment();
@@ -140,7 +140,7 @@ public abstract class AbstractCombinationConditionSqlFragment extends AbstractCo
 		if( isEmpty() ) {
 			throw new UnsupportedOperationException("没有条件！");
 		}
-		return where(generateconditionSqlFragment(conditionSqlFragmentList));
+		return where(generateConditionSqlFragment(conditionSqlFragmentList));
 	}
 
 	@Override

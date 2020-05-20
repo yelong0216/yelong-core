@@ -6,10 +6,10 @@ package org.yelong.core.model.service;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.yelong.commons.beans.BeanUtils;
 import org.yelong.core.annotation.Nullable;
 import org.yelong.core.jdbc.DataBaseOperationType;
 import org.yelong.core.jdbc.sql.attribute.AttributeSqlFragment;
@@ -22,11 +22,12 @@ import org.yelong.core.jdbc.sql.executable.InsertSqlFragment;
 import org.yelong.core.jdbc.sql.executable.SelectSqlFragment;
 import org.yelong.core.jdbc.sql.executable.UpdateSqlFragment;
 import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
-import org.yelong.core.model.Model;
+import org.yelong.core.model.Modelable;
 import org.yelong.core.model.ModelConfiguration;
 import org.yelong.core.model.ModelNullProperty;
 import org.yelong.core.model.exception.ModelException;
 import org.yelong.core.model.exception.PrimaryKeyException;
+import org.yelong.core.model.property.ModelProperty;
 import org.yelong.core.model.resolve.FieldAndColumn;
 import org.yelong.core.model.resolve.ModelAndTable;
 import org.yelong.core.model.resolve.ModelAndTableManager;
@@ -51,70 +52,70 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	}
 	
 	@Override
-	public <M extends Model> boolean save(M model) {
+	public <M extends Modelable> boolean save(M model) {
 		return save(model, false, ModelColumnValidateWay.ALL) > 0;
 	}
 	
 	@Override
-	public <M extends Model> boolean saveSelective(M model) {
+	public <M extends Modelable> boolean saveSelective(M model) {
 		return save(model,true, ModelColumnValidateWay.ALL) > 0;
 	}
 	
 	@Override
-	public <M extends Model> boolean removeById(Class<M> modelClass, Object id) {
+	public <M extends Modelable> boolean removeById(Class<M> modelClass, Object id) {
 		CombinationConditionSqlFragment conditionFragment = getModelSqlFragmentFactory().createCombinationConditionSqlFragment();
 		conditionFragment.and(getOnlyPrimaryKey(modelClass).getColumn(), "=", id);
 		return remove(modelClass, conditionFragment) > 0;
 	}
 	
 	@Override
-	public <M extends Model> Integer removeByIds(Class<M> modelClass, Object[] ids) {
+	public <M extends Modelable> Integer removeByIds(Class<M> modelClass, Object[] ids) {
 		CombinationConditionSqlFragment conditionFragment = getModelSqlFragmentFactory().createCombinationConditionSqlFragment();
 		conditionFragment.and(getOnlyPrimaryKey(modelClass).getColumn(), "IN", Arrays.asList(ids));
 		return remove(modelClass, conditionFragment);
 	}
 	
 	@Override
-	public <M extends Model> Integer removeByCondition(Class<M> modelClass, ConditionSqlFragment condition) {
+	public <M extends Modelable> Integer removeByCondition(Class<M> modelClass, ConditionSqlFragment condition) {
 		return remove(modelClass, condition);
 	}
 	
 	@Override
-	public <M extends Model> Integer removeAll(Class<M> modelClass) {
+	public <M extends Modelable> Integer removeAll(Class<M> modelClass) {
 		return remove(modelClass, null);
 	}
 	
 	@Override
-	public <M extends Model> boolean modifyById(M model) {
+	public <M extends Modelable> boolean modifyById(M model) {
 		return modify(model, false);
 	}
 	
 	@Override
-	public <M extends Model> boolean modifySelectiveById(M model) {
+	public <M extends Modelable> boolean modifySelectiveById(M model) {
 		return modify(model, true);
 	}
 	
 	@Override
-	public <M extends Model> Long countAll(Class<M> modelClass) {
+	public <M extends Modelable> Long countAll(Class<M> modelClass) {
 		return count(modelClass, null);
 	}
 	
 	@Override
-	public <M extends Model> Long countById(Class<M> modelClass, Object id) {
+	public <M extends Modelable> Long countById(Class<M> modelClass, Object id) {
 		CombinationConditionSqlFragment conditionFragment = getModelSqlFragmentFactory().createCombinationConditionSqlFragment();
 		conditionFragment.and(getOnlyPrimaryKey(modelClass).getColumn(), "=", id);
 		return count(modelClass, conditionFragment);
 	}
 	
 	@Override
-	public <M extends Model> Long countByIds(Class<M> modelClass, Object[] ids) {
+	public <M extends Modelable> Long countByIds(Class<M> modelClass, Object[] ids) {
 		CombinationConditionSqlFragment conditionFragment = getModelSqlFragmentFactory().createCombinationConditionSqlFragment();
 		conditionFragment.and(getOnlyPrimaryKey(modelClass).getColumn(), "IN", Arrays.asList(ids));
 		return count(modelClass, conditionFragment);
 	}
 	
 	@Override
-	public <M extends Model> Long countByCondition(Class<M> modelClass, ConditionSqlFragment conditionFragment) {
+	public <M extends Modelable> Long countByCondition(Class<M> modelClass, ConditionSqlFragment conditionFragment) {
 		return count(modelClass, conditionFragment);
 	}
 	/**
@@ -125,7 +126,7 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	 * @return
 	 * @throws SQLException
 	 */
-	protected <M extends Model> boolean modify(M model , boolean selective){
+	protected <M extends Modelable> boolean modify(M model , boolean selective){
 		FieldAndColumn fieldAndColumn = getOnlyPrimaryKey(model.getClass());
 		Object value;
 		try {
@@ -148,22 +149,22 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	}
 	
 	@Override
-	public <M extends Model> Integer modifyByCondition(M model, ConditionSqlFragment conditionFragment) {
+	public <M extends Modelable> Integer modifyByCondition(M model, ConditionSqlFragment conditionFragment) {
 		return modify(model,false, ModelColumnValidateWay.SELECTIVE, conditionFragment);
 	}
 	
 	@Override
-	public <M extends Model> Integer modifySelectiveByCondition(M model, ConditionSqlFragment conditionFragment) {
+	public <M extends Modelable> Integer modifySelectiveByCondition(M model, ConditionSqlFragment conditionFragment) {
 		return modify(model, true, ModelColumnValidateWay.SELECTIVE, conditionFragment);
 	}
 	
 	@Override
-	public <M extends Model> List<M> findAll(Class<M> modelClass) {
+	public <M extends Modelable> List<M> findAll(Class<M> modelClass) {
 		return find(modelClass, null, null, null, null);
 	}
 
 	@Override
-	public <M extends Model> M findById(Class<M> modelClass, Object id) {
+	public <M extends Modelable> M findById(Class<M> modelClass, Object id) {
 		ModelAndTable modelAndTable = getModelAndTable(modelClass);
 		String idColumn = modelAndTable.getTableAlias()+"."+getOnlyPrimaryKey(modelClass).getColumn();
 		ConditionSqlFragment conditionFragment = getModelSqlFragmentFactory().createConditionSqlFragment(idColumn+"=?",ArrayUtils.toArray(id));
@@ -176,52 +177,52 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	
 
 	@Override
-	public <M extends Model> List<M> findByCondition(Class<M> modelClass, ConditionSqlFragment condition) {
+	public <M extends Modelable> List<M> findByCondition(Class<M> modelClass, ConditionSqlFragment condition) {
 		return find(modelClass, condition, null, null, null);
 	}
 
 	@Override
-	public <M extends Model> List<M> findBySort(Class<M> modelClass, SortSqlFragment sort) {
+	public <M extends Modelable> List<M> findBySort(Class<M> modelClass, SortSqlFragment sort) {
 		return find(modelClass, null, sort, null, null);
 	}
 
 	@Override
-	public <M extends Model> List<M> findByConditionSort(Class<M> modelClass, ConditionSqlFragment condition,
+	public <M extends Modelable> List<M> findByConditionSort(Class<M> modelClass, ConditionSqlFragment condition,
 			SortSqlFragment sort) {
 		return find(modelClass, condition, sort, null, null);
 	}
 
 	@Override
-	public <M extends Model> List<M> findPage(Class<M> modelClass, Integer pageNum, Integer pageSize) {
+	public <M extends Modelable> List<M> findPage(Class<M> modelClass, Integer pageNum, Integer pageSize) {
 		return find(modelClass, null, null, pageNum, pageSize);
 	}
 
 	@Override
-	public <M extends Model> List<M> findPageBySort(Class<M> modelClass, SortSqlFragment sort, Integer pageNum,
+	public <M extends Modelable> List<M> findPageBySort(Class<M> modelClass, SortSqlFragment sort, Integer pageNum,
 			Integer pageSize) {
 		return find(modelClass, null, sort, pageNum, pageSize);
 	}
 
 	@Override
-	public <M extends Model> List<M> findPageByCondition(Class<M> modelClass, ConditionSqlFragment condition,
+	public <M extends Modelable> List<M> findPageByCondition(Class<M> modelClass, ConditionSqlFragment condition,
 			Integer pageNum, Integer pageSize) {
 		return find(modelClass, condition, null, pageNum, pageSize);
 	}
 
 	@Override
-	public <M extends Model> List<M> findPageByConditionSort(Class<M> modelClass, ConditionSqlFragment condition,
+	public <M extends Modelable> List<M> findPageByConditionSort(Class<M> modelClass, ConditionSqlFragment condition,
 			SortSqlFragment sort, Integer pageNum, Integer pageSize) {
 		return find(modelClass, condition, sort, pageNum, pageSize);
 	}
 	
 	@Override
-	public <M extends Model> List<M> findBySQL(Class<M> modelClass, String sql, Object[] params) {
+	public <M extends Modelable> List<M> findBySQL(Class<M> modelClass, String sql, Object[] params) {
 		SelectSqlFragment selectSqlFragment = getModelSqlFragmentFactory().createSelectSqlFragment(sql, params);
 		return execute(modelClass, selectSqlFragment);
 	}
 	
 	@Override
-	public <M extends Model> List<M> findPageBySQL(Class<M> modelClass, String sql, Object[] params, Integer pageNum,
+	public <M extends Modelable> List<M> findPageBySQL(Class<M> modelClass, String sql, Object[] params, Integer pageNum,
 			Integer pageSize) {
 		SelectSqlFragment selectSqlFragment = getModelSqlFragmentFactory().createSelectSqlFragment(sql, params);
 		selectSqlFragment.startPage(pageNum, pageSize);
@@ -236,7 +237,7 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	 * @param attributeFragment 属性sql片段
 	 * @return
 	 */
-	protected <M extends Model> Integer save(M model, boolean selective, ModelColumnValidateWay modelColumnValidateWay){
+	protected <M extends Modelable> Integer save(M model, boolean selective, ModelColumnValidateWay modelColumnValidateWay){
 		AttributeSqlFragment attributeSqlFragment = createAttributeFragment(model, DataBaseOperationType.INSERT, selective, modelColumnValidateWay);
 		InsertSqlFragment insertSqlFragment = getModelSqlFragmentFactory().createInsertSqlFragment(model.getClass(), attributeSqlFragment);
 		return execute(insertSqlFragment);
@@ -250,7 +251,7 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	 * @param conditionFragment 条件
 	 * @return
 	 */
-	protected <M extends Model, C extends ConditionSqlFragment> Integer remove(Class<M> modelClass,@Nullable C conditionFragment) {
+	protected <M extends Modelable, C extends ConditionSqlFragment> Integer remove(Class<M> modelClass,@Nullable C conditionFragment) {
 		DeleteSqlFragment deleteSqlFragment = getModelSqlFragmentFactory().createDeleteSqlFragment(modelClass);
 		if( null != conditionFragment ) {
 			deleteSqlFragment.setConditionSqlFragment(conditionFragment);
@@ -266,7 +267,7 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	 * @param conditionFragment 条件
 	 * @return
 	 */
-	protected <M extends Model, C extends ConditionSqlFragment> Long count(Class<M> modelClass,@Nullable C conditionFragment) {
+	protected <M extends Modelable, C extends ConditionSqlFragment> Long count(Class<M> modelClass,@Nullable C conditionFragment) {
 		CountSqlFragment countSqlFragment = getModelSqlFragmentFactory().createCountSqlFragment(modelClass);
 		if( null != conditionFragment ) {
 			countSqlFragment.setConditionSqlFragment(conditionFragment);
@@ -283,7 +284,7 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	 * @param condintionFragment 条件
 	 * @return
 	 */
-	protected <M extends Model, C extends ConditionSqlFragment> Integer modify(M model, boolean selective,
+	protected <M extends Modelable, C extends ConditionSqlFragment> Integer modify(M model, boolean selective,
 			ModelColumnValidateWay modelColumnValidateWay,@Nullable C conditionFragment) {
 		AttributeSqlFragment attributeSqlFragment = createAttributeFragment(model, DataBaseOperationType.UPDATE, selective, modelColumnValidateWay);
 		//不修改id
@@ -306,7 +307,7 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	 * @return
 	 * @throws SQLException
 	 */
-	protected <M extends Model> List<M> find(Class<M> modelClass,@Nullable ConditionSqlFragment conditionFragment,
+	protected <M extends Modelable> List<M> find(Class<M> modelClass,@Nullable ConditionSqlFragment conditionFragment,
 			@Nullable SortSqlFragment sortFragment, @Nullable Integer pageNum,@Nullable Integer pageSize){
 		SelectSqlFragment selectSqlFragment = getModelSqlFragmentFactory().createSelectSqlFragment(modelClass);
 		if( null != conditionFragment ) {
@@ -333,7 +334,7 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	 * @param attributeFragmentFactory 属性sql片段工厂
 	 * @return
 	 */
-	protected <M extends Model> AttributeSqlFragment createAttributeFragment(M model ,
+	protected <M extends Modelable> AttributeSqlFragment createAttributeFragment(M model ,
 			 DataBaseOperationType dataBaseOperationType ,boolean selective , ModelColumnValidateWay modelColumnValidateWay) {
 		AttributeSqlFragment attributeSqlFragment = getModelSqlFragmentFactory().createAttributeSqlFragment();
 		attributeSqlFragment.setDataBaseOperationType(dataBaseOperationType);
@@ -415,11 +416,11 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 		return modelConfiguration;
 	}
 
-	protected <M extends Model> ModelAndTable getModelAndTable(M model) {
+	protected <M extends Modelable> ModelAndTable getModelAndTable(M model) {
 		return getModelAndTable(model.getClass());
 	}
 	
-	protected <M extends Model> ModelAndTable getModelAndTable(Class<M> modelClass) {
+	protected <M extends Modelable> ModelAndTable getModelAndTable(Class<M> modelClass) {
 		return modelAndTableManager.getModelAndTable(modelClass);
 	}
 
@@ -428,18 +429,36 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	}
 	
 	/**
-	 * @see BeanUtils#getProperty(Object, String)
+	 * @see #getModelProperty(Object, String)
+	 * @deprecated
 	 */
 	protected Object getBeanProperty(Object bean , String fieldName) throws NoSuchMethodException{
-		return BeanUtils.getProperty(bean, fieldName);
+		return getModelProperty(bean, fieldName);
 	}
 	
 	/**
 	 * @throws NoSuchMethodException 
-	 * @see BeanUtils#setProperty(Object, String, Object)
+	 * @see #setModelProperty(Object, String, Object)
+	 * @deprecated
 	 */
 	protected void setBeanProperty(Object bean , String propertyName , Object value) throws NoSuchMethodException {
-		BeanUtils.setProperty(bean, propertyName, value);
+		setModelProperty(bean, propertyName, value);
+	}
+	
+	/**
+	 * 获取model属性值
+	 * @see ModelProperty#get(Object, String)
+	 */
+	protected Object getModelProperty(Object model , String property){
+		return modelConfiguration.getModelProperty().get(model, property);
+	}
+	
+	/**
+	 * 设置model属性值
+	 * @see ModelProperty#set(Object, String, Object)
+	 */
+	protected void setModelProperty(Object model , String property , Object value){
+		modelConfiguration.getModelProperty().set(model, property, value);
 	}
 	
 	/**
@@ -448,13 +467,13 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	 * @param modelClass
 	 * @return
 	 */
-	protected <M extends Model> FieldAndColumn getOnlyPrimaryKey(Class<M> modelClass) throws PrimaryKeyException{
+	protected <M extends Modelable> FieldAndColumn getOnlyPrimaryKey(Class<M> modelClass) throws PrimaryKeyException{
 		ModelAndTable modelAndTable = getModelAndTable(modelClass);
 		List<FieldAndColumn> primaryKeys = modelAndTable.getPrimaryKey();
 		if( primaryKeys.isEmpty() ) {
 			throw new PrimaryKeyException("在获取唯一主键时出现错误：["+modelClass.getName()+"]不存在主键列!");
 		} else if( primaryKeys.size() > 1 ) {
-			throw new PrimaryKeyException("在获取唯一主键时出现错误：["+modelClass.getName()+"]存在"+primaryKeys.size()+"主键列("+primaryKeys.stream().map(FieldAndColumn::getColumn).toString()+")!");
+			throw new PrimaryKeyException("在获取唯一主键时出现错误：["+modelClass.getName()+"]存在"+primaryKeys.size()+"主键列["+primaryKeys.stream().map(FieldAndColumn::getColumn).collect(Collectors.joining(","))+"]");
 		} else {
 			return primaryKeys.get(0);
 		}

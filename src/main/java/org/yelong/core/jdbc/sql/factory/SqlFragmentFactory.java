@@ -119,10 +119,4 @@ public interface SqlFragmentFactory {
 	 */
 	Dialect getDialect();
 	
-	/**
-	 * 设置数据库方言
-	 * @param dialect 数据库方言
-	 */
-	void setDialect(Dialect dialect);
-	
 }

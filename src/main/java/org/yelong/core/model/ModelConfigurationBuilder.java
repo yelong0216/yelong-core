@@ -8,6 +8,7 @@ import java.util.Objects;
 import org.yelong.core.jdbc.dialect.Dialect;
 import org.yelong.core.jdbc.sql.condition.support.ConditionResolver;
 import org.yelong.core.jdbc.sql.condition.support.DefaultConditionResolver;
+import org.yelong.core.model.property.ModelProperty;
 import org.yelong.core.model.resolve.AnnotationModelResolver;
 import org.yelong.core.model.resolve.ModelAndTableManager;
 import org.yelong.core.model.sql.DefaultModelSqlFragmentFactory;
@@ -23,6 +24,7 @@ public class ModelConfigurationBuilder {
 	
 	private Dialect dialect;
 	
+	@SuppressWarnings("deprecation")
 	private ModelProperties modelProperties;
 	
 	private ModelAndTableManager modelAndTableManager;
@@ -32,6 +34,8 @@ public class ModelConfigurationBuilder {
 	private ConditionResolver conditionResolver;
 	
 	private SqlModelResolver sqlModelResolver;
+	
+	private ModelProperty modelProperty;
 	
 	public ModelConfigurationBuilder() {
 		
@@ -48,6 +52,7 @@ public class ModelConfigurationBuilder {
 	 * @param dialect 数据库方言
 	 * @param modelProperties 模型属性配置
 	 */
+	@SuppressWarnings("deprecation")
 	public ModelConfigurationBuilder(Dialect dialect,ModelProperties modelProperties) {
 		this.dialect = dialect;
 		this.modelProperties = modelProperties;
@@ -80,8 +85,13 @@ public class ModelConfigurationBuilder {
 		return this;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void setModelProperties(ModelProperties modelProperties) {
 		this.modelProperties = modelProperties;
+	}
+	
+	public void setModelProperty(ModelProperty modelProperty) {
+		this.modelProperty = modelProperty;
 	}
 	
 	//=======================get====================
@@ -90,6 +100,7 @@ public class ModelConfigurationBuilder {
 		return dialect;
 	}
 
+	@SuppressWarnings("deprecation")
 	public ModelProperties getModelProperties() {
 		return modelProperties;
 	}
@@ -110,12 +121,17 @@ public class ModelConfigurationBuilder {
 		return sqlModelResolver;
 	}
 
+	public ModelProperty getModelProperty() {
+		return modelProperty;
+	}
+	
 	//=======================build====================
 	
 	/**
 	 * 构建模型配置
 	 * @return {@link ModelConfiguration}
 	 */
+	@SuppressWarnings("deprecation")
 	public ModelConfiguration build() {
 		Objects.requireNonNull(dialect,"dialect not allow to null");
 		if( null == modelProperties ) {
@@ -133,7 +149,11 @@ public class ModelConfigurationBuilder {
 		if( null ==  sqlModelResolver ) {
 			this.sqlModelResolver = new DefaultSqlModelResolver(modelAndTableManager, conditionResolver);
 		}
-		return new ModelConfiguration(dialect, modelProperties, modelAndTableManager, modelSqlFragmentFactory, conditionResolver, sqlModelResolver);
+		ModelConfiguration modelConfiguration = new ModelConfiguration(dialect, modelProperties, modelAndTableManager, modelSqlFragmentFactory, conditionResolver, sqlModelResolver);
+		if ( null != modelProperty ) {
+			modelConfiguration.setModelProperty(modelProperty);
+		}
+		return modelConfiguration;
 	}
 	
 }

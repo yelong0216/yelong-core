@@ -3,8 +3,8 @@
  */
 package org.yelong.core.jdbc.dialect;
 
-import org.yelong.core.jdbc.dialect.impl.MySqlDialect;
-import org.yelong.core.jdbc.dialect.impl.OracleDialect;
+import org.yelong.core.jdbc.dialect.impl.mysql.MySqlDialect;
+import org.yelong.core.jdbc.dialect.impl.oracle.OracleDialect;
 
 /**
  * 默认的数据库方言对应的实现

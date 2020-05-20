@@ -114,9 +114,4 @@ public class DefaultSqlFragmentFactory implements SqlFragmentFactory{
 		return dialect;
 	}
 
-	@Override
-	public void setDialect(Dialect dialect) {
-		this.dialect = dialect;
-	}
-	
 }

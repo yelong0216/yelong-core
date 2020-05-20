@@ -22,7 +22,6 @@ public @interface Table {
 	 */
 	String value();
 	
-	
 	/**
 	 * 别名
 	 * 默认值：model类名称首字母小写

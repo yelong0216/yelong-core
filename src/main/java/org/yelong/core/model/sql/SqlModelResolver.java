@@ -10,6 +10,7 @@ import org.yelong.core.jdbc.sql.condition.support.Condition;
 import org.yelong.core.jdbc.sql.condition.support.ConditionResolver;
 import org.yelong.core.jdbc.sql.factory.SqlFragmentFactory;
 import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
+import org.yelong.core.model.property.ModelProperty;
 import org.yelong.core.model.resolve.ModelAndTableManager;
 
 /**
@@ -77,5 +78,15 @@ public interface SqlModelResolver {
 	 * @return sql片段工厂
 	 */
 	SqlFragmentFactory getSqlFragmentFactory();
+	
+	/**
+	 * @return model 属性
+	 */
+	ModelProperty getModelProperty();
+	
+	/**
+	 * @param modelProperty model的属性操作
+	 */
+	void setModelProperty(ModelProperty modelProperty);
 	
 }

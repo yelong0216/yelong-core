@@ -3,7 +3,7 @@
  */
 package org.yelong.core.model.resolve;
 
-import org.yelong.core.model.Model;
+import org.yelong.core.model.Modelable;
 
 /**
  * 模型解析器
@@ -17,6 +17,6 @@ public interface ModelResolver {
 	 * @param modelClass 模型类
 	 * @return 模型与表映射
 	 */
-	<M extends Model> ModelAndTable resolve(Class<M> modelClass) throws ModelResolveException;
+	<M extends Modelable> ModelAndTable resolve(Class<M> modelClass) throws ModelResolveException;
 	
 }

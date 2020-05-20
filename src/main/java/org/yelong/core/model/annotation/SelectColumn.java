@@ -31,4 +31,9 @@ public @interface SelectColumn {
 	 */
 	String column() default "";
 	
+	/**
+	 * 是否在查询后映射到model的字段上。
+	 * @return <tt>true</tt> 映射
+	 */
+	boolean mapping() default true;
 }

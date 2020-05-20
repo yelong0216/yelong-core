@@ -6,7 +6,7 @@ package org.yelong.core.model.service;
 import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.yelong.core.model.Model;
+import org.yelong.core.model.Modelable;
 import org.yelong.core.model.ModelNullProperty;
 import org.yelong.core.model.sql.SqlModel;
 
@@ -23,7 +23,7 @@ public interface SqlModelService extends ModelService{
 	 * @param sqlModel sql model 这只会取 sqlModel的条件部分
 	 * @return 删除的记录数
 	 */
-	<M extends Model , S extends SqlModel> Integer removeBySqlModel(Class<M> modelClass, S sqlModel);
+	<M extends Modelable , S extends SqlModel> Integer removeBySqlModel(Class<M> modelClass, S sqlModel);
 
 	/**
 	 * 根据指定的sql和条件sql删除记录
@@ -33,7 +33,7 @@ public interface SqlModelService extends ModelService{
 	 * @param sqlModel sql model 这只会取 sqlModel的条件部分
 	 * @return 删除的记录数
 	 */
-	<M extends Model , S extends SqlModel> Integer removeBySqlModel(String sql, S sqlModel);
+	<M extends Modelable , S extends SqlModel> Integer removeBySqlModel(String sql, S sqlModel);
 
 	/**
 	 * 根据指定sql条件修改model
@@ -43,7 +43,7 @@ public interface SqlModelService extends ModelService{
 	 * @param sqlModel sql model 这只会取 sqlModel的条件部分
 	 * @return 修改的记录数
 	 */
-	<M extends Model , S extends SqlModel> Integer modifyBySqlModel(M model, S sqlModel);
+	<M extends Modelable , S extends SqlModel> Integer modifyBySqlModel(M model, S sqlModel);
 	
 	/**
 	 * 可选择性的修改model
@@ -56,7 +56,7 @@ public interface SqlModelService extends ModelService{
 	 * @param sqlModel sql model 这只会取 sqlModel的条件部分
 	 * @return 修改的记录数
 	 */
-	<M extends Model , S extends SqlModel> Integer modifySelectiveBySqlModel(M model, S sqlModel);
+	<M extends Modelable , S extends SqlModel> Integer modifySelectiveBySqlModel(M model, S sqlModel);
 	
 	/**
 	 * 根据指定的sql、参数和条件修改model
@@ -67,7 +67,7 @@ public interface SqlModelService extends ModelService{
 	 * @param sqlModel 条件model
 	 * @return 修改的记录数
 	 */
-	<M extends Model , S extends SqlModel> Integer modifyBySqlModel(String sql, Object [] params , S sqlModel);
+	<M extends Modelable , S extends SqlModel> Integer modifyBySqlModel(String sql, Object [] params , S sqlModel);
 	
 	/**
 	 * 根据sql model 的条件查询model的记录数
@@ -77,7 +77,7 @@ public interface SqlModelService extends ModelService{
 	 * @param sqlModel sql model 这只会取 sqlModel的条件部分
 	 * @return 符合条件的记录数
 	 */
-	<M extends Model , S extends SqlModel> Long countBySqlModel(Class<M> modelClass, S sqlModel);
+	<M extends Modelable , S extends SqlModel> Long countBySqlModel(Class<M> modelClass, S sqlModel);
 	
 	/**
 	 * 根据指定的sql和条件查询model的记录数
@@ -87,7 +87,7 @@ public interface SqlModelService extends ModelService{
 	 * @param sqlModel sql model 这只会取 sqlModel的条件部分
 	 * @return 符合条件的记录数
 	 */
-	<M extends Model , S extends SqlModel> Long countBySqlModel(String sql, S sqlModel);
+	<M extends Modelable , S extends SqlModel> Long countBySqlModel(String sql, S sqlModel);
 	
 	/**
 	 * 根据条件查询是否有符合该条件的记录
@@ -97,7 +97,7 @@ public interface SqlModelService extends ModelService{
 	 * @param sqlModel sql model 这只会取 sqlModel的条件部分
 	 * @return <tt>true</tt> 存在
 	 */
-	default <M extends Model , S extends SqlModel> boolean existBySqlModel(Class<M> modelClass, S sqlModel) {
+	default <M extends Modelable , S extends SqlModel> boolean existBySqlModel(Class<M> modelClass, S sqlModel) {
 		return countBySqlModel(modelClass, sqlModel) > 0;
 	}
 	
@@ -109,7 +109,7 @@ public interface SqlModelService extends ModelService{
 	 * @param sqlModel sql model 这只会取 sqlModel的条件部分
 	 * @return <tt>true</tt> 存在
 	 */
-	default <M extends Model , S extends SqlModel> boolean existBySqlModel(String sql, S sqlModel) {
+	default <M extends Modelable , S extends SqlModel> boolean existBySqlModel(String sql, S sqlModel) {
 		return countBySqlModel(sql, sqlModel) > 0;
 	}
 	
@@ -121,7 +121,7 @@ public interface SqlModelService extends ModelService{
 	 * @param sqlModel sql model 这会取 sqlModel的条件和排序部分
 	 * @return model list
 	 */
-	<M extends Model , S extends SqlModel> List<M> findBySqlModel(Class<M> modelClass, S sqlModel);
+	<M extends Modelable , S extends SqlModel> List<M> findBySqlModel(Class<M> modelClass, S sqlModel);
 	
 	/**
 	 * 根据条件查询model的第一条记录
@@ -131,7 +131,7 @@ public interface SqlModelService extends ModelService{
 	 * @param sqlModel sql model 这会取 sqlModel的条件和排序部分
 	 * @return 符合条件的第一个model 。如果不存在则返回null
 	 */
-	default <M extends Model , S extends SqlModel> M findFirstBySqlModel(Class<M> modelClass, S sqlModel){
+	default <M extends Modelable , S extends SqlModel> M findFirstBySqlModel(Class<M> modelClass, S sqlModel){
 		List<M> modelList = findBySqlModel(modelClass,sqlModel);
 		if(CollectionUtils.isEmpty(modelList)) {
 			return null;
@@ -148,7 +148,7 @@ public interface SqlModelService extends ModelService{
 	 * @param sqlModel sql model 这会取 sqlModel的条件和排序部分
 	 * @return model list
 	 */
-	<M extends Model , S extends SqlModel> List<M> findBySqlModel(Class<M> modelClass,String sql, S sqlModel);
+	<M extends Modelable , S extends SqlModel> List<M> findBySqlModel(Class<M> modelClass,String sql, S sqlModel);
 	
 	/**
 	 * 根据指定的sql和条件查询model的第一条记录
@@ -159,7 +159,7 @@ public interface SqlModelService extends ModelService{
 	 * @param sqlModel sql model 这会取 sqlModel的条件和排序部分
 	 * @return model
 	 */
-	default <M extends Model , S extends SqlModel> M findFirstBySqlModel(Class<M> modelClass,String sql, S sqlModel){
+	default <M extends Modelable , S extends SqlModel> M findFirstBySqlModel(Class<M> modelClass,String sql, S sqlModel){
 		List<M> modelList = findBySqlModel(modelClass,sql,sqlModel);
 		if(CollectionUtils.isEmpty(modelList)) {
 			return null;
@@ -177,7 +177,7 @@ public interface SqlModelService extends ModelService{
 	 * @param pageSize 页面大小
 	 * @return model list
 	 */
-	<M extends Model , S extends SqlModel> List<M> findPageBySqlModel(Class<M> modelClass, S sqlModel, int pageNum ,int pageSize);
+	<M extends Modelable , S extends SqlModel> List<M> findPageBySqlModel(Class<M> modelClass, S sqlModel, int pageNum ,int pageSize);
 	
 	/**
 	 * 根据指定的sql和条件分页查询model的记录
@@ -190,6 +190,6 @@ public interface SqlModelService extends ModelService{
 	 * @param pageSize 页面大小
 	 * @return model list
 	 */
-	<M extends Model , S extends SqlModel> List<M> findPageBySqlModel(Class<M> modelClass , String sql, S sqlModel, int pageNum ,int pageSize);
+	<M extends Modelable , S extends SqlModel> List<M> findPageBySqlModel(Class<M> modelClass , String sql, S sqlModel, int pageNum ,int pageSize);
 	
 }

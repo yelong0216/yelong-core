@@ -6,12 +6,15 @@ package org.yelong.core.model;
 /**
  * 模型的配置
  * @author PengFei
+ * @deprecated 1.1.0
  */
+@Deprecated
 public class ModelProperties {
 
 	/**
 	 * 数据库方言
 	 */
+	@Deprecated
 	private String databaseDialect;
 	
 	/**

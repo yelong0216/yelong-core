@@ -6,7 +6,7 @@ package org.yelong.core.model.resolve;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import org.yelong.core.model.Model;
+import org.yelong.core.model.Modelable;
 
 /**
  * 模型与表的映射信息
@@ -19,7 +19,7 @@ public interface ModelAndTable {
 	 * @param <M> 模型
 	 * @return model.getClass()
 	 */
-	<M extends Model> Class<M> getModelClass();
+	<M extends Modelable> Class<M> getModelClass();
 	
 	/**
 	 * @return model 对应的表名

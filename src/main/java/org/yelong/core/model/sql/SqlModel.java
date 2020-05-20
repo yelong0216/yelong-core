@@ -14,6 +14,7 @@ import java.util.Map;
 import org.yelong.core.annotation.Nullable;
 import org.yelong.core.jdbc.sql.condition.support.Condition;
 import org.yelong.core.model.Model;
+import org.yelong.core.model.Modelable;
 
 /**
  * 支持sql化的模型
@@ -32,9 +33,9 @@ public class SqlModel extends Model{
 
 	private final List<Condition> conditions = new ArrayList<>();
 	
-	private final Class<? extends Model> modelClass;
+	private final Class<? extends Modelable> modelClass;
 	
-	private final Model model;
+	private final Modelable model;
 	
 	/**
 	 * 指定sql model为其本身
@@ -48,7 +49,7 @@ public class SqlModel extends Model{
 	 * 指定该sql model属于那个model。
 	 * @param modelClass
 	 */
-	public SqlModel(Class<? extends Model> modelClass) {
+	public SqlModel(Class<? extends Modelable> modelClass) {
 		this.modelClass = modelClass;
 		this.model = null;
 	}
@@ -56,7 +57,7 @@ public class SqlModel extends Model{
 	/**
 	 * @param model 指定model实体
 	 */
-	public SqlModel( Model model ) {
+	public SqlModel( Modelable model ) {
 		if( model.getClass() == SqlModel.class ) {
 			throw new UnsupportedOperationException("指定的model不能是SqlModel！");
 		}
@@ -318,7 +319,7 @@ public class SqlModel extends Model{
 	 * 如果{@link #modelClass} != null 则返回{@link #modelClass} ，否则返回{@link #getClass()}
 	 * @return modelClass
 	 */
-	public Class<? extends Model> getModelClass() {
+	public Class<? extends Modelable> getModelClass() {
 		return modelClass != null ? modelClass : getClass();
 	}
 	
@@ -327,7 +328,7 @@ public class SqlModel extends Model{
 	 * @return model实体
 	 * @since 1.0.5
 	 */
-	public Model getModel() {
+	public Modelable getModel() {
 		return model != null ? model : this;
 	}
 	

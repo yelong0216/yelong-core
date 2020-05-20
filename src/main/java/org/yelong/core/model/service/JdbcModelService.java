@@ -11,14 +11,14 @@ import org.yelong.commons.util.map.MapBeanConverter;
 import org.yelong.core.jdbc.BaseDataBaseOperation;
 import org.yelong.core.jdbc.sql.BoundSql;
 import org.yelong.core.jdbc.sql.executable.SelectSqlFragment;
-import org.yelong.core.model.Model;
 import org.yelong.core.model.ModelConfiguration;
+import org.yelong.core.model.Modelable;
 import org.yelong.core.model.exception.ModelException;
 
 /**
  * @author PengFei
  */
-public class JdbcModelService extends AbstractModelService{
+public class JdbcModelService extends AbstractSqlModelService{
 
 	private BaseDataBaseOperation db;
 
@@ -40,7 +40,7 @@ public class JdbcModelService extends AbstractModelService{
 	}
 
 	@Override
-	public <M extends Model> List<M> execute(Class<M> modelClass, SelectSqlFragment selectSqlFragment) {
+	public <M extends Modelable> List<M> execute(Class<M> modelClass, SelectSqlFragment selectSqlFragment) {
 		BoundSql boundSql = selectSqlFragment.getBoundSql();
 		if(selectSqlFragment.isPage()) {
 			boundSql = getModelConfiguration().getDialect().page(boundSql, selectSqlFragment.getPageNum(), selectSqlFragment.getPageSize());

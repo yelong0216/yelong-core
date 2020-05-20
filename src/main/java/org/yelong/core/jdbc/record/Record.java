@@ -3,62 +3,88 @@
  */
 package org.yelong.core.jdbc.record;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Supplier;
+
+import org.yelong.commons.util.map.MapWrapper;
 
 /**
- * 数据库记录映射。代表数据库中一条记录
- * 
- * 所有 get... 方法遵循以下规则： 
- * 1、column与记录列名对应，则返回对应的列名值
- * 2、未找到column对应的列，将column转换至大写在尝试获取列值 
- * 3、仍为找到column对应的列，将column驼峰转换为下划线后尝试列值
- * 4、3中仍未找到column对应的列，将column驼峰转换为下划线且大写后尝试获取列值 
- * 5、均未找到则视为不存在此列
+ * 记录，对应数据中的一条记录
  * 
  * @author PengFei
+ * @since 1.1.0
  */
-public interface Record {
+public class Record extends MapWrapper<String, Object> implements Serializable{
 
-	/**
-	 * @return columns map
-	 */
-	Map<String, Object> getColumns();
+	private static final long serialVersionUID = 1474695239634500326L;
 
+	public Record() {
+		this(LinkedHashMap::new);
+	}
+	
+	public Record(Supplier<Map<String,Object>> mapFactory) {
+		this(mapFactory.get());
+	}
+
+	public Record(Map<String,Object> map) {
+		super(map);
+	}
+	
 	/**
 	 * @param columns value with map.
 	 * @return this
 	 */
-	Record setColumns(Map<String, Object> columns);
-
-	/**
-	 * @param the Record object
-	 * @return this
-	 */
-	Record setColumns(Record record);
+	public Record setColumns(Map<String, Object> columns) {
+		super.putAll(columns);
+		return this;
+	}
 
 	/**
 	 * @param column the column name of the record
 	 * @return this
 	 */
-	Record remove(String column);
+	public Record remove(String column) {
+		super.remove(column);
+		return this;
+	}
 
 	/**
 	 * @param columns the column names of the record
 	 * @return this
 	 */
-	Record remove(String... columns);
+	public Record remove(String... columns) {
+		if( null != columns ) {
+			for (String column : columns) {
+				remove(column);
+			}
+		}
+		return this;
+	}
 
 	/**
 	 * 移除所有null的列 Remove columns if it is null
 	 * 
 	 * @return this
 	 */
-	Record removeNullValueColumns();
+	public Record removeNullValueColumns() {
+		for (java.util.Iterator<Entry<String, Object>> it = super.entrySet().iterator(); it.hasNext();) {
+			Entry<String, Object> e = it.next();
+			if (e.getValue() == null) {
+				it.remove();
+			}
+		}
+		return this;
+	}
 
 	/**
 	 * 只留下 columns 列，其余列将被清除
@@ -66,7 +92,20 @@ public interface Record {
 	 * @param columns the column names of the record
 	 * @return this
 	 */
-	Record keep(String... columns);
+	public Record keep(String... columns) {
+		if (columns != null && columns.length > 0) {
+			Map<String, Object> newColumns = new HashMap<String, Object>(columns.length);	// getConfig().containerFactory.getColumnsMap();
+			for (String c : columns)
+				if (super.containsKey(c))	// prevent put null value to the newColumns
+					newColumns.put(c, super.get(c));
+			
+			super.clear();
+			super.putAll(newColumns);
+		}
+		else
+			super.clear();
+		return this;
+	}
 
 	/**
 	 * 只留下 column 列，其余列将被清除
@@ -74,14 +113,16 @@ public interface Record {
 	 * @param column the column names of the record
 	 * @return this
 	 */
-	Record keep(String column);
-
-	/**
-	 * 清空记录 Remove all columns of this record.
-	 * 
-	 * @return this
-	 */
-	Record clear();
+	public Record keep(String column) {
+		if (super.containsKey(column)) {	// prevent put null value to the newColumns
+			Object keepIt = super.get(column);
+			super.clear();
+			super.put(column, keepIt);
+		}
+		else
+			super.clear();
+		return this;
+	}
 
 	/**
 	 * 设置列到记录中
@@ -90,7 +131,10 @@ public interface Record {
 	 * @param value  这个列的值
 	 * @return this
 	 */
-	Record set(String column, Object value);
+	public Record set(String column, Object value) {
+		super.put(column, value);
+		return this;
+	}
 
 	/**
 	 * 获取 column 列对应的值。如果不存在则返回null
@@ -99,7 +143,10 @@ public interface Record {
 	 * @param column 列名
 	 * @return 该列对应的值
 	 */
-	<T> T get(String column);
+	@SuppressWarnings("unchecked")
+	public <T> T get(String column) {
+		return (T) super.get(column);
+	}
 
 	/**
 	 * 获取 column 列对应的值。如果不存在则返回 defaultValue
@@ -109,58 +156,123 @@ public interface Record {
 	 * @param defaultValue 不存在该列时返回的默认值
 	 * @return column 列对应的值
 	 */
-	<T> T get(String column, T defaultValue);
+	public <T> T get(String column, T defaultValue) {
+		T value = get(column);
+		return value != null ? value : defaultValue;
+	}
 
-	Object getObject(String column);
+	/**
+	 * @param column       列名
+	 * @return column 列对应的值(Object 类型)
+	 */
+	public Object getObject(String column) {
+		return get(column);
+	}
 
 	/**
 	 * @param column       列名
 	 * @param defaultValue 不存在该列时返回的默认值
 	 * @return column 列对应的值(Object 类型)
 	 */
-	Object getObject(String column, Object defaultValue);
+	public Object getObject(String column, Object defaultValue) {
+		Object value = getObject(column);
+		return value != null ? value : defaultValue;
+	}
 
 	/**
 	 * @param column 列名
 	 * @return {@link #getObject(String)#toString()}
 	 */
-	String getString(String column);
+	public String getString(String column) {
+		Object value = getObject(column);
+		return value != null ? value.toString() : null;
+	}
 
 	/**
 	 * @param column 列名
-	 * @return {@link #getNumber(String)#byteValue()}
+	 * @return {@link #getNumber(String)#intValue()}
 	 */
-	Byte getByte(String column);
-
-	/**
-	 * @param column 列名
-	 * @return {@link #getNumber(String)#shortValue()}
-	 */
-	Short getShort(String column);
-
-	/**
-	 * @param column 列名
-	 * @return column {@link #getNumber(String)#intValue()}
-	 */
-	Integer getInt(String column);
+	public Integer getInt(String column) {
+		Number number = getNumber(column);
+		return number != null ? number.intValue() : null;
+	}
 
 	/**
 	 * @param column 列名
 	 * @return {@link #getNumber(String)#longValue()}
 	 */
-	Long getLong(String column);
+	public Long getLong(String column) {
+		Number number = getNumber(column);
+		return number != null ? number.longValue() : null;
+	}
 
 	/**
 	 * @param column 列名
-	 * @return {@link #getNumber(String)#floatValue()}
+	 * @return {@link (BigInteger)#getObject(String)}
 	 */
-	Float getFloat(String column);
+	public BigInteger getBigInteger(String column) {
+		return (BigInteger) getObject(column);
+	}
+
+	/**
+	 * @param column 列名
+	 * @return {@link (Date)#getObject(String)}
+	 */
+	public Date getDate(String column) {
+		return (Date) getObject(column);
+	}
+
+	/**
+	 * @param column 列名
+	 * @return {@link (Time)#getObject(String)}
+	 */
+	public Time getTime(String column) {
+		return (Time) getObject(column);
+	}
+
+	/**
+	 * @param column 列名
+	 * @return {@link (Timestamp)#getObject(String)}
+	 */
+	public Timestamp getTimestamp(String column) {
+		return (Timestamp) getObject(column);
+	}
 
 	/**
 	 * @param column 列名
 	 * @return {@link #getNumber(String)#doubleValue()}
 	 */
-	Double getDouble(String column);
+	public Double getDouble(String column) {
+		Number number = getNumber(column);
+		return number != null ? number.doubleValue() : null;
+	}
+
+	/**
+	 * @param column 列名
+	 * @return {@link #getNumber(String)#floatValue()}
+	 */
+	public Float getFloat(String column) {
+		Number number = getNumber(column);
+		return number != null ? number.floatValue() : null;
+	}
+
+	/**
+	 * @param column 列名
+	 * @return {@link #getNumber(String)#shortValue()}
+	 */
+	public Short getShort(String column) {
+		Number number = getNumber(column);
+		return number != null ? number.shortValue() : null;
+	}
+
+	/**
+	 * @param column 列名
+	 * @return {@link #getNumber(String)#byteValue()}
+	 */
+	public Byte getByte(String column) {
+		Number number = getNumber(column);
+		return number != null ? number.byteValue() : null;
+	}
 
 	/**
 	 * 获取String类型的值，值为1则为true，否则为false 值不存在返回null
@@ -168,43 +280,18 @@ public interface Record {
 	 * @param column 列名
 	 * @return {@link #getString(String)#equals("1")}
 	 */
-	Boolean getBoolean(String column);
-
-	/**
-	 * @param column 列名
-	 * @return {@link (BigInteger)#getObject(String)}
-	 */
-	BigInteger getBigInteger(String column);
+	public Boolean getBoolean(String column) {
+		String value = getString(column);
+		return value != null ? value.equals("1") : null;
+	}
 
 	/**
 	 * @param column 列名
 	 * @return {@link (BigDecimal)#getObject(String)}
 	 */
-	BigDecimal getBigDecimal(String column);
-
-	/**
-	 * @param column 列名
-	 * @return {@link (Number)#getObject(String)}
-	 */
-	Number getNumber(String column);
-
-	/**
-	 * @param column 列名
-	 * @return {@link (Date)#getObject(String)}
-	 */
-	Date getDate(String column);
-
-	/**
-	 * @param column 列名
-	 * @return {@link (Time)#getObject(String)}
-	 */
-	Time getTime(String column);
-
-	/**
-	 * @param column 列名
-	 * @return {@link (Timestamp)#getObject(String)}
-	 */
-	Timestamp getTimestamp(String column);
+	public BigDecimal getBigDecimal(String column) {
+		return (BigDecimal) getObject(column);
+	}
 
 	/**
 	 * 支持类型 blob
@@ -212,31 +299,48 @@ public interface Record {
 	 * @param column 列名
 	 * @return {@link (byte[])#getObject(String)}
 	 */
-	byte[] getBytes(String column);
+	public byte[] getBytes(String column) {
+		return (byte[]) getObject(column);
+	}
 
 	/**
-	 * @return {column:value,...}
+	 * @param column 列名
+	 * @return {@link (Number)#getObject(String)}
 	 */
-	String toString();
-
-	/**
-	 * @param o
-	 * @return o == this || o.getColumns().equals(getColumns())
-	 */
-	boolean equals(Object o);
-
-	/**
-	 * @return getColumns().hashCode()
-	 */
-	int hashCode();
+	public Number getNumber(String column) {
+		return (Number) getObject(column);
+	}
 
 	/**
 	 * @return 所有列名称
 	 */
-	String[] getColumnNames();
+	public String[] getColumnNames() {
+		Set<String> columnNameSet = super.keySet();
+		return columnNameSet.toArray(new String[columnNameSet.size()]);
+	}
 
 	/**
 	 * @return 所有列值
 	 */
-	Object[] getColumnValues();
+	public Object[] getColumnValues() {
+		Collection<Object> columnValueCollection = super.values();
+		return columnValueCollection.toArray(new Object[columnValueCollection.size()]);
+	}
+	
+	/**
+	 * @param obj
+	 * @return obj == this || obj.getColumns().equals(getColumns())
+	 */
+	public boolean equals(Object obj) {
+		if( !( obj instanceof Record )) {
+			return false;
+		}
+		return obj == this || ((Record)obj).getMap().equals(this.getMap());
+	}
+	
+	@Override
+	public int hashCode() {
+		return getMap().hashCode();
+	}
+
 }
