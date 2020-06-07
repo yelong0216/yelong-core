@@ -26,10 +26,21 @@ public class Plugin implements InvocationHandler{
 	}
 
 	public static Object wrap(Object target, Interceptor interceptor) {
+		return wrap(target, interceptor, target.getClass().getInterfaces());
+	}
+	
+	/**
+	 * target 如果是代理对象的话，无法从target中获取其实现类，需要手动设置
+	 * 
+	 * @param target 源
+	 * @param interceptor 拦截器
+	 * @param interfaces 实现的接口数组
+	 * @return 代理后的对象
+	 */
+	public static Object wrap(Object target, Interceptor interceptor , Class<?>[] interfaces) {
 		Map<Class<?>, Set<Method>> signatureMap = getSignatureMap(interceptor);
 		Class<?> type = target.getClass();
 		//		Class<?>[] interfaces = getAllInterfaces(type, signatureMap);
-		Class<?>[] interfaces = type.getInterfaces();//获取实现类的所有接口
 		if (interfaces.length > 0) {
 			return Proxy.newProxyInstance(
 					type.getClassLoader(),

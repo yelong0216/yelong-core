@@ -14,6 +14,7 @@ import org.yelong.core.jdbc.sql.sort.AbstractSortSqlFragment;
 /**
  * 默认排序实现<br/>
  * 默认添加排序验证器
+ * 
  * @author PengFei
  */
 public class DefaultSortSqlFragment extends AbstractSortSqlFragment{
@@ -59,7 +60,8 @@ public class DefaultSortSqlFragment extends AbstractSortSqlFragment{
 		}
 		
 		/**
-		 * 根据排序方向获取排序方向对象<br/>
+		 * 根据排序方向获取排序方向对象
+		 * 
 		 * @param direction 排序方向
 		 * @return <tt>true</tt> 排序方向的对象
 		 */
@@ -74,6 +76,7 @@ public class DefaultSortSqlFragment extends AbstractSortSqlFragment{
 		
 		/**
 		 * 测试是否存在此排序方向
+		 * 
 		 * @param direction 排序方向
 		 * @return <tt>true</tt>如果存在此排序方向
 		 */

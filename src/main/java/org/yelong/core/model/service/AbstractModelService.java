@@ -3,7 +3,6 @@
  */
 package org.yelong.core.model.service;
 
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,9 +21,9 @@ import org.yelong.core.jdbc.sql.executable.InsertSqlFragment;
 import org.yelong.core.jdbc.sql.executable.SelectSqlFragment;
 import org.yelong.core.jdbc.sql.executable.UpdateSqlFragment;
 import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
-import org.yelong.core.model.Modelable;
 import org.yelong.core.model.ModelConfiguration;
 import org.yelong.core.model.ModelNullProperty;
+import org.yelong.core.model.Modelable;
 import org.yelong.core.model.exception.ModelException;
 import org.yelong.core.model.exception.PrimaryKeyException;
 import org.yelong.core.model.property.ModelProperty;
@@ -35,6 +34,7 @@ import org.yelong.core.model.sql.ModelSqlFragmentFactory;
 
 /**
  * 抽象的modelService实现
+ * 
  * @author PengFei
  */
 public abstract class AbstractModelService extends AbstractSqlFragmentExecutor implements ModelService{
@@ -118,13 +118,13 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	public <M extends Modelable> Long countByCondition(Class<M> modelClass, ConditionSqlFragment conditionFragment) {
 		return count(modelClass, conditionFragment);
 	}
+	
 	/**
 	 * 
 	 * @param <M>
 	 * @param model
 	 * @param selective 可选择性
-	 * @return
-	 * @throws SQLException
+	 * @return 修改的结果
 	 */
 	protected <M extends Modelable> boolean modify(M model , boolean selective){
 		FieldAndColumn fieldAndColumn = getOnlyPrimaryKey(model.getClass());
@@ -231,11 +231,12 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	
 	/**
 	 * 保存
-	 * @param <M>
-	 * @param <A>
-	 * @param model 保存的模块
-	 * @param attributeFragment 属性sql片段
-	 * @return
+	 * 
+	 * @param <M> model type
+	 * @param model model
+	 * @param selective 可选择性
+	 * @param modelColumnValidateWay 验证模式
+	 * @return 响应的记录数
 	 */
 	protected <M extends Modelable> Integer save(M model, boolean selective, ModelColumnValidateWay modelColumnValidateWay){
 		AttributeSqlFragment attributeSqlFragment = createAttributeFragment(model, DataBaseOperationType.INSERT, selective, modelColumnValidateWay);
@@ -245,11 +246,12 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	
 	/**
 	 * 删除
-	 * @param <M>
-	 * @param <C>
-	 * @param modelClass
+	 * 
+	 * @param <M> model type
+	 * @param <C> conditionSqlFragment type
+	 * @param modelClass model class
 	 * @param conditionFragment 条件
-	 * @return
+	 * @return 删除的记录数
 	 */
 	protected <M extends Modelable, C extends ConditionSqlFragment> Integer remove(Class<M> modelClass,@Nullable C conditionFragment) {
 		DeleteSqlFragment deleteSqlFragment = getModelSqlFragmentFactory().createDeleteSqlFragment(modelClass);
@@ -261,11 +263,12 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	
 	/**
 	 * 查询记录
-	 * @param <M>
-	 * @param <C>
-	 * @param modelClass
+	 * 
+	 * @param <M> model type
+	 * @param <C> conditionSqlFragment type
+	 * @param modelClass model class
 	 * @param conditionFragment 条件
-	 * @return
+	 * @return 查询的记录数
 	 */
 	protected <M extends Modelable, C extends ConditionSqlFragment> Long count(Class<M> modelClass,@Nullable C conditionFragment) {
 		CountSqlFragment countSqlFragment = getModelSqlFragmentFactory().createCountSqlFragment(modelClass);
@@ -277,12 +280,14 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	
 	/**
 	 * 修改
-	 * @param <M>
-	 * @param <C>
-	 * @param model
+	 * 
+	 * @param <M> model type
+	 * @param <C> conditionSqlFragment type
+	 * @param model model
+	 * @param selective 选择性
 	 * @param attributeFragment 属性
 	 * @param condintionFragment 条件
-	 * @return
+	 * @return 修改的记录数
 	 */
 	protected <M extends Modelable, C extends ConditionSqlFragment> Integer modify(M model, boolean selective,
 			ModelColumnValidateWay modelColumnValidateWay,@Nullable C conditionFragment) {
@@ -297,15 +302,13 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	}
 	
 	/**
-	 * 
-	 * @param <M>
-	 * @param modelClass
+	 * @param <M> model type
+	 * @param modelClass model class
 	 * @param conditionFragment 条件
 	 * @param sortFragment 排序
 	 * @param pageNum 记录数量
 	 * @param pageSize 页码
-	 * @return
-	 * @throws SQLException
+	 * @return model list
 	 */
 	protected <M extends Modelable> List<M> find(Class<M> modelClass,@Nullable ConditionSqlFragment conditionFragment,
 			@Nullable SortSqlFragment sortFragment, @Nullable Integer pageNum,@Nullable Integer pageSize){
@@ -325,14 +328,14 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	/**
 	 * 创建属性sql
 	 * 如果是可选择性的，则根据{@link ModelNullProperty}来判断是属性是否保存或修改为null
-	 * @param <M> model
-	 * @param <A> attributeFragment
-	 * @param model 
+	 * 
+	 * @param <M> model type
+	 * @param model model
 	 * @param dataBaseOperationType sql类型
 	 * @param selective 可选择性：为空则不进行修改或者保存
 	 * @param modelColumnValidateWay model列验证方式
 	 * @param attributeFragmentFactory 属性sql片段工厂
-	 * @return
+	 * @return {@link AttributeSqlFragment}
 	 */
 	protected <M extends Modelable> AttributeSqlFragment createAttributeFragment(M model ,
 			 DataBaseOperationType dataBaseOperationType ,boolean selective , ModelColumnValidateWay modelColumnValidateWay) {
@@ -371,11 +374,11 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	/**
 	 * 验证列属性。
 	 * 验证是否非空、字段长度是否符合
-	 * @param modelFieldColumn
-	 * @param value
-	 * @throws ModelException
+	 * 
+	 * @param modelFieldColumn 字段与列
+	 * @param value value
 	 */
-	protected void validFieldAndColumn( FieldAndColumn fieldAndColumn , Object value ) throws ModelException{
+	protected void validFieldAndColumn( FieldAndColumn fieldAndColumn , Object value ){
 		if( null == value ) {
 			if( !fieldAndColumn.isAllowNull() ) {
 				throw new ModelException("列:"+fieldAndColumn.getColumn()+"不支持为null");

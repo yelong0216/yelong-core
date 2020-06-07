@@ -6,9 +6,11 @@ package org.yelong.core.model.resolve;
 import java.lang.reflect.Field;
 
 import org.yelong.core.annotation.test.NotImplemented;
+import org.yelong.core.model.exception.NotExtendColumnException;
 
 /**
  * 字段与列的映射信息
+ * 
  * @author PengFei
  */
 public interface FieldAndColumn {
@@ -41,12 +43,14 @@ public interface FieldAndColumn {
 	/**
 	 * 获取该字段查询时映射的列名称。
 	 * 字段在增删改和查询可能映射不同的列
+	 * 
 	 * @return 字段查询时映射的列名称
 	 */
 	String getSelectColumn();
 	
 	/**
 	 * 获取列映射的条件。根据某些条件可以选择性的映射这些列
+	 * 
 	 * @return 是否进行映射列的条件对象
 	 */
 	@NotImplemented
@@ -61,12 +65,23 @@ public interface FieldAndColumn {
 	/**
 	 * 该列是否是拓展列。
 	 * 拓展列：此列不在当前表中，这可能是关联表查询的列
+	 * 
 	 * @return <tt>true</tt> 是拓展列
 	 */
 	boolean isExtend();
 	
 	/**
+	 * 获取这个列的拓展列属性
+	 * 
+	 * @return 这个列的拓展列属性
+	 * @throws NotExtendColumnException 如果这个列不是一个拓展列 {@link #isExtend() == false}
+	 * @since 1.2.0
+	 */
+	ExtendColumnAttribute getExtendColumnAttribute() throws NotExtendColumnException;
+	
+	/**
 	 * 是否是主键
+	 * 
 	 * @return <tt>true</tt> 是主键
 	 */
 	boolean isPrimaryKey();

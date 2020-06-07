@@ -24,7 +24,7 @@ public class AnnotationMapModelResolver extends AnnotationModelResolver implemen
 	
 	@Override
 	public <M extends Modelable> ModelAndTable resolve(Class<M> modelClass) throws ModelResolveException {
-		if(!MapModel.class.isAssignableFrom(modelClass)) {
+		if(!MapModelable.class.isAssignableFrom(modelClass)) {
 			return super.resolve(modelClass);
 		}
 		ModelClassAnnotation modelClassAnnotation = new ModelClassAnnotation(modelClass);

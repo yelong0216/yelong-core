@@ -10,6 +10,7 @@ import org.yelong.core.annotation.test.NotTest;
 /**
  * 查询列条件。
  * 根据条件判断列是否进行映射
+ * 
  * @author PengFei
  */
 @NotTest

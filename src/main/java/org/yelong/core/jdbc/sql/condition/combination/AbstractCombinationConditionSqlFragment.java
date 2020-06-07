@@ -17,6 +17,7 @@ import org.yelong.core.jdbc.sql.exception.InvalidConditionException;
 
 /**
  * 抽象组合条件片段实现
+ * 
  * @author PengFei
  */
 public abstract class AbstractCombinationConditionSqlFragment extends AbstractConditionSqlFragment implements CombinationConditionSqlFragment { 

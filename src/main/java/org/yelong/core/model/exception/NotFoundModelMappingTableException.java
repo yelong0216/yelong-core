@@ -8,6 +8,7 @@ import org.yelong.core.model.annotation.Table;
 /**
  * 未找到model映射的表<br/>
  * model对象应该使用{@link Table}注解进行标注这是一个model
+ * 
  * @author PengFei
  */
 public class NotFoundModelMappingTableException extends RuntimeException{

@@ -8,8 +8,8 @@ import java.util.Objects;
 
 /**
  * 默认的字段和列实现
+ * 
  * @author PengFei
- * @since 1.0.0
  */
 public class DefaultFieldAndColumn extends AbstractFieldAndColumn{
 	

@@ -6,24 +6,22 @@ package org.yelong.core.model.annotation;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
+@Documented
 @Retention(RUNTIME)
 @Target(TYPE)
 /**
- * 标注在model上面。
- * 替换默认的查询记录语句
+ * 拓展表声明,表声明的类中所有进行映射的字段均视为拓展列
+ * 
+ * 在类级别上，该注解默认应用于声明类。注意，它不适用类层次结构上的子类和父类；
+ * 
  * 
  * @author PengFei
+ * @since
  */
-public @interface Count {
+public @interface ExtendTable {
 
-	/**
-	 * 查询记录的sql。默认： select count(alias.*) from tableName alias
-	 * 
-	 * @return count sql
-	 */
-	String value() default "";
-	
 }

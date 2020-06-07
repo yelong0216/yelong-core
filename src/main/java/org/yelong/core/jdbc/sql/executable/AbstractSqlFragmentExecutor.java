@@ -11,6 +11,7 @@ import org.yelong.core.jdbc.sql.BoundSql;
 
 /**
  * sql片段执行器抽象实现
+ * 
  * @author PengFei
  */
 public abstract class AbstractSqlFragmentExecutor implements SqlFragmentExecutor{

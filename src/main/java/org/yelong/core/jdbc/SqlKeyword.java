@@ -43,6 +43,7 @@ public enum SqlKeyword {
 
 	/**
 	 * 是否存在keyword关键字
+	 * 
 	 * @param keyword 关键字
 	 * @return <tt>true</tt> 如果关键字存在
 	 */

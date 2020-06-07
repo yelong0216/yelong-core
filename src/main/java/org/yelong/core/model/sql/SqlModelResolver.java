@@ -11,10 +11,13 @@ import org.yelong.core.jdbc.sql.condition.support.ConditionResolver;
 import org.yelong.core.jdbc.sql.factory.SqlFragmentFactory;
 import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
 import org.yelong.core.model.property.ModelProperty;
+import org.yelong.core.model.resolve.ExtendColumnAttribute;
+import org.yelong.core.model.resolve.FieldAndColumn;
 import org.yelong.core.model.resolve.ModelAndTableManager;
 
 /**
  * sql model 解析器
+ * 
  * @author PengFei
  */
 public interface SqlModelResolver {
@@ -33,10 +36,12 @@ public interface SqlModelResolver {
 	 * 1、sqlModel中所有映射且非空的列均设置为条件且都已AND连接
 	 * 2、条件默认已“=”为操作符。这个操作符可以通过 {@link SqlModel#addConditionOperator(String, String)}来设置
 	 * 3、如果defaultTableAlias = true，将会在添加条件中默认添加SqlModel映射的表的别名
-	 * 4、sqlModel的拓展属性同样遵循以上原则
-	 * 5、sqlModel的拓展属性如果携带别名(存在“.”)将不会添加默认别名
-	 * 6、拓展字段会覆盖与sqlModel中相同的名称的字段
-	 * 7、{@link Condition}对象可以完成复杂的条件拼接。这个和{@link CombinationConditionSqlFragment}功能相似。具体详见{@link ConditionResolver}
+	 * 4、条件的字段如果是拓展字段{@link FieldAndColumn#isExtend() == true}，则拓展名称的字段为{@link FieldAndColumn#getExtendColumnAttribute()},
+	 * 		{@link ExtendColumnAttribute#getOfTableAlias()},如果这个别名值为空字符时，这个属性不会添加为条件  -- version 1.2.0添加--
+	 * 5、sqlModel的拓展属性同样遵循以上原则
+	 * 6、sqlModel的拓展属性如果携带别名(存在“.”)将不会添加默认别名
+	 * 7、拓展字段会覆盖与sqlModel中相同的名称的字段
+	 * 8、{@link Condition}对象可以完成复杂的条件拼接。这个和{@link CombinationConditionSqlFragment}功能相似。具体详见{@link ConditionResolver}
 	 * 
 	 * 如果sqlModel没有指定的ModelAndTable 将不会具有别名此功能({@link SqlModel#getModelClass()}等于SqlModel.class时)
 	 * 

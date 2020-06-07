@@ -20,6 +20,7 @@ public interface DataDefinitionLanguage {
 	
 	/**
 	 * 创建表。并覆盖之前的表
+	 * 
 	 * @param table 表
 	 * @return 数据操作行数
 	 */
@@ -29,6 +30,7 @@ public interface DataDefinitionLanguage {
 	
 	/**
 	 * 创建表
+	 * 
 	 * @param table 表
 	 * @param override 是否覆盖 <code>true</code>覆盖。 <code>false</code>不覆盖
 	 * @return 数据操作行数
@@ -37,6 +39,7 @@ public interface DataDefinitionLanguage {
 	
 	/**
 	 * 重命名表
+	 * 
 	 * @param table 表
 	 * @param newName 新名称
 	 * @return 数据操作行数
@@ -45,6 +48,7 @@ public interface DataDefinitionLanguage {
 	
 	/**
 	 * 删除表
+	 * 
 	 * @param table 表
 	 * @return 数据操作行数
 	 */
@@ -52,6 +56,7 @@ public interface DataDefinitionLanguage {
 	
 	/**
 	 * 查询指定数据库下面的表
+	 * 
 	 * @param database 数据库
 	 * @return database 数据库下所有的表
 	 */
@@ -59,6 +64,7 @@ public interface DataDefinitionLanguage {
 	
 	/**
 	 * 查询指定数据库下的表信息
+	 * 
 	 * @param database 数据库
 	 * @param tableName 表
 	 * @return 表信息
@@ -67,6 +73,7 @@ public interface DataDefinitionLanguage {
 	
 	/**
 	 * 添加一个列
+	 * 
 	 * @param column 列
 	 * @return 数据操作行数
 	 */
@@ -74,6 +81,7 @@ public interface DataDefinitionLanguage {
 
 	/**
 	 * 删除一个列
+	 * 
 	 * @param column 列
 	 * @return 数据操作行数
 	 */
@@ -81,6 +89,7 @@ public interface DataDefinitionLanguage {
 
 	/**
 	 * 修改一个列
+	 * 
 	 * @param sourceColumn 源列
 	 * @param column 新列
 	 * @return 数据操作行数
@@ -89,6 +98,7 @@ public interface DataDefinitionLanguage {
 
 	/**
 	 * 查询指定表下的列信息
+	 * 
 	 * @param table 表
 	 * @return 列信息
 	 */
@@ -96,6 +106,7 @@ public interface DataDefinitionLanguage {
 	
 	/**
 	 * 查询表下所有主键列
+	 * 
 	 * @param table 表
 	 * @return 表中所有的主键列
 	 */
@@ -103,6 +114,7 @@ public interface DataDefinitionLanguage {
 	
 	/**
 	 * 查询指定表下指定列的信息
+	 * 
 	 * @param table 表
 	 * @param columnName 列名称
 	 * @return 列信息
@@ -111,6 +123,7 @@ public interface DataDefinitionLanguage {
 	
 	/**
 	 * 设置列为主键列
+	 * 
 	 * @param table 表
 	 * @param columnName 列名
 	 * @return 数据操作行数
@@ -119,6 +132,7 @@ public interface DataDefinitionLanguage {
 	
 	/**
 	 * 设置列为主键列
+	 * 
 	 * @param table 表
 	 * @param columnNames 列名
 	 * @return 数据操作行数
@@ -127,6 +141,7 @@ public interface DataDefinitionLanguage {
 	
 	/**
 	 * 删除表中所有主键列
+	 * 
 	 * @param table 表
 	 * @return 数据操作行数
 	 */
@@ -134,6 +149,7 @@ public interface DataDefinitionLanguage {
 	
 	/**
 	 * 删除表中指定列的主键
+	 * 
 	 * @param table 表
 	 * @param columnName 删除的主键列名
 	 * @return 数据操作行数
@@ -142,6 +158,7 @@ public interface DataDefinitionLanguage {
 	
 	/**
 	 * 删除表中指定列的主键
+	 * 
 	 * @param table 表
 	 * @param columnNames 删除的主键列名数组
 	 * @return 数据操作行数

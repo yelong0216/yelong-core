@@ -16,12 +16,14 @@ import java.lang.annotation.Target;
 /**
  * 标注在model上面。
  * 替换默认的 select sql
+ * 
  * @author PengFei
  */
 public @interface Select {
 
 	/**
 	 * 查询语句。默认： select alias.* from tableName alias
+	 * 
 	 * @return select sql
 	 */
 	String value() default "";

@@ -7,6 +7,7 @@ import org.yelong.core.jdbc.sql.factory.SqlFragmentFactory;
 
 /**
  * 抽象的条件解析器实现
+ * 
  * @author PengFei
  */
 public abstract class AbstractConditionResolver implements ConditionResolver{

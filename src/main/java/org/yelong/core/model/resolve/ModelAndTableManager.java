@@ -7,9 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.yelong.core.model.Modelable;
-import org.yelong.core.model.exception.ModelException;
 
 /**
+ * model 管理器
+ * 
+ * 对{@link ModelAndTable}进行单例的管理。
+ * 
  * @author PengFei
  */
 public class ModelAndTableManager {
@@ -24,7 +27,8 @@ public class ModelAndTableManager {
 	
 	/**
 	 * 获取model的模型与表信息
-	 * @param <M>
+	 * 
+	 * @param <M> model type
 	 * @param modelClass 模型类
 	 * @return 模型与表的映射信息
 	 */
@@ -44,16 +48,20 @@ public class ModelAndTableManager {
 	}
 
 	/**
+	 * 获取 model 映射的表名称
+	 * 
+	 * @param <M> model type
 	 * @param modelClass
 	 * @return 表名称
-	 * @throws ModelException
 	 */
 	public <M extends Modelable> String getTableName(Class<M> modelClass){
 		return getModelAndTable(modelClass).getTableName();
 	}
 	
 	/**
-	 * @param <M>
+	 * 获取表的别名
+	 * 
+	 * @param <M> model type
 	 * @param modelClass
 	 * @return 表别名
 	 */

@@ -5,6 +5,7 @@ package org.yelong.core.jdbc.sql.exception;
 
 /**
  * sql片段未初始化异常
+ * 
  * @author PengFei
  */
 public class SqlFragmentNotInitializationException extends RuntimeException{

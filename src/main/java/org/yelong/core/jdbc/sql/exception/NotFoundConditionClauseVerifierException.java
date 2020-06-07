@@ -5,6 +5,7 @@ package org.yelong.core.jdbc.sql.exception;
 
 /**
  * 未定义条件验证器
+ * 
  * @author PengFei
  */
 public class NotFoundConditionClauseVerifierException extends SqlFragmentException{

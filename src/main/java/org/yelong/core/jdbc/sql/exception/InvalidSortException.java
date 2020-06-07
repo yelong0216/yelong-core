@@ -5,6 +5,7 @@ package org.yelong.core.jdbc.sql.exception;
 
 /**
  * 无效的排序异常
+ * 
  * @author PengFei
  */
 public class InvalidSortException extends SqlFragmentException{

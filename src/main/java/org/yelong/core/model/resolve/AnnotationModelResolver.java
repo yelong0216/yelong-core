@@ -86,6 +86,12 @@ public class AnnotationModelResolver implements ModelResolver {
 		return fieldAndColumn;
 	}
 	
+	/**
+	 * field and column 设置属性
+	 * 
+	 * @param fieldAndColumn field and column
+	 * @param modelFieldAnnotation model field annotation
+	 */
 	protected void abstractFieldAndColumnSetProperty(AbstractFieldAndColumn fieldAndColumn , ModelFieldAnnotation modelFieldAnnotation) {
 		fieldAndColumn.setAllowBlank(modelFieldAnnotation.isAllowBlank());
 		fieldAndColumn.setAllowNull(modelFieldAnnotation.isAllowNull());
@@ -98,8 +104,31 @@ public class AnnotationModelResolver implements ModelResolver {
 		fieldAndColumn.setPrimaryKey(modelFieldAnnotation.isPrimaryKey());
 		fieldAndColumn.setSelectColumn(modelFieldAnnotation.getSelectColumnCode());
 		fieldAndColumn.setSelectMapping(modelFieldAnnotation.isSelectMapping());
+		//是拓展列 ，设置拓展列属性
+		if(fieldAndColumn.isExtend()) {
+			fieldAndColumn.setExtendColumnAttribute(getExtendColumnAttribute(fieldAndColumn, modelFieldAnnotation));
+		}
 	}
 	
+	/**
+	 * 获取拓展列属性
+	 * 
+	 * @param modelFieldAnnotation model field 注解属性
+	 * @return 拓展列属性
+	 */
+	protected ExtendColumnAttribute getExtendColumnAttribute(FieldAndColumn fieldAndColumn,ModelFieldAnnotation modelFieldAnnotation) {
+		if(!modelFieldAnnotation.isExtendColumn()) {
+			return null;
+		}
+		return new ExtendColumnAttribute(fieldAndColumn, modelFieldAnnotation.getExtendColumnModelClass(), modelFieldAnnotation.getExtendColumnTableName(), modelFieldAnnotation.getExtendColumnTableAlias());
+	}
+	
+	/**
+	 * model and table 设置属性
+	 * 
+	 * @param modelAndTable model and table 
+	 * @param modelClassAnnotation model class annotation
+	 */
 	protected void abstractModelAndTableSetProperty(AbstractModelAndTable modelAndTable , ModelClassAnnotation modelClassAnnotation) {
 		modelAndTable.setTableAlias(modelClassAnnotation.getTableAlias());
 		modelAndTable.setTableDesc(modelClassAnnotation.getTableDese());

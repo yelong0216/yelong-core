@@ -14,6 +14,7 @@ import org.yelong.core.jdbc.sql.executable.UpdateSqlFragment;
 
 /**
  * 默认的 update sql 实现
+ * 
  * @author PengFei
  */
 public class DefaultUpdateSqlFragment extends AbstractSqlFragmentExecutable implements UpdateSqlFragment{

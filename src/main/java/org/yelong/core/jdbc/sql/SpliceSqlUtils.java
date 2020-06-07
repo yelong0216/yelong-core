@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * 拼接sql工具类
+ * 
  * @author PengFei
  */
 public class SpliceSqlUtils {
@@ -20,6 +21,7 @@ public class SpliceSqlUtils {
 	 * 拼接sql片段<br/>
 	 * 所有sql片段均用" "进行拼接<br/>
 	 * 拼接后的片段前后均不带空格
+	 * 
 	 * @param fragment 片段数组
 	 * @return "fragment1 fragment2 ..."
 	 */

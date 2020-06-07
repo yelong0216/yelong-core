@@ -3,8 +3,11 @@
  */
 package org.yelong.core.model.resolve;
 
+import org.yelong.core.model.exception.NotExtendColumnException;
+
 /**
  * 抽象的字段和列
+ * 
  * @author PengFei
  * @since 1.1.0
  */
@@ -21,6 +24,8 @@ public abstract class AbstractFieldAndColumn implements FieldAndColumn{
 	private boolean allowNull;
 	
 	private boolean extend;
+	
+	private ExtendColumnAttribute extendColumnAttribute;
 	
 	private boolean primaryKey;
 	
@@ -129,6 +134,16 @@ public abstract class AbstractFieldAndColumn implements FieldAndColumn{
 	public void setSelectMapping(boolean selectMapping) {
 		this.selectMapping = selectMapping;
 	}
-	
+
+	public ExtendColumnAttribute getExtendColumnAttribute() {
+		if( !isExtend() ) {
+			throw new NotExtendColumnException(this);
+		}
+		return extendColumnAttribute;
+	}
+
+	public void setExtendColumnAttribute(ExtendColumnAttribute extendColumnAttribute) {
+		this.extendColumnAttribute = extendColumnAttribute;
+	}
 
 }

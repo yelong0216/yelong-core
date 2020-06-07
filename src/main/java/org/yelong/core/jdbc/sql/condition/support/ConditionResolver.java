@@ -11,12 +11,14 @@ import org.yelong.core.jdbc.sql.factory.SqlFragmentFactory;
 
 /**
  * {@link Condition}的解析器
+ * 
  * @author PengFei
  */
 public interface ConditionResolver {
 	
 	/**
 	 * 将一组{@link Condition}解析为{@link CombinationConditionSqlFragment}
+	 * 
 	 * @param conditions 一组条件
 	 * @return {@link CombinationConditionSqlFragment}
 	 * @throws ConditionResolverException 条件解析异常
@@ -25,6 +27,7 @@ public interface ConditionResolver {
 	
 	/**
 	 * 将]{@link Condition}解析为{@link SingleConditionSqlFragment}
+	 * 
 	 * @param condition 条件
 	 * @return {@link SingleConditionSqlFragment}
 	 * @throws ConditionResolverException 条件解析异常
@@ -33,6 +36,7 @@ public interface ConditionResolver {
 
 	/**
 	 * 设置sql片段工厂。
+	 * 
 	 * @param sqlFragmentFactory sql 片段工厂
 	 * @return this
 	 */

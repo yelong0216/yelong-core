@@ -20,6 +20,7 @@ import org.yelong.core.annotation.Nullable;
 
 /**
  * 抽象的数据库操作实现
+ * 
  * @author PengFei
  */
 public abstract class AbstractBaseDataBaseOperation implements BaseDataBaseOperation{
@@ -98,6 +99,7 @@ public abstract class AbstractBaseDataBaseOperation implements BaseDataBaseOpera
 
 	/**
 	 * 创建PreparedStatement 并将占位符替换
+	 * 
 	 * @param conn 连接对象
 	 * @param sql sql语句
 	 * @param params 参数
@@ -118,6 +120,7 @@ public abstract class AbstractBaseDataBaseOperation implements BaseDataBaseOpera
 	
 	/**
 	 * 执行数据库操作之后
+	 * 
 	 * @param conn 连接对象
 	 * @param result 执行结果
 	 * @param operationType 操作类型
@@ -127,6 +130,7 @@ public abstract class AbstractBaseDataBaseOperation implements BaseDataBaseOpera
 	
 	/**
 	 * 执行SQL
+	 * 
 	 * @param sql sql
 	 * @param params 参数 需要的参数在sql中应该用占位符"?"来代替
 	 * @param operationType 操作类型
@@ -134,7 +138,6 @@ public abstract class AbstractBaseDataBaseOperation implements BaseDataBaseOpera
 	 *  1、如果operationType为SELECT则返回一个List&lt;Object&gt;<br/>
 	 *  如果返回行数为多列则将返回一个List&lt;Map&lt;String,Object&gt;&gt;<br/>，其map中键值为列名称，value为其值
 	 *  2、如果operationType不为SELECT则返回一个Integer类型对象
-	 * @throws SQLException 
 	 */
 	public Object execute(String sql ,@Nullable Object [] params , DataBaseOperationType operationType) {
 		try {

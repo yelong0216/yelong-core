@@ -12,6 +12,7 @@ import org.yelong.core.jdbc.sql.exception.InvalidSortException;
 
 /**
  * 抽象的排序sql实现
+ * 
  * @author PengFei
  */
 public abstract class AbstractSortSqlFragment extends AbstractSqlFragment implements SortSqlFragment{

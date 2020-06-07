@@ -5,6 +5,7 @@ package org.yelong.core.model.exception;
 
 /**
  * 主键异常
+ * 
  * @author PengFei
  */
 public class PrimaryKeyException extends ModelException{

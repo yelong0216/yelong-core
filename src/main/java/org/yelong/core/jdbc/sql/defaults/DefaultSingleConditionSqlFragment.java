@@ -12,6 +12,7 @@ import org.yelong.core.jdbc.sql.condition.single.AbstractSingleConditionSqlFragm
 
 /**
  * 默认的单一条件实现
+ * 
  * @author PengFei
  */
 public class DefaultSingleConditionSqlFragment extends AbstractSingleConditionSqlFragment{

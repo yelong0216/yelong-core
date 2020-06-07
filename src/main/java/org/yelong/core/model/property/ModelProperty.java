@@ -18,6 +18,7 @@ public interface ModelProperty {
 
 	/**
 	 * 获取model属性对应的值
+	 * 
 	 * @param model model
 	 * @param property 属性名称
 	 * @return 属性对应的值。
@@ -27,6 +28,7 @@ public interface ModelProperty {
 	
 	/**
 	 * 设置属性值
+	 * 
 	 * @param model model
 	 * @param property 属性名称
 	 * @param value 值

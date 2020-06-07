@@ -11,6 +11,7 @@ import org.yelong.core.jdbc.sql.condition.AbstractConditionSqlFragment;
 
 /**
  * 单一条件语句的抽象实现
+ * 
  * @author PengFei
  */
 public abstract class AbstractSingleConditionSqlFragment extends AbstractConditionSqlFragment implements SingleConditionSqlFragment{

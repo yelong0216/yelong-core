@@ -18,6 +18,7 @@ import org.yelong.core.model.sql.SqlModelResolver;
 
 /**
  * {@link ModelConfiguration}的建造者
+ * 
  * @author PengFei
  */
 public class ModelConfigurationBuilder {
@@ -129,6 +130,7 @@ public class ModelConfigurationBuilder {
 	
 	/**
 	 * 构建模型配置
+	 * 
 	 * @return {@link ModelConfiguration}
 	 */
 	@SuppressWarnings("deprecation")

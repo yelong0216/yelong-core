@@ -27,6 +27,22 @@
 	1、修复AbstractSqlModelService部分没有对sqlModel进行排序处理的方法
 	
 2020-05-20 v-> 1.1.0
-	1、增加ddl
-	2、增加MapModel
+	---原有类新增/删减功能---
+	1、org.yelong.core.jdbc.dialect 包内功能更新，添加DDL、Function等功能。
 	
+	---新增包---
+	1、org.yelong.core.interceptor 拦截器，完全仿照MyBatis的拦截器实现
+	2、org.yelong.core.jdbc.record 数据库记录操作包
+	3、org.yelong.core.jdbc.sql.ddl 数据库DDL语言功能，对数据库表、列操作
+	4、org.yelong.core.model.map MapModel实现，可以动态的获取列。实现表动态的添加删除列的功能。
+	5、org.yelong.core.model.property Model属性操作的包。对model属性的Get/Set操作功能
+	
+	---功能修改---
+	1、提供Modelable接口来替换原来的Model类，所有对于Model的泛型全部改为Modelable。
+	2、弃用了ModelProperties类
+	
+2020-05-27 v-> 1.1.1
+	1、ModelService、SqlModelService提供新增一些默认方法
+	
+2020-06-07 v-> 1.2.0
+	1、方法的注释风格修改

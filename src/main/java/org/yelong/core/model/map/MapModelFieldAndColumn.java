@@ -11,6 +11,10 @@ import org.yelong.core.model.resolve.ModelAndTable;
 import org.yelong.core.model.resolve.SelectColumnCondition;
 
 /**
+ * map model 字段与列的映射。
+ * 
+ * 对于 {@link MapModelable}来说，属性均为其Key值，所以是不存在 {@link Field}的。s
+ * 
  * @author PengFei
  * @since 1.0.7
  */

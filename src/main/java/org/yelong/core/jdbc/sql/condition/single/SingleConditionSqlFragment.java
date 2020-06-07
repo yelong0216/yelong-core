@@ -8,25 +8,22 @@ import org.yelong.core.jdbc.sql.condition.ConditionSqlFragment;
 
 /**
  * 单个条件语句
+ * 
  * @author PengFei
  */
 public interface SingleConditionSqlFragment extends ConditionSqlFragment{
 	
 	/**
-	 * 获取该条件的字段名称
 	 * @return 字段名称
 	 */
 	String getFieldName();
 	
 	/**
-	 * 获取条件操作符
 	 * @return 条件操作符
 	 */
 	String getConditionOperator();
 	
 	/**
-	 * 条件值<br/>
-	 * 获取参数值
 	 * @return 条件的值，这可能是List
 	 * 			如果该条件不需要值则返回null
 	 */
@@ -34,8 +31,6 @@ public interface SingleConditionSqlFragment extends ConditionSqlFragment{
 	Object getValue();
 	
 	/**
-	 * 获取第二个参数值<br/>
-	 * 如果条件不是between操作符则为null
 	 * @return 获取条件第二个值。
 	 * 			如果条件不需要第二个值则返回null
 	 */

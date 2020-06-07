@@ -5,6 +5,7 @@ package org.yelong.core.model;
 
 /**
  * 模型的配置
+ * 
  * @author PengFei
  * @deprecated 1.1.0
  */

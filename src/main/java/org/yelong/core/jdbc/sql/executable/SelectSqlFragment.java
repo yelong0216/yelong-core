@@ -8,12 +8,14 @@ import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
 
 /**
  * select sql
+ * 
  * @author PengFei
  */
 public interface SelectSqlFragment extends SqlFragmentExecutable{
 
 	/**
 	 * 设置条件
+	 * 
 	 * @param conditionSqlFragment 条件
 	 * @return this
 	 */
@@ -21,12 +23,14 @@ public interface SelectSqlFragment extends SqlFragmentExecutable{
 
 	/**
 	 * 获取条件
+	 * 
 	 * @return 条件
 	 */
 	ConditionSqlFragment getConditionSqlFragment();
 
 	/**
 	 * 是否存在条件
+	 * 
 	 * @return <tt>true</tt> 存在条件
 	 */
 	default boolean existConditionSqlFragment() {
@@ -35,6 +39,7 @@ public interface SelectSqlFragment extends SqlFragmentExecutable{
 	
 	/**
 	 * 设置排序
+	 * 
 	 * @param sortSqlFragment 排序
 	 * @return this
 	 */
@@ -42,12 +47,14 @@ public interface SelectSqlFragment extends SqlFragmentExecutable{
 	
 	/**
 	 * 获取排序
+	 * 
 	 * @return 排序
 	 */
 	SortSqlFragment getSortSqlFragment();
 	
 	/**
 	 * 是否存在排序
+	 * 
 	 * @return <tt>true</tt> 存在排序
 	 */
 	default boolean existSortSqlFragment() {
@@ -56,6 +63,7 @@ public interface SelectSqlFragment extends SqlFragmentExecutable{
 	
 	/**
 	 * 启动分页
+	 * 
 	 * @param pageNum 数量
 	 * @param pageSize 页码
 	 */
@@ -68,18 +76,21 @@ public interface SelectSqlFragment extends SqlFragmentExecutable{
 	
 	/**
 	 * 是否分页
+	 * 
 	 * @return <tt>true</tt> 进行了分页
 	 */
 	boolean isPage();
 	
 	/**
 	 * 获取数量
+	 * 
 	 * @return 如果 {@link #isPage()}为false 则返回null
 	 */
 	Integer getPageNum();
 	
 	/**
 	 * 获取页码
+	 * 
 	 * @return 如果 {@link #isPage()}为false 则返回null
 	 */
 	Integer getPageSize();

@@ -13,7 +13,14 @@ public class InterceptorChain {
 
 	public Object pluginAll(Object target) {
 		for (Interceptor interceptor : interceptors) {
-			target = interceptor.plugin(target);
+			target = Plugin.wrap(target, interceptor);
+		}
+		return target;
+	}
+	
+	public Object pluginAll(Object target ,Class<?>[] targetInterfaces) {
+		for (Interceptor interceptor : interceptors) {
+			target = Plugin.wrap(target, interceptor,targetInterfaces);
 		}
 		return target;
 	}

@@ -20,6 +20,7 @@ import java.lang.annotation.Target;
  * 1、被标注的方法参数可以为null
  * 2、被标注的属性值可能为null
  * 3、被标注的方法返回值可能为null
+ * 
  * @author PengFei
  */
 public @interface Nullable {

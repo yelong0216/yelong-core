@@ -11,13 +11,14 @@ import org.yelong.core.jdbc.sql.executable.DeleteSqlFragment;
 import org.yelong.core.jdbc.sql.executable.SelectSqlFragment;
 import org.yelong.core.jdbc.sql.executable.UpdateSqlFragment;
 import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
-import org.yelong.core.model.Modelable;
 import org.yelong.core.model.ModelConfiguration;
+import org.yelong.core.model.Modelable;
 import org.yelong.core.model.sql.SqlModel;
 import org.yelong.core.model.sql.SqlModelResolver;
 
 /**
  * 抽象的sqlModel实现
+ * 
  * @author PengFei
  */
 public abstract class AbstractSqlModelService extends AbstractModelService implements SqlModelService{

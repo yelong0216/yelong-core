@@ -8,8 +8,11 @@ import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.yelong.commons.annotation.AnnotationUtils;
+import org.yelong.core.model.Modelable;
 import org.yelong.core.model.annotation.Column;
 import org.yelong.core.model.annotation.ExtendColumn;
+import org.yelong.core.model.annotation.ExtendColumnIgnore;
+import org.yelong.core.model.annotation.ExtendTable;
 import org.yelong.core.model.annotation.Id;
 import org.yelong.core.model.annotation.PrimaryKey;
 import org.yelong.core.model.annotation.SelectColumn;
@@ -32,6 +35,8 @@ public class ModelFieldAnnotation {
 	
 	private final ExtendColumn extendColumn;
 	
+	private final ExtendColumnIgnore extendColumnIgnore;
+	
 	private final SelectColumn selectColumn;
 	
 	private final Transient tran;
@@ -42,6 +47,7 @@ public class ModelFieldAnnotation {
 		this.id = AnnotationUtils.getAnnotation(field, Id.class);
 		this.primaryKey = AnnotationUtils.getAnnotation(field, PrimaryKey.class);
 		this.extendColumn = AnnotationUtils.getAnnotation(field, ExtendColumn.class);
+		this.extendColumnIgnore = AnnotationUtils.getAnnotation(field, ExtendColumnIgnore.class);
 		this.selectColumn = AnnotationUtils.getAnnotation(field, SelectColumn.class);
 		this.tran = AnnotationUtils.getAnnotation(field, Transient.class);
 	}
@@ -134,11 +140,90 @@ public class ModelFieldAnnotation {
 	 * @return <tt>true</tt> 拓展字段（列）
 	 */
 	public boolean isExtendColumn() {
-		return null != extendColumn;
+		if( null != extendColumn ) {
+			return true;
+		}
+		//忽略了拓展列
+		if( null != extendColumnIgnore ) {
+			return false;
+		}
+		return field.getDeclaringClass().isAnnotationPresent(ExtendTable.class);
+	}
+	
+	/**
+	 * 获取拓展列所属的model class
+	 * 
+	 * @return 拓展列所属的model class
+	 * @throws UnsupportedOperationException 该列不是拓展列
+	 */
+	public Class<? extends Modelable> getExtendColumnModelClass(){
+		if(!isExtendColumn()) {
+			throw new UnsupportedOperationException("["+field.getName()+"]字段不是拓展列，无法获取拓展列所属的 model class");
+		}
+		if( null == extendColumn ) {
+			return null;
+		}
+		Class<? extends Modelable> modelClass = null;
+		modelClass = extendColumn.value();
+		if( modelClass == ExtendColumn.DEFAULT_MODEL_CLASS) {
+			modelClass = extendColumn.modelClass();
+		}
+		return modelClass == ExtendColumn.DEFAULT_MODEL_CLASS ? null : modelClass;
+	}
+	
+	/**
+	 * 获取拓展列所属的表名
+	 * 
+	 * @return 拓展列所属的表名
+	 * @throws UnsupportedOperationException 该列不是拓展列
+	 */
+	public String getExtendColumnTableName() {
+		if(!isExtendColumn()) {
+			throw new UnsupportedOperationException("["+field.getName()+"]字段不是拓展列，无法获取拓展列所属的表名");
+		}
+		if( null == extendColumn ) {
+			return null;
+		}
+		String tableName = extendColumn.tableName();
+		if(StringUtils.isNotBlank(tableName)) {
+			return tableName;
+		}
+		Class<? extends Modelable> extendColumnModelClass = getExtendColumnModelClass();
+		if( null == extendColumnModelClass) {
+			return null;
+		}
+		ModelClassAnnotation modelClassAnnotation = new ModelClassAnnotation(extendColumnModelClass);
+		return modelClassAnnotation.getTableName();
+	}
+	
+	/**
+	 * 获取拓展列所属的表的别名
+	 * 
+	 * @return 拓展列所属的表的别名
+	 * @throws UnsupportedOperationException 该列不是拓展列
+	 */
+	public String getExtendColumnTableAlias() {
+		if(!isExtendColumn()) {
+			throw new UnsupportedOperationException("["+field.getName()+"]字段不是拓展列，无法获取拓展列所属表的别名");
+		}
+		if( null == extendColumn ) {
+			return null;
+		}
+		String tableAlias = extendColumn.tableAlias();
+		if(StringUtils.isNotBlank(tableAlias)) {
+			return tableAlias;
+		}
+		Class<? extends Modelable> extendColumnModelClass = getExtendColumnModelClass();
+		if( null == extendColumnModelClass) {
+			return null;
+		}
+		ModelClassAnnotation modelClassAnnotation = new ModelClassAnnotation(extendColumnModelClass);
+		return modelClassAnnotation.getTableAlias();
 	}
 	
 	/**
 	 * 是否是临时的字段
+	 * 
 	 * @return <tt>true</tt> 临时的字段。需要忽略的字段
 	 */
 	public boolean isTransient() {
@@ -197,6 +282,13 @@ public class ModelFieldAnnotation {
 		return extendColumn;
 	}
 
+	/**
+	 * @return ExtendColumnIgnore annotation
+	 */
+	public ExtendColumnIgnore getExtendColumnIgnore() {
+		return extendColumnIgnore;
+	}
+	
 	/**
 	 * @return SelectColumn annotation
 	 */

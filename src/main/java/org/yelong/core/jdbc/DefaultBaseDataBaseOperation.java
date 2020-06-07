@@ -12,6 +12,7 @@ import org.apache.commons.lang3.ClassUtils;
 /**
  * 默认的数据库操作实现
  * 使用jdbc连接操作数据库
+ * 
  * @author PengFei
  */
 public class DefaultBaseDataBaseOperation extends AbstractBaseDataBaseOperation{

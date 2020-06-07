@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 /**
  * 默认的模型和表实现
+ * 
  * @author PengFei
  */
 public class DefaultModelAndTable extends AbstractModelAndTable{

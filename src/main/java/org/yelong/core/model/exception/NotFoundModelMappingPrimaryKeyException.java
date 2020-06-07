@@ -5,6 +5,7 @@ package org.yelong.core.model.exception;
 
 /**
  * 没有找到模型映射的主键异常
+ * 
  * @author PengFei
  */
 public class NotFoundModelMappingPrimaryKeyException extends RuntimeException{

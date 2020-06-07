@@ -13,6 +13,7 @@ import org.yelong.core.jdbc.sql.executable.InsertSqlFragment;
 
 /**
  * 默认的insert sql实现
+ * 
  * @author PengFei
  */
 public class DefaultInsertSqlFragment extends AbstractSqlFragmentExecutable implements InsertSqlFragment{

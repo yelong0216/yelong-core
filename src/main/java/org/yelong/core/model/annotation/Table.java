@@ -13,6 +13,7 @@ import java.lang.annotation.Target;
 @Target({ TYPE })
 /**
  * 映射的表名
+ * 
  * @author PengFei
  */
 public @interface Table {
@@ -25,12 +26,12 @@ public @interface Table {
 	/**
 	 * 别名
 	 * 默认值：model类名称首字母小写
+	 * 
 	 * @return 表别名
 	 */
 	String alias() default "";
 	
 	/**
-	 * 描述
 	 * @return 表描述
 	 */
 	String desc() default "";

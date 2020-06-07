@@ -15,6 +15,7 @@ import org.yelong.core.jdbc.sql.attribute.AbstractAttributeSqlFragment;
 
 /**
  * 默认的属性sql片段实现
+ * 
  * @author PengFei
  */
 public class DefaultAttributeSqlFragment extends AbstractAttributeSqlFragment{

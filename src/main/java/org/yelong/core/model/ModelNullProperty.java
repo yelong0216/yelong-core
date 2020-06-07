@@ -11,6 +11,7 @@ import java.util.Date;
  * 在根据可选的属性进行save和modify时，属性设置为此类中对应的属性值，会被设置为null，而不是忽略
  * model中的对象必须为包装类型，而不是基本类型
  * 注意：model的属性不要是基础数据类型
+ * 
  * @author PengFei
  */
 public final class ModelNullProperty {
@@ -38,6 +39,7 @@ public final class ModelNullProperty {
 	
 	/**
 	 * 验证model属性值是否是伪装的null
+	 * 
 	 * @param value 值
 	 * @return <tt>true</tt>是伪装Null值
 	 */

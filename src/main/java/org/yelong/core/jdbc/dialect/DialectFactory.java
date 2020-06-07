@@ -5,12 +5,14 @@ package org.yelong.core.jdbc.dialect;
 
 /**
  * 数据库方言工厂
+ * 
  * @author PengFei
  */
 public class DialectFactory {
 	
 	/**
 	 * 根据数据库连接url获取数据库方言
+	 * 
 	 * @param url
 	 * @return 数据库方言
 	 */

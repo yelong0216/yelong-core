@@ -5,6 +5,7 @@ package org.yelong.core.jdbc.sql.condition.support;
 
 /**
  * 条件解析异常
+ * 
  * @author PengFei
  */
 public class ConditionResolverException extends RuntimeException{

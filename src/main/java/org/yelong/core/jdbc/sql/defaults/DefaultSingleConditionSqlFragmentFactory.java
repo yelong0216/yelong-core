@@ -11,6 +11,7 @@ import org.yelong.core.jdbc.sql.exception.InvalidConditionException;
 
 /**
  * 默认的单一条件工厂实现
+ * 
  * @author PengFei
  */
 public class DefaultSingleConditionSqlFragmentFactory implements SingleConditionSqlFragmentFactory{
@@ -46,9 +47,10 @@ public class DefaultSingleConditionSqlFragmentFactory implements SingleCondition
 
 	/**
 	 * 根据条件需要的参数个数来验证条件
-	 * @param condition
-	 * @param valueNum
-	 * @throws InvalidConditionException
+	 * 
+	 * @param condition 条件
+	 * @param valueNum 值数量
+	 * @throws InvalidConditionException 条件异常
 	 */
 	protected void validConditionByNeedParamNum(String condition ,Integer valueNum) throws InvalidConditionException{
 		ConditionKeyword conditionKeyword = ConditionKeyword.valueOfByKeyword(condition) ;
@@ -103,9 +105,7 @@ public class DefaultSingleConditionSqlFragmentFactory implements SingleCondition
 
 		/**
 		 * 根据条件关键字转换为ConditionKeyword对象
-		 * @author 彭飞
-		 * @date 2019年8月13日下午4:10:29
-		 * @version 1.0
+		 * 
 		 * @param keyword 条件关键字
 		 * @return 与之对应的ConditionKeyword对象。如果没有则返回null
 		 */
@@ -123,22 +123,14 @@ public class DefaultSingleConditionSqlFragmentFactory implements SingleCondition
 		}
 
 		/**
-		 * 条件需要的最少参数
-		 * @author 彭飞
-		 * @date 2019年8月23日上午8:13:43
-		 * @version 1.2
-		 * @return
+		 * @return 条件需要的最少参数
 		 */
 		public Integer getNeedLeastParamNumber() {
 			return needLeastParamNumber;
 		}
 
 		/**
-		 * 条件需要的最多的参数个数
-		 * @author 彭飞
-		 * @date 2019年8月23日上午8:13:53
-		 * @version 1.2
-		 * @return
+		 * @return 条件需要的最多的参数个数
 		 */
 		public Integer getNeedMostParamNumber() {
 			return needMostParamNumber;

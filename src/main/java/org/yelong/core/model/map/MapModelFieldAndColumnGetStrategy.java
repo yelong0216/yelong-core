@@ -17,7 +17,8 @@ import java.util.List;
 public interface MapModelFieldAndColumnGetStrategy {
 
 	/**
-	 * 或者 map model 的所有映射列 
+	 * 获取 map model 的所有映射列 
+	 * 
 	 * @param mapModelAndTable 模型与表
 	 * @return 模型与表映射的字段
 	 */

@@ -9,6 +9,7 @@ import org.yelong.core.jdbc.sql.condition.simple.SimpleConditionSqlFragment;
 
 /**
  * 默认的简单条件条件实现
+ * 
  * @author PengFei
  */
 public class DefaultSimpleConditionSqlFragment extends AbstractConditionSqlFragment implements SimpleConditionSqlFragment{

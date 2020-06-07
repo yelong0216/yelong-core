@@ -19,6 +19,7 @@ public interface RecordOperation {
 	
 	/**
 	 * 新增一条记录
+	 * 
 	 * @param table 新增记录的表
 	 * @param record 记录
 	 * @return 数据操作行数
@@ -27,6 +28,7 @@ public interface RecordOperation {
 	
 	/**
 	 * 查询记录
+	 * 
 	 * @param sql sql
 	 * @param params 参数
 	 * @return 查询的记录

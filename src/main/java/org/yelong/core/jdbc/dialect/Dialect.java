@@ -12,12 +12,14 @@ import org.yelong.core.jdbc.sql.function.DatabaseFunction;
 
 /**
  * 数据库方言
+ * 
  * @author PengFei
  */
 public interface Dialect {
 
 	/**
 	 * 获取基础的delete sql
+	 * 
 	 * @param tableName 表名称
 	 * @param tableAlias 表别名
 	 * @return delete sql
@@ -26,6 +28,7 @@ public interface Dialect {
 	
 	/**
 	 * 获取基础的select sql
+	 * 
 	 * @param tableName 表名称
 	 * @param tableAlias 表别名
 	 * @return select sql
@@ -34,6 +37,7 @@ public interface Dialect {
 	
 	/**
 	 * 获取基础的 count sql
+	 * 
 	 * @param tableName 表名称
 	 * @param tableAlias 表别名
 	 * @return count sql
@@ -58,6 +62,7 @@ public interface Dialect {
 	
 	/**
 	 * 分页
+	 * 
 	 * @param boundSql 源sql与参数
 	 * @param pageNum 页码
 	 * @param pageSize 页面大小
@@ -69,6 +74,7 @@ public interface Dialect {
 	
 	/**
 	 * 创建数据库定义语言
+	 * 
 	 * @param db 数据库操作
 	 * @return 数据库定义语言
 	 * @since 1.1.0
@@ -79,6 +85,7 @@ public interface Dialect {
 	
 	/**
 	 * 创建数据库方法、函数
+	 * 
 	 * @param db 数据库操作
 	 * @return 数据库方法、功能、函数的sql提供者
 	 * @since 1.1.0

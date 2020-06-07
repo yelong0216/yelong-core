@@ -13,6 +13,7 @@ import org.yelong.core.annotation.Nullable;
 
 /**
  * 基础数据库操作
+ * 
  * @author PengFei
  */
 public interface BaseDataBaseOperation {
@@ -41,6 +42,7 @@ public interface BaseDataBaseOperation {
 	/**
 	 * 查询一列数据
 	 * 
+	 * @param <T> list data type
 	 * @param sql sql语句
 	 * @param params 可以为空 如果为空则直接执行sql
 	 * @return 数据的集合。没有记录这将是一个空的Map {@link Collections#emptyList()}
@@ -51,7 +53,7 @@ public interface BaseDataBaseOperation {
 	/**
 	 * 查询唯单一的数据值
 	 * 
-	 * @param <T>
+	 * @param <T> data type
 	 * @param sql sql语句
 	 * @param params 可以为空 如果为空则直接执行sql
 	 * @return 查询的第一行第一列的值。如果不存在记录则为null
@@ -101,6 +103,7 @@ public interface BaseDataBaseOperation {
 	
 	/**
 	 * 获取数据库连接
+	 * 
 	 * @return {@link java.sql.Connection}
 	 */
 	Connection getConnection();

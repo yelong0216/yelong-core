@@ -6,7 +6,7 @@ package org.yelong.core.model.property;
 import java.beans.PropertyDescriptor;
 import java.util.Map;
 
-import org.yelong.commons.beans.BeanUtils;
+import org.yelong.commons.beans.BeanUtilsE;
 import org.yelong.core.model.exception.ModelPropertyException;
 import org.yelong.core.model.map.MapModel;
 
@@ -32,7 +32,7 @@ public class DefaultModelProperty implements ModelProperty{
 	public Object get(Object model, String property) {
 		Object value = null;
 		try {
-			value = BeanUtils.getProperty(model, property);
+			value = BeanUtilsE.getProperty(model, property);
 		} catch (NoSuchMethodException e) {
 			//不存在get/is方法
 			if( model instanceof MapModel) {
@@ -48,7 +48,7 @@ public class DefaultModelProperty implements ModelProperty{
 	@Override
 	public void set(Object model, String property, Object value) {
 		try {
-			BeanUtils.setProperty(model, property, value);;
+			BeanUtilsE.setProperty(model, property, value);;
 		} catch (NoSuchMethodException e) {
 			//不存在set/is方法
 			if( model instanceof MapModel) {

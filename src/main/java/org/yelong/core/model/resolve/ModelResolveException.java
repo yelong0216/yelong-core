@@ -7,6 +7,7 @@ import org.yelong.core.model.exception.ModelException;
 
 /**
  * model解析异常
+ * 
  * @author PengFei
  */
 public class ModelResolveException extends ModelException{

@@ -8,6 +8,7 @@ import org.yelong.core.jdbc.dialect.DialectType;
 
 /**
  * oracle 方言
+ * 
  * @author PengFei
  */
 public class OracleDialect extends AbstractDialect{

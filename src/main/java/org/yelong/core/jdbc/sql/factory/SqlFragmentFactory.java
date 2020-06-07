@@ -17,6 +17,7 @@ import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
 
 /**
  * sql片段工厂
+ * 
  * @author PengFei
  */
 public interface SqlFragmentFactory {
@@ -28,6 +29,7 @@ public interface SqlFragmentFactory {
 	
 	/**
 	 * 创建简单的条件
+	 * 
 	 * @param conditionSqlFragment 条件sql
 	 * @param params 参数
 	 * @return 简单的条件
@@ -42,24 +44,29 @@ public interface SqlFragmentFactory {
 	
 	/**
 	 * 获取单一条件工厂
+	 * 
 	 * @return 单一条件工厂
 	 */
 	SingleConditionSqlFragmentFactory getSingleConditionSqlFragmentFactory();
 	
 	/**
 	 * 设置单一条件工厂
+	 * 
 	 * @param SingleConditionSqlFragmentFactory
 	 */
+	@Deprecated
 	void setSingleConditionSqlFragmentFactory(SingleConditionSqlFragmentFactory singleConditionSqlFragmentFactory);
 	
 	/**
 	 * 创建排序sql片段
-	 * @return
+	 * 
+	 * @return 排序片段
 	 */
 	SortSqlFragment createSortSqlFragment();
 	
 	/**
 	 * 创建insert sql
+	 * 
 	 * @param tableName 表名
 	 * @param attributeSqlFragment 属性sql
 	 * @return insert sql
@@ -68,6 +75,7 @@ public interface SqlFragmentFactory {
 	
 	/**
 	 * 创建insert sql
+	 * 
 	 * @param sql sql
 	 * @param params 参数
 	 * @return insert sql
@@ -76,6 +84,7 @@ public interface SqlFragmentFactory {
 	
 	/**
 	 * 创建delete sql
+	 * 
 	 * @param sql sql
 	 * @param params 参数
 	 * @return delete sql
@@ -84,6 +93,7 @@ public interface SqlFragmentFactory {
 	
 	/**
 	 * 创建update sql
+	 * 
 	 * @param sql sql
 	 * @param params 参数
 	 * @return update sql
@@ -92,6 +102,7 @@ public interface SqlFragmentFactory {
 	
 	/**
 	 * 创建update sql
+	 * 
 	 * @param tableName 表明
 	 * @param attributeSqlFragment 属性sql
 	 * @return update sql
@@ -100,6 +111,7 @@ public interface SqlFragmentFactory {
 	
 	/**
 	 * 创建select sql
+	 * 
 	 * @param sql sql
 	 * @param params 参数
 	 * @return select sql
@@ -108,6 +120,7 @@ public interface SqlFragmentFactory {
 	
 	/**
 	 * 创建count sql
+	 * 
 	 * @param sql sql
 	 * @param params 参数
 	 * @return count sql

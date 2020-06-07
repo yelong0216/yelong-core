@@ -7,6 +7,7 @@ import org.yelong.core.model.Modelable;
 
 /**
  * 抽象的模型和表
+ * 
  * @author PengFei
  */
 public abstract class AbstractModelAndTable implements ModelAndTable{

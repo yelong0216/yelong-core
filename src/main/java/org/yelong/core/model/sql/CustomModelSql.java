@@ -63,7 +63,8 @@ public final class CustomModelSql implements Comparable<CustomModelSql>{
 	/**
 	 * 根据model类型、操作类型、方言获取注册的sql。
 	 * 如果没有找到指定方言的sql，将使用没有注册方言的sql。均没有找到返回 <code>null</code>
-	 * @param modelClass
+	 * 
+	 * @param modelClass model class
 	 * @param operationType 操作类型
 	 * @param dialect 方言
 	 * @return 注册的sql

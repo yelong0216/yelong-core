@@ -5,6 +5,7 @@ package org.yelong.core.jdbc.sql.exception;
 
 /**
  * 未定义排序验证器异常
+ * 
  * @author PengFei
  */
 public class NotFoundSortVerifierException extends SqlFragmentException{
