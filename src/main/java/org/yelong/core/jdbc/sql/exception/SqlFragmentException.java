@@ -6,7 +6,7 @@ package org.yelong.core.jdbc.sql.exception;
 /**
  * @author PengFei
  */
-public class SqlFragmentException extends RuntimeException{
+public class SqlFragmentException extends RuntimeException {
 
 	private static final long serialVersionUID = 4315911988832212914L;
 

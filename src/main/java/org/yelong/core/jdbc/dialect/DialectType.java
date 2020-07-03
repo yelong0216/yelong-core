@@ -9,7 +9,7 @@ package org.yelong.core.jdbc.dialect;
  * @author PengFei
  */
 public enum DialectType {
-	
-	ORACLE,MYSQL,SQLSERVER
-	
+
+	ORACLE, MYSQL, SQLSERVER
+
 }

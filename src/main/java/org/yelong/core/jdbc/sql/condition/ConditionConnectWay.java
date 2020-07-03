@@ -11,13 +11,13 @@ import org.yelong.core.jdbc.SqlKeyword;
  * @author PengFei
  */
 public enum ConditionConnectWay {
-	
+
 	AND(SqlKeyword.AND.getKeyword()),
-	
+
 	OR(SqlKeyword.OR.getKeyword());
-	
+
 	private final String keyword;
-	
+
 	private ConditionConnectWay(String keyword) {
 		this.keyword = keyword;
 	}
@@ -25,5 +25,5 @@ public enum ConditionConnectWay {
 	public String getKeyword() {
 		return keyword;
 	}
-	
+
 }

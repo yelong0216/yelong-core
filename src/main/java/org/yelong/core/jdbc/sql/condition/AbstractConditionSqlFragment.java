@@ -3,6 +3,7 @@
  */
 package org.yelong.core.jdbc.sql.condition;
 
+import org.yelong.core.jdbc.dialect.Dialect;
 import org.yelong.core.jdbc.sql.AbstractSqlFragment;
 
 /**
@@ -10,9 +11,13 @@ import org.yelong.core.jdbc.sql.AbstractSqlFragment;
  * 
  * @author PengFei
  */
-public abstract class AbstractConditionSqlFragment extends AbstractSqlFragment implements ConditionSqlFragment{
+public abstract class AbstractConditionSqlFragment extends AbstractSqlFragment implements ConditionSqlFragment {
 
 	private boolean where = true;
+
+	public AbstractConditionSqlFragment(Dialect dialect) {
+		super(dialect);
+	}
 
 	public boolean isWhere() {
 		return where;
@@ -28,11 +33,11 @@ public abstract class AbstractConditionSqlFragment extends AbstractSqlFragment i
 	 * @return 拼接后的sql
 	 */
 	protected String where(String conditionSqlFragment) {
-		if(where) {
+		if (where) {
 			return " where " + conditionSqlFragment;
 		} else {
 			return conditionSqlFragment;
 		}
 	}
-	
+
 }

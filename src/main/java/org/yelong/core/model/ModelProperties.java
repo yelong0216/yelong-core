@@ -17,7 +17,7 @@ public class ModelProperties {
 	 */
 	@Deprecated
 	private String databaseDialect;
-	
+
 	/**
 	 * 下划线转换为驼峰
 	 */
@@ -29,7 +29,6 @@ public class ModelProperties {
 	 */
 	private boolean camelCaseToUnderscore;
 
-	
 	public String getDatabaseDialect() {
 		return databaseDialect;
 	}
@@ -55,5 +54,5 @@ public class ModelProperties {
 	public void setCamelCaseToUnderscore(boolean camelCaseToUnderscore) {
 		this.camelCaseToUnderscore = camelCaseToUnderscore;
 	}
-	
+
 }

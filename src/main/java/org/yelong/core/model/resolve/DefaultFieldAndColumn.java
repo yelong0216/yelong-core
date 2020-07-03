@@ -11,43 +11,45 @@ import java.util.Objects;
  * 
  * @author PengFei
  */
-public class DefaultFieldAndColumn extends AbstractFieldAndColumn{
-	
+public class DefaultFieldAndColumn extends AbstractFieldAndColumn {
+
+	private static final long serialVersionUID = 2463177841121213685L;
+
 	private final ModelAndTable modelAndTable;
-	
-	private final Field field;
-	
+
+	private transient final Field field;
+
 	private final String column;
-	
-	public DefaultFieldAndColumn(ModelAndTable modelAndTable ,Field field, String column) {
+
+	public DefaultFieldAndColumn(ModelAndTable modelAndTable, Field field, String column) {
 		Objects.requireNonNull(modelAndTable, "'modelAndTable'不允许为 null");
 		this.modelAndTable = modelAndTable;
 		this.field = field;
 		this.column = column;
 	}
-	
+
 	@Deprecated
 	public DefaultFieldAndColumn(Field field, String column) {
 		this.modelAndTable = null;
 		this.field = field;
 		this.column = column;
 	}
-	
+
 	@Override
 	public ModelAndTable getModelAndTable() {
 		return modelAndTable;
 	}
-	
+
 	@Override
 	public Field getField() {
 		return this.field;
 	}
-	
+
 	@Override
 	public String getFieldName() {
 		return this.field.getName();
 	}
-	
+
 	@Override
 	public Class<?> getFieldType() {
 		return this.field.getType();
@@ -60,7 +62,7 @@ public class DefaultFieldAndColumn extends AbstractFieldAndColumn{
 
 	@Override
 	public String toString() {
-		return "fieldName:"+getFieldName()+"\tcolumn:"+getColumn();
+		return "fieldName:" + getFieldName() + "\tcolumn:" + getColumn();
 	}
-	
+
 }

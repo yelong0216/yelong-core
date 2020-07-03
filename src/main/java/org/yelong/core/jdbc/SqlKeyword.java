@@ -10,26 +10,9 @@ package org.yelong.core.jdbc;
  */
 public enum SqlKeyword {
 
-	AND("AND"),
-	OR("OR"),
-	IN("IN"),
-	NOT("NOT"),
-	LIKE("LIKE"),
-	EQ("="),
-	NE("<>"),
-	GT(">"),
-	GE(">="),
-	LT("<"),
-	LE("<="),
-	IS_NULL("IS NULL"),
-	IS_NOT_NULL("IS NOT NULL"),
-	GROUP_BY("GROUP BY"),
-	HAVING("HAVING"),
-	ORDER_BY("ORDER BY"),
-	EXISTS("EXISTS"),
-	BETWEEN("BETWEEN"),
-	ASC("ASC"),
-	DESC("DESC");
+	AND("AND"), OR("OR"), IN("IN"), NOT("NOT"), LIKE("LIKE"), EQ("="), NE("<>"), GT(">"), GE(">="), LT("<"), LE("<="),
+	IS_NULL("IS NULL"), IS_NOT_NULL("IS NOT NULL"), GROUP_BY("GROUP BY"), HAVING("HAVING"), ORDER_BY("ORDER BY"),
+	EXISTS("EXISTS"), BETWEEN("BETWEEN"), ASC("ASC"), DESC("DESC");
 
 	private final String keyword;
 
@@ -49,7 +32,7 @@ public enum SqlKeyword {
 	 */
 	public static boolean test(String keyword) {
 		for (SqlKeyword sqlKeyword : values()) {
-			if( sqlKeyword.getKeyword().equalsIgnoreCase(keyword) ) {
+			if (sqlKeyword.getKeyword().equalsIgnoreCase(keyword)) {
 				return true;
 			}
 		}

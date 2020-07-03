@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.yelong.core.annotation.Nullable;
 import org.yelong.core.jdbc.sql.condition.support.Condition;
+import org.yelong.core.jdbc.sql.sort.support.Sort;
 import org.yelong.core.model.Model;
 import org.yelong.core.model.Modelable;
 
@@ -22,7 +23,7 @@ import org.yelong.core.model.Modelable;
  * @author PengFei
  * @see SqlModelResolver
  */
-public class SqlModel extends Model{
+public class SqlModel extends Model {
 
 	private static final long serialVersionUID = -3986147639250539909L;
 
@@ -41,7 +42,7 @@ public class SqlModel extends Model{
 	/**
 	 * 指定sql model为其本身
 	 */
-	public SqlModel(){
+	public SqlModel() {
 		this.modelClass = null;
 		this.model = null;
 	}
@@ -59,19 +60,19 @@ public class SqlModel extends Model{
 	/**
 	 * @param model 指定model实体
 	 */
-	public SqlModel( Modelable model ) {
-		if( model.getClass() == SqlModel.class ) {
+	public SqlModel(Modelable model) {
+		if (model.getClass() == SqlModel.class) {
 			throw new UnsupportedOperationException("指定的model不能是SqlModel！");
 		}
 		this.modelClass = model.getClass();
 		this.model = model;
 	}
-	
+
 	/**
 	 * @param model 指定model实体
 	 */
-	public SqlModel( Modelable model ,Class<? extends Modelable> modelClass) {
-		if( model.getClass() == SqlModel.class ) {
+	public SqlModel(Modelable model, Class<? extends Modelable> modelClass) {
+		if (model.getClass() == SqlModel.class) {
 			throw new UnsupportedOperationException("指定的model不能是SqlModel！");
 		}
 		this.modelClass = modelClass;
@@ -79,14 +80,13 @@ public class SqlModel extends Model{
 	}
 
 	/**
-	 * 添加查询的条件操作符
-	 * 这个查询条件映射的值为拓展属性或者其model对象中的属性值
+	 * 添加查询的条件操作符 这个查询条件映射的值为拓展属性或者其model对象中的属性值
 	 * 
-	 * @param conditionName 条件字段名称。
-	 * @param condition 条件
+	 * @param column   列名称。如果不带表别名，且解析时需要别名，则别名默认为{@link #modelClass}的别名
+	 * @param operator 条件运算符（LIKE,=等）
 	 * @return this
 	 */
-	public SqlModel addConditionOperator(String column, String operator){
+	public SqlModel addConditionOperator(String column, String operator) {
 		this.conditionOperators.put(column, operator);
 		return this;
 	}
@@ -100,11 +100,9 @@ public class SqlModel extends Model{
 	}
 
 	/**
-	 * 添加一个拓展属性
-	 * 如果拓展属性已经存在则不会被替换，将会把拓展属性值转换为集合进行存储。
-	 * 如果attrValue为数组将默认转换为list
+	 * 添加一个拓展属性 如果拓展属性已经存在则不会被替换，将会把拓展属性值转换为集合进行存储。 如果attrValue为数组将默认转换为list
 	 * 
-	 * @param attrName 属性名称
+	 * @param attrName  属性名称
 	 * @param attrValue 属性值 该值为数组时默认转换为集合
 	 * @return this
 	 */
@@ -113,26 +111,26 @@ public class SqlModel extends Model{
 		if (this.extendAttributes.containsKey(attrName)) {
 			Object value = this.extendAttributes.get(attrName);
 			List<Object> valueList = null;
-			//获取原值。如果原值不是List则改变原值为list
+			// 获取原值。如果原值不是List则改变原值为list
 			if ((value instanceof List)) {
-				valueList = (List<Object>)value;
+				valueList = (List<Object>) value;
 			} else {
 				valueList = new ArrayList<>();
 				valueList.add(value);
 			}
 
-			if( attrValue instanceof Collection ) {
-				valueList.addAll((Collection<Object>)attrValue);
-			} else if( attrValue.getClass().isArray() ) {
+			if (attrValue instanceof Collection) {
+				valueList.addAll((Collection<Object>) attrValue);
+			} else if (attrValue.getClass().isArray()) {
 				valueList.addAll(Arrays.asList(attrValue));
 			} else {
 				valueList.add(attrValue);
 			}
 			this.extendAttributes.put(attrName, valueList);
 		} else {
-			if(attrValue.getClass().isArray()) {
+			if (attrValue.getClass().isArray()) {
 				List<Object> newValue = new ArrayList<>();
-				newValue.addAll(Arrays.asList((Object [])attrValue));
+				newValue.addAll(Arrays.asList((Object[]) attrValue));
 				attrValue = newValue;
 			}
 			this.extendAttributes.put(attrName, attrValue);
@@ -141,10 +139,9 @@ public class SqlModel extends Model{
 	}
 
 	/**
-	 * 添加拓展属性
-	 * 如果存在拓展属性则会覆盖这个属性
+	 * 添加拓展属性 如果存在拓展属性则会覆盖这个属性
 	 * 
-	 * @param attrName 属性名称
+	 * @param attrName  属性名称
 	 * @param attrValue 属性值
 	 * @return this
 	 * @since 1.0.5
@@ -160,7 +157,7 @@ public class SqlModel extends Model{
 	 * @param attrName 属性 name
 	 * @return this
 	 */
-	public SqlModel removeExtendAttribute(String attrName){
+	public SqlModel removeExtendAttribute(String attrName) {
 		this.extendAttributes.remove(attrName);
 		return this;
 	}
@@ -172,7 +169,7 @@ public class SqlModel extends Model{
 	 * @return this
 	 */
 	@Nullable
-	public Object getExtendAttribute(String attrName){
+	public Object getExtendAttribute(String attrName) {
 		return this.extendAttributes.get(attrName);
 	}
 
@@ -224,8 +221,34 @@ public class SqlModel extends Model{
 	 * @param sortOrder 排序方向
 	 * @return this
 	 */
-	public SqlModel addSortFields(Map<String,String> sortFields) {
+	public SqlModel addSortFields(Map<String, String> sortFields) {
 		this.sortFields.putAll(sortFields);
+		return this;
+	}
+
+	/**
+	 * 添加排序
+	 * 
+	 * @param sort 排序
+	 * @return this
+	 * @since 1.3.0
+	 */
+	public SqlModel addSort(Sort sort) {
+		addSortField(sort.getColumn(), sort.getDirection());
+		return this;
+	}
+
+	/**
+	 * 添加一组排序
+	 * 
+	 * @param sorts 排序信息集合
+	 * @return this
+	 * @since 1.3.0
+	 */
+	public SqlModel addSorts(List<Sort> sorts) {
+		for (Sort sort : sorts) {
+			addSort(sort);
+		}
 		return this;
 	}
 
@@ -259,7 +282,7 @@ public class SqlModel extends Model{
 	 * @since 1.0.5
 	 */
 	public boolean existSortField() {
-		return ! this.sortFields.isEmpty();
+		return !this.sortFields.isEmpty();
 	}
 
 	/**
@@ -284,13 +307,13 @@ public class SqlModel extends Model{
 	/**
 	 * 添加一个条件
 	 * 
-	 * @param column 列
+	 * @param column   列
 	 * @param operator 运算符
 	 * @return this
 	 * @see Condition#Condition(String, String)
 	 * @since 1.2.0
 	 */
-	public SqlModel addCondition(String column , String operator) {
+	public SqlModel addCondition(String column, String operator) {
 		this.conditions.add(new Condition(column, operator));
 		return this;
 	}
@@ -298,34 +321,34 @@ public class SqlModel extends Model{
 	/**
 	 * 添加一个条件
 	 * 
-	 * @param column 列
+	 * @param column   列
 	 * @param operator 运算符
-	 * @param value 值
+	 * @param value    值
 	 * @return this
 	 * @see Condition#Condition(String, String, Object)
 	 * @since 1.2.0
 	 */
-	public SqlModel addCondition(String column , String operator , Object value) {
-		this.conditions.add(new Condition(column, operator,value));
+	public SqlModel addCondition(String column, String operator, Object value) {
+		this.conditions.add(new Condition(column, operator, value));
 		return this;
 	}
-	
+
 	/**
 	 * 添加一个条件
 	 * 
-	 * @param column 列
-	 * @param operator 运算符
-	 * @param value 值
+	 * @param column      列
+	 * @param operator    运算符
+	 * @param value       值
 	 * @param secondValue 第二个值
 	 * @return this
 	 * @see Condition#Condition(String, String, Object, Object)
 	 * @since 1.2.0
 	 */
-	public SqlModel addCondition(String column , String operator , Object value , Object secondValue) {
-		this.conditions.add(new Condition(column, operator,value,secondValue));
+	public SqlModel addCondition(String column, String operator, Object value, Object secondValue) {
+		this.conditions.add(new Condition(column, operator, value, secondValue));
 		return this;
 	}
-	
+
 	/**
 	 * 添加一组条件
 	 * 
@@ -355,8 +378,8 @@ public class SqlModel extends Model{
 	}
 
 	/**
-	 * 获取sqlModel对应的class
-	 * 如果{@link #modelClass} != null 则返回{@link #modelClass} ，否则返回{@link #getClass()}
+	 * 获取sqlModel对应的class 如果{@link #modelClass} != null 则返回{@link #modelClass}
+	 * ，否则返回{@link #getClass()}
 	 * 
 	 * @return modelClass
 	 */

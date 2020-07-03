@@ -8,15 +8,14 @@ package org.yelong.core.model.exception;
  * 
  * @author PengFei
  */
-public class HaveExistFieldMappingColumnException extends RuntimeException{
-	
+public class HaveExistFieldMappingColumnException extends FieldAndColumnException {
+
 	private static final long serialVersionUID = -5034435636005465884L;
 
-
 	public HaveExistFieldMappingColumnException() {
-		
+
 	}
-	
+
 	public HaveExistFieldMappingColumnException(String message) {
 		super(message);
 	}

@@ -16,11 +16,10 @@ public interface SimpleConditionSqlFragmentFactory {
 	/**
 	 * 创建简单的条件片段
 	 * 
-	 * @param conditionSqlFragment  条件sql片段
-	 * @param params 参数
+	 * @param conditionSqlFragment 条件sql片段
+	 * @param params               参数
 	 * @return 简单的条件
 	 */
-	SimpleConditionSqlFragment create(String conditionSqlFragment,@Nullable Object [] params);
-	
-	
+	SimpleConditionSqlFragment create(String conditionSqlFragment, @Nullable Object[] params);
+
 }

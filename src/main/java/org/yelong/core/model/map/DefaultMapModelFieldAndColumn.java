@@ -9,12 +9,14 @@ import org.yelong.core.model.resolve.AbstractFieldAndColumn;
  * @author PengFei
  * @since 1.1.0
  */
-public class DefaultMapModelFieldAndColumn extends AbstractFieldAndColumn implements MapModelFieldAndColumn{
+public class DefaultMapModelFieldAndColumn extends AbstractFieldAndColumn implements MapModelFieldAndColumn {
+
+	private static final long serialVersionUID = -6003925213850869690L;
 
 	private final MapModelAndTable mapModelAndTable;
-	
+
 	private final String column;
-	
+
 	public DefaultMapModelFieldAndColumn(MapModelAndTable mapModelAndTable, String column) {
 		this.mapModelAndTable = mapModelAndTable;
 		this.column = column;

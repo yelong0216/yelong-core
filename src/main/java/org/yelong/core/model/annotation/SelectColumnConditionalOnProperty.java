@@ -31,7 +31,7 @@ public @interface SelectColumnConditionalOnProperty {
 	String value() default "";
 
 	/**
-	 * 列测试的属性名称。此属性在验证时通过{@link Model#getProperty(String)}去获取
+	 * 列测试的属性名称。此属性在验证时通过{@link Model#getProperty(String)}去获取<br/>
 	 * 这个名称默认值为字段名称
 	 * 
 	 * @return the names

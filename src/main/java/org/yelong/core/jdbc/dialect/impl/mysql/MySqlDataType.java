@@ -16,7 +16,7 @@ import java.util.List;
 public class MySqlDataType {
 
 	protected static final List<String> DATA_TYPES = new ArrayList<>();
-	
+
 	static {
 		DATA_TYPES.add("varchar");
 		DATA_TYPES.add("int");
@@ -29,9 +29,9 @@ public class MySqlDataType {
 		DATA_TYPES.add("mediumtext");
 		DATA_TYPES.add("longtext");
 	}
-	
-	public static List<String> getDataTypes(){
+
+	public static List<String> getDataTypes() {
 		return Collections.unmodifiableList(DATA_TYPES);
 	}
-	
+
 }

@@ -12,7 +12,7 @@ import org.yelong.commons.lang.Strings;
  * @since 1.1.0
  */
 public class Database {
-	
+
 	private String name;
 
 	public Database(String name) {
@@ -31,5 +31,5 @@ public class Database {
 	public String toString() {
 		return name;
 	}
-	
+
 }

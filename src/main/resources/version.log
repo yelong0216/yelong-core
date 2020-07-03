@@ -46,3 +46,30 @@
 	
 2020-06-07 v-> 1.2.0
 	1、方法的注释风格修改
+	
+2020-07-03 v-> 1.3.0
+	对类进行format
+	修改部分类中的方法参数名称及注释
+	
+	---原有类新增/删减功能---
+	org.yelong.core.jdbc.sql.sort.SortSqlFragment接口新增对Sort类的方法
+	
+	---新增类---
+	org.yelong.core.jdbc.sql.sort.support.Sort
+	org.yelong.core.model.map.CacheSupportMapModelFieldAndColumnGetStrategy 可缓存的MapModel的列获取策略
+	
+	---新增包---
+	org.yelong.core.cache 缓存功能
+	org.yelong.core.order 顺序功能
+	org.yelong.core.model.collector 模型收集器
+	org.yelong.core.model.service.function 业务处理函数
+	
+	---修改的功能---
+	1、SqlFragmentFactory接口的获取方式交给Dialect
+	2、SqlFragment接口提供获取Dialect的方法
+	3、AnnotationModelResolver解析器现在会为同名的字段抛出异常
+	
+	---项目统计---
+	总计代码行数：12857
+	总文件数：234
+	

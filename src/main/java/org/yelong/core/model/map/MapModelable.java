@@ -10,6 +10,6 @@ import org.yelong.core.model.Modelable;
  * @author PengFei
  * @since 1.1.0
  */
-public interface MapModelable extends Modelable , Map<String,Object>{
+public interface MapModelable extends Modelable, Map<String, Object> {
 
 }

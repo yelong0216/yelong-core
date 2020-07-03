@@ -7,7 +7,7 @@ import org.yelong.core.jdbc.BaseDataBaseOperation;
 import org.yelong.core.jdbc.dialect.Dialect;
 
 /**
- * 数据库方法、函数、功能
+ * 数据库方法、函数、功能 <br/>
  * 该类的实现类一般由{@link Dialect}来提供
  */
 public interface DatabaseFunction {
@@ -18,15 +18,15 @@ public interface DatabaseFunction {
 	 * @return 查询当前连接的数据库名称
 	 */
 	String getCurrentDatabase();
-	
+
 	/**
 	 * @return 基础数据库操作
 	 */
 	BaseDataBaseOperation getBaseDataBaseOperation();
-	
+
 	/**
 	 * @return 数据库方言
 	 */
 	Dialect getDialect();
-	
+
 }

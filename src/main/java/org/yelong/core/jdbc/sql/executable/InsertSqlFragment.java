@@ -7,11 +7,11 @@ import org.yelong.core.jdbc.sql.attribute.AttributeSqlFragment;
  * 
  * @author PengFei
  */
-public interface InsertSqlFragment extends SqlFragmentExecutable{
-	
+public interface InsertSqlFragment extends SqlFragmentExecutable {
+
 	/**
 	 * @return 获取属性sql
 	 */
 	AttributeSqlFragment getAttributeSqlFragment();
-	
+
 }

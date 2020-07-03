@@ -8,18 +8,18 @@ package org.yelong.core.model.exception;
  * 
  * @author PengFei
  */
-public class PrimaryKeyException extends ModelException{
-	
+public class PrimaryKeyException extends FieldAndColumnException {
+
 	private static final long serialVersionUID = 4686004552688583074L;
 
 	public PrimaryKeyException() {
-		
+
 	}
-	
+
 	public PrimaryKeyException(String message) {
 		super(message);
 	}
-	
+
 	public PrimaryKeyException(Throwable t) {
 		super(t);
 	}

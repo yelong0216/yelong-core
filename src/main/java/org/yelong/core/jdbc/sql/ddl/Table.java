@@ -22,17 +22,17 @@ public class Table {
 
 	private String charset;
 
-	private final Map<String,Column> columns = new LinkedHashMap<>();
+	private final Map<String, Column> columns = new LinkedHashMap<>();
 
 	public Table(String name) {
-		this((Database)null,name);
+		this((Database) null, name);
 	}
 
-	public Table(String database , String name) {
-		this(new Database(database),name);
+	public Table(String database, String name) {
+		this(new Database(database), name);
 	}
 
-	public Table(Database database , String name) {
+	public Table(Database database, String name) {
 		this.dataBase = database;
 		this.name = Strings.requireNonBlank(name);
 	}
@@ -67,7 +67,7 @@ public class Table {
 
 	public Table addColumn(Column column) {
 		this.columns.put(column.getName(), column);
-		return this;	
+		return this;
 	}
 
 	public String getCharset() {

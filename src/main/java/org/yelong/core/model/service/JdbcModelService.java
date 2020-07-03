@@ -18,17 +18,18 @@ import org.yelong.core.model.exception.ModelException;
 /**
  * @author PengFei
  */
-public class JdbcModelService extends AbstractSqlModelService{
+public class JdbcModelService extends AbstractSqlModelService {
 
 	private BaseDataBaseOperation db;
 
 	private MapBeanConverter mapBeanConverter;
 
-	public JdbcModelService(ModelConfiguration modelConfiguration,BaseDataBaseOperation db) {
-		this(modelConfiguration,db,new MapBeanConverter());
+	public JdbcModelService(ModelConfiguration modelConfiguration, BaseDataBaseOperation db) {
+		this(modelConfiguration, db, new MapBeanConverter());
 	}
 
-	public JdbcModelService(ModelConfiguration modelConfiguration,BaseDataBaseOperation db , MapBeanConverter mapBeanConverter) {
+	public JdbcModelService(ModelConfiguration modelConfiguration, BaseDataBaseOperation db,
+			MapBeanConverter mapBeanConverter) {
 		super(modelConfiguration);
 		this.db = db;
 		this.mapBeanConverter = mapBeanConverter;
@@ -42,8 +43,9 @@ public class JdbcModelService extends AbstractSqlModelService{
 	@Override
 	public <M extends Modelable> List<M> execute(Class<M> modelClass, SelectSqlFragment selectSqlFragment) {
 		BoundSql boundSql = selectSqlFragment.getBoundSql();
-		if(selectSqlFragment.isPage()) {
-			boundSql = getModelConfiguration().getDialect().page(boundSql, selectSqlFragment.getPageNum(), selectSqlFragment.getPageSize());
+		if (selectSqlFragment.isPage()) {
+			boundSql = getModelConfiguration().getDialect().page(boundSql, selectSqlFragment.getPageNum(),
+					selectSqlFragment.getPageSize());
 		}
 		List<Map<String, Object>> result = getBaseDataBaseOperation().select(boundSql.getSql(), boundSql.getParams());
 		List<M> modelList = new ArrayList<>(result.size());
@@ -52,7 +54,7 @@ public class JdbcModelService extends AbstractSqlModelService{
 				M model = mapBeanConverter.mapConvertBean(map, modelClass);
 				modelList.add(model);
 			} catch (Exception e) {
-				throw new ModelException("map转换为bean异常",e);
+				throw new ModelException("map转换为bean异常", e);
 			}
 		}
 		return modelList;

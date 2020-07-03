@@ -11,34 +11,36 @@ import org.yelong.core.model.exception.NotExtendColumnException;
  * @author PengFei
  * @since 1.1.0
  */
-public abstract class AbstractFieldAndColumn implements FieldAndColumn{
+public abstract class AbstractFieldAndColumn implements FieldAndColumn {
+
+	private static final long serialVersionUID = 4684917589973267365L;
 
 	private String selectColumn;
-	
+
 	private Long minLength;
-	
+
 	private Long maxLength;
-	
+
 	private boolean allowBlank;
-	
+
 	private boolean allowNull;
-	
+
 	private boolean extend;
-	
+
 	private ExtendColumnAttribute extendColumnAttribute;
-	
+
 	private boolean primaryKey;
-	
+
 	private boolean selectMapping;
-	
+
 	private SelectColumnCondition selectColumnCondition;
-	
+
 	private String columnName;
-	
+
 	private String desc;
-	
+
 	private String jdbcType;
-	
+
 	public String getSelectColumn() {
 		return selectColumn;
 	}
@@ -136,7 +138,7 @@ public abstract class AbstractFieldAndColumn implements FieldAndColumn{
 	}
 
 	public ExtendColumnAttribute getExtendColumnAttribute() {
-		if( !isExtend() ) {
+		if (!isExtend()) {
 			throw new NotExtendColumnException(this);
 		}
 		return extendColumnAttribute;
@@ -144,6 +146,19 @@ public abstract class AbstractFieldAndColumn implements FieldAndColumn{
 
 	public void setExtendColumnAttribute(ExtendColumnAttribute extendColumnAttribute) {
 		this.extendColumnAttribute = extendColumnAttribute;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof FieldAndColumn)) {
+			return false;
+		}
+		return equals((FieldAndColumn) obj);
+	}
+
+	@Override
+	public boolean equals(FieldAndColumn fieldAndColumn) {
+		return fieldAndColumn.getField().equals(this.getField());
 	}
 
 }

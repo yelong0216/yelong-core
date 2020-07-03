@@ -17,27 +17,27 @@ import org.yelong.core.model.Modelable;
 public class ExtendColumnAttribute {
 
 	private final FieldAndColumn fieldAndColumn;
-	
+
 	/**
 	 * 拓展列所属的 model
 	 */
 	@Nullable
 	private final Class<? extends Modelable> ofModelClass;
-	
+
 	/**
 	 * 拓展列所属的表名
 	 */
 	@Nullable
 	private final String ofTableName;
-	
+
 	/**
 	 * 拓展列所属的表别名
 	 */
 	@Nullable
 	private final String ofTableAlias;
 
-	public ExtendColumnAttribute(FieldAndColumn fieldAndColumn,@Nullable Class<? extends Modelable> ofModelClass,
-			@Nullable String ofTableName,@Nullable String ofTableAlias) {
+	public ExtendColumnAttribute(FieldAndColumn fieldAndColumn, @Nullable Class<? extends Modelable> ofModelClass,
+			@Nullable String ofTableName, @Nullable String ofTableAlias) {
 		this.fieldAndColumn = Objects.requireNonNull(fieldAndColumn);
 		this.ofModelClass = ofModelClass;
 		this.ofTableName = ofTableName;
@@ -50,9 +50,9 @@ public class ExtendColumnAttribute {
 	public FieldAndColumn getFieldAndColumn() {
 		return fieldAndColumn;
 	}
-	
+
 	/**
-	 * @return 该拓展列所属的 model 
+	 * @return 该拓展列所属的 model
 	 */
 	public Class<? extends Modelable> getOfModelClass() {
 		return ofModelClass;

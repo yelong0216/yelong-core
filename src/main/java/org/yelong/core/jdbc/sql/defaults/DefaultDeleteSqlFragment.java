@@ -5,6 +5,7 @@ package org.yelong.core.jdbc.sql.defaults;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.yelong.core.annotation.Nullable;
+import org.yelong.core.jdbc.dialect.Dialect;
 import org.yelong.core.jdbc.sql.BoundSql;
 import org.yelong.core.jdbc.sql.condition.ConditionSqlFragment;
 import org.yelong.core.jdbc.sql.executable.AbstractSqlFragmentExecutable;
@@ -15,21 +16,21 @@ import org.yelong.core.jdbc.sql.executable.DeleteSqlFragment;
  * 
  * @author PengFei
  */
-public class DefaultDeleteSqlFragment extends AbstractSqlFragmentExecutable implements DeleteSqlFragment{
+public class DefaultDeleteSqlFragment extends AbstractSqlFragmentExecutable implements DeleteSqlFragment {
 
-	@Nullable 
+	@Nullable
 	private ConditionSqlFragment conditionSqlFragment;
 
-	@Nullable 
+	@Nullable
 	private BoundSql conditionBoundSql;
 
-	public DefaultDeleteSqlFragment(String sql, Object ... params) {
-		super(sql, params);
+	public DefaultDeleteSqlFragment(Dialect dialect, String sql, Object... params) {
+		super(dialect, sql, params);
 	}
 
 	@Override
 	public String getSqlFragment() {
-		if(!existConditionSqlFragment()) {
+		if (!existConditionSqlFragment()) {
 			return getBaseSql();
 		}
 		return getBaseSql() + " " + conditionBoundSql.getSql();
@@ -37,7 +38,7 @@ public class DefaultDeleteSqlFragment extends AbstractSqlFragmentExecutable impl
 
 	@Override
 	public Object[] getParams() {
-		if(!existConditionSqlFragment()) {
+		if (!existConditionSqlFragment()) {
 			return getBaseParams();
 		}
 		return ArrayUtils.addAll(getBaseParams(), conditionBoundSql.getParams());

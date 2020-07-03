@@ -14,7 +14,7 @@ import org.yelong.core.jdbc.sql.BoundSql;
  * 
  * @author PengFei
  */
-public abstract class AbstractSqlFragmentExecutor implements SqlFragmentExecutor{
+public abstract class AbstractSqlFragmentExecutor implements SqlFragmentExecutor {
 
 	@Override
 	public <R> R execute(SqlFragmentExecutable sqlFragment) {
@@ -44,13 +44,13 @@ public abstract class AbstractSqlFragmentExecutor implements SqlFragmentExecutor
 		BoundSql boundSql = countSqlFragment.getBoundSql();
 		return getBaseDataBaseOperation().count(boundSql.getSql(), boundSql.getParams());
 	}
-	
+
 	@Override
 	public List<Map<String, Object>> execute(SelectSqlFragment selectSqlFragment) {
 		BoundSql boundSql = selectSqlFragment.getBoundSql();
 		return getBaseDataBaseOperation().select(boundSql.getSql(), boundSql.getParams());
 	}
-	
+
 	/**
 	 * @return 基本数据库操作对象
 	 */

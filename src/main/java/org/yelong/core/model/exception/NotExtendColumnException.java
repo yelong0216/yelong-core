@@ -11,17 +11,17 @@ import org.yelong.core.model.resolve.FieldAndColumn;
  * @author PengFei
  * @since 1.2.0
  */
-public class NotExtendColumnException extends ModelException{
+public class NotExtendColumnException extends FieldAndColumnException {
 
 	private static final long serialVersionUID = -3254327914291522694L;
 
 	private final FieldAndColumn fieldAndColumn;
-	
+
 	public NotExtendColumnException(FieldAndColumn fieldAndColumn) {
-		this(fieldAndColumn,fieldAndColumn.getFieldName()+"不是一个拓展列");
+		this(fieldAndColumn, fieldAndColumn.getFieldName() + "不是一个拓展列");
 	}
-	
-	public NotExtendColumnException(FieldAndColumn fieldAndColumn ,String message) {
+
+	public NotExtendColumnException(FieldAndColumn fieldAndColumn, String message) {
 		super(message);
 		this.fieldAndColumn = fieldAndColumn;
 	}
@@ -29,5 +29,5 @@ public class NotExtendColumnException extends ModelException{
 	public FieldAndColumn getFieldAndColumn() {
 		return fieldAndColumn;
 	}
-	
+
 }

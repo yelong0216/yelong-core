@@ -13,17 +13,17 @@ import org.yelong.core.jdbc.sql.function.DatabaseFunction;
  * @author PengFei
  * @since 1.1.0
  */
-public class MySqlDatabaseFunction implements DatabaseFunction{
+public class MySqlDatabaseFunction implements DatabaseFunction {
 
 	protected final Dialect dialect;
-	
+
 	protected final BaseDataBaseOperation baseDataBaseOperation;
-	
-	public MySqlDatabaseFunction(Dialect dialect,BaseDataBaseOperation baseDataBaseOperation) {
+
+	public MySqlDatabaseFunction(Dialect dialect, BaseDataBaseOperation baseDataBaseOperation) {
 		this.dialect = dialect;
 		this.baseDataBaseOperation = baseDataBaseOperation;
 	}
-	
+
 	@Override
 	public String getCurrentDatabase() {
 		return baseDataBaseOperation.selectSingleObject("select database()");

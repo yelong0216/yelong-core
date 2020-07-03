@@ -22,45 +22,45 @@ import org.yelong.core.model.sql.SqlModelResolver;
  * @author PengFei
  */
 public class ModelConfigurationBuilder {
-	
+
 	private Dialect dialect;
-	
+
 	@SuppressWarnings("deprecation")
 	private ModelProperties modelProperties;
-	
+
 	private ModelAndTableManager modelAndTableManager;
-	
+
 	private ModelSqlFragmentFactory modelSqlFragmentFactory;
-	
+
 	private ConditionResolver conditionResolver;
-	
+
 	private SqlModelResolver sqlModelResolver;
-	
+
 	private ModelProperty modelProperty;
-	
+
 	public ModelConfigurationBuilder() {
-		
+
 	}
-	
+
 	/**
 	 * @param dialect 数据库方言
 	 */
 	public ModelConfigurationBuilder(Dialect dialect) {
 		this.dialect = dialect;
 	}
-	
+
 	/**
-	 * @param dialect 数据库方言
+	 * @param dialect         数据库方言
 	 * @param modelProperties 模型属性配置
 	 */
 	@SuppressWarnings("deprecation")
-	public ModelConfigurationBuilder(Dialect dialect,ModelProperties modelProperties) {
+	public ModelConfigurationBuilder(Dialect dialect, ModelProperties modelProperties) {
 		this.dialect = dialect;
 		this.modelProperties = modelProperties;
 	}
-	
-	//=======================set====================
-	
+
+	// =======================set====================
+
 	public ModelConfigurationBuilder setModelAndTableManager(ModelAndTableManager modelAndTableManager) {
 		this.modelAndTableManager = modelAndTableManager;
 		return this;
@@ -85,18 +85,18 @@ public class ModelConfigurationBuilder {
 		this.dialect = dialect;
 		return this;
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	public void setModelProperties(ModelProperties modelProperties) {
 		this.modelProperties = modelProperties;
 	}
-	
+
 	public void setModelProperty(ModelProperty modelProperty) {
 		this.modelProperty = modelProperty;
 	}
-	
-	//=======================get====================
-	
+
+	// =======================get====================
+
 	public Dialect getDialect() {
 		return dialect;
 	}
@@ -125,9 +125,9 @@ public class ModelConfigurationBuilder {
 	public ModelProperty getModelProperty() {
 		return modelProperty;
 	}
-	
-	//=======================build====================
-	
+
+	// =======================build====================
+
 	/**
 	 * 构建模型配置
 	 * 
@@ -135,27 +135,29 @@ public class ModelConfigurationBuilder {
 	 */
 	@SuppressWarnings("deprecation")
 	public ModelConfiguration build() {
-		Objects.requireNonNull(dialect,"dialect not allow to null");
-		if( null == modelProperties ) {
+		Objects.requireNonNull(dialect, "dialect not allow to null");
+		if (null == modelProperties) {
 			this.modelProperties = new ModelProperties();
 		}
-		if( null ==  modelAndTableManager ) {
+		if (null == modelAndTableManager) {
 			this.modelAndTableManager = new ModelAndTableManager(new AnnotationModelResolver(modelProperties));
 		}
-		if( null ==  modelSqlFragmentFactory ) {
-			this.modelSqlFragmentFactory = new DefaultModelSqlFragmentFactory(dialect, modelAndTableManager);
+		if (null == modelSqlFragmentFactory) {
+			this.modelSqlFragmentFactory = new DefaultModelSqlFragmentFactory(dialect.getSqlFragmentFactory(),
+					modelAndTableManager);
 		}
-		if( null ==  conditionResolver ) {
+		if (null == conditionResolver) {
 			this.conditionResolver = new DefaultConditionResolver(modelSqlFragmentFactory);
 		}
-		if( null ==  sqlModelResolver ) {
+		if (null == sqlModelResolver) {
 			this.sqlModelResolver = new DefaultSqlModelResolver(modelAndTableManager, conditionResolver);
 		}
-		ModelConfiguration modelConfiguration = new ModelConfiguration(dialect, modelProperties, modelAndTableManager, modelSqlFragmentFactory, conditionResolver, sqlModelResolver);
-		if ( null != modelProperty ) {
+		ModelConfiguration modelConfiguration = new ModelConfiguration(dialect, modelProperties, modelAndTableManager,
+				modelSqlFragmentFactory, conditionResolver, sqlModelResolver);
+		if (null != modelProperty) {
 			modelConfiguration.setModelProperty(modelProperty);
 		}
 		return modelConfiguration;
 	}
-	
+
 }

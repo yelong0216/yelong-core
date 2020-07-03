@@ -10,14 +10,14 @@ import org.yelong.core.jdbc.sql.factory.SqlFragmentFactory;
  * 
  * @author PengFei
  */
-public abstract class AbstractConditionResolver implements ConditionResolver{
-	
+public abstract class AbstractConditionResolver implements ConditionResolver {
+
 	protected SqlFragmentFactory sqlFragmentFactory;
-	
+
 	public AbstractConditionResolver(SqlFragmentFactory sqlFragmentFactory) {
 		this.sqlFragmentFactory = sqlFragmentFactory;
 	}
-	
+
 	@Override
 	public SqlFragmentFactory getSqlFragmentFactory() {
 		return this.sqlFragmentFactory;
@@ -28,5 +28,5 @@ public abstract class AbstractConditionResolver implements ConditionResolver{
 		this.sqlFragmentFactory = sqlFragmentFactory;
 		return this;
 	}
-	
+
 }

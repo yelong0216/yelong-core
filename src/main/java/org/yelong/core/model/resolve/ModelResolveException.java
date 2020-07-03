@@ -10,7 +10,7 @@ import org.yelong.core.model.exception.ModelException;
  * 
  * @author PengFei
  */
-public class ModelResolveException extends ModelException{
+public class ModelResolveException extends ModelException {
 
 	private static final long serialVersionUID = 7157528523515342273L;
 

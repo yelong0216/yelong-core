@@ -21,7 +21,7 @@ import org.yelong.core.model.sql.SqlModelResolver;
  * 
  * @author PengFei
  */
-public abstract class AbstractSqlModelService extends AbstractModelService implements SqlModelService{
+public abstract class AbstractSqlModelService extends AbstractModelService implements SqlModelService {
 
 	public AbstractSqlModelService(ModelConfiguration modelConfiguration) {
 		super(modelConfiguration);
@@ -36,7 +36,7 @@ public abstract class AbstractSqlModelService extends AbstractModelService imple
 	public <M extends Modelable, S extends SqlModel> Integer removeBySqlModel(String sql, S sqlModel) {
 		DeleteSqlFragment deleteSqlFragment = getModelSqlFragmentFactory().createDeleteSqlFragment(sql);
 		ConditionSqlFragment conditionSqlFragment = getSqlModelResolver().resolveToCondition(sqlModel, false);
-		if( null != conditionSqlFragment ) {
+		if (null != conditionSqlFragment) {
 			deleteSqlFragment.setConditionSqlFragment(conditionSqlFragment);
 		}
 		return execute(deleteSqlFragment);
@@ -53,12 +53,12 @@ public abstract class AbstractSqlModelService extends AbstractModelService imple
 		ConditionSqlFragment conditionSqlFragment = getSqlModelResolver().resolveToCondition(sqlModel, false);
 		return modifySelectiveByCondition(model, conditionSqlFragment);
 	}
-	
+
 	@Override
 	public <M extends Modelable, S extends SqlModel> Integer modifyBySqlModel(String sql, Object[] params, S sqlModel) {
 		UpdateSqlFragment updateSqlFragment = getModelSqlFragmentFactory().createUpdateSqlFragment(sql, params);
 		ConditionSqlFragment conditionSqlFragment = getSqlModelResolver().resolveToCondition(sqlModel, false);
-		if( null != conditionSqlFragment ) {
+		if (null != conditionSqlFragment) {
 			updateSqlFragment.setConditionSqlFragment(conditionSqlFragment);
 		}
 		return execute(updateSqlFragment);
@@ -74,7 +74,7 @@ public abstract class AbstractSqlModelService extends AbstractModelService imple
 	public <M extends Modelable, S extends SqlModel> Long countBySqlModel(String sql, S sqlModel) {
 		ConditionSqlFragment conditionSqlFragment = getSqlModelResolver().resolveToCondition(sqlModel);
 		CountSqlFragment countSqlFragment = getModelSqlFragmentFactory().createCountSqlFragment(sql);
-		if( null != conditionSqlFragment ) {
+		if (null != conditionSqlFragment) {
 			countSqlFragment.setConditionSqlFragment(conditionSqlFragment);
 		}
 		return execute(countSqlFragment);
@@ -84,21 +84,30 @@ public abstract class AbstractSqlModelService extends AbstractModelService imple
 	public <M extends Modelable, S extends SqlModel> List<M> findBySqlModel(Class<M> modelClass, S sqlModel) {
 		ConditionSqlFragment conditionSqlFragment = getSqlModelResolver().resolveToCondition(sqlModel);
 		SortSqlFragment sortSqlFragment = getSqlModelResolver().resolveToSort(sqlModel);
-		return findByConditionSort(modelClass, conditionSqlFragment,sortSqlFragment);
+		return findByConditionSort(modelClass, conditionSqlFragment, sortSqlFragment);
 	}
 
 	@Override
-	public <M extends Modelable, S extends SqlModel> List<M> findBySqlModel(Class<M> modelClass,String sql, S sqlModel) {
+	public <M extends Modelable, S extends SqlModel> List<M> findBySqlModel(Class<M> modelClass, String sql,
+			S sqlModel) {
 		ConditionSqlFragment conditionSqlFragment = getSqlModelResolver().resolveToCondition(sqlModel);
 		SortSqlFragment sortSqlFragment = getSqlModelResolver().resolveToSort(sqlModel);
 		SelectSqlFragment selectSqlFragment = getModelSqlFragmentFactory().createSelectSqlFragment(sql);
-		if( null != selectSqlFragment ) {
+		if (null != selectSqlFragment) {
 			selectSqlFragment.setConditionSqlFragment(conditionSqlFragment);
 		}
-		if( null != sortSqlFragment ) {
-			selectSqlFragment.setSortSqlFragment(sortSqlFragment);	
+		if (null != sortSqlFragment) {
+			selectSqlFragment.setSortSqlFragment(sortSqlFragment);
 		}
 		return execute(modelClass, selectSqlFragment);
+	}
+
+	@Override
+	public <M extends Modelable, S extends SqlModel, T> List<T> findSingleColumnBySqlModel(Class<M> modelClass,
+			String selectColumn, S sqlModel) {
+		ConditionSqlFragment conditionSqlFragment = getSqlModelResolver().resolveToCondition(sqlModel);
+		SortSqlFragment sortSqlFragment = getSqlModelResolver().resolveToSort(sqlModel);
+		return findSingleColumn(modelClass, selectColumn, conditionSqlFragment, sortSqlFragment);
 	}
 
 	@Override
@@ -110,21 +119,21 @@ public abstract class AbstractSqlModelService extends AbstractModelService imple
 	}
 
 	@Override
-	public <M extends Modelable, S extends SqlModel> List<M> findPageBySqlModel(Class<M> modelClass,String sql, S sqlModel, int pageNum,
-			int pageSize) {
+	public <M extends Modelable, S extends SqlModel> List<M> findPageBySqlModel(Class<M> modelClass, String sql,
+			S sqlModel, int pageNum, int pageSize) {
 		ConditionSqlFragment conditionSqlFragment = getSqlModelResolver().resolveToCondition(sqlModel);
 		SortSqlFragment sortSqlFragment = getSqlModelResolver().resolveToSort(sqlModel);
 		SelectSqlFragment selectSqlFragment = getModelSqlFragmentFactory().createSelectSqlFragment(sql);
-		if( null != conditionSqlFragment ) {
+		if (null != conditionSqlFragment) {
 			selectSqlFragment.setConditionSqlFragment(conditionSqlFragment);
 		}
-		if( null != sortSqlFragment ) {
+		if (null != sortSqlFragment) {
 			selectSqlFragment.setSortSqlFragment(sortSqlFragment);
 		}
-		selectSqlFragment.startPage(pageNum, pageSize);//1.0.5版本修改。之前版本这里没有启动分页
+		selectSqlFragment.startPage(pageNum, pageSize);// 1.0.5版本修改。之前版本这里没有启动分页
 		return execute(modelClass, selectSqlFragment);
 	}
-	
+
 	protected SqlModelResolver getSqlModelResolver() {
 		return getModelConfiguration().getSqlModelResolver();
 	}

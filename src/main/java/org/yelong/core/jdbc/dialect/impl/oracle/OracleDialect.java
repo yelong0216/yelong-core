@@ -11,16 +11,16 @@ import org.yelong.core.jdbc.dialect.DialectType;
  * 
  * @author PengFei
  */
-public class OracleDialect extends AbstractDialect{
-	
+public class OracleDialect extends AbstractDialect {
+
 	@Override
 	public String getBaseDeleteSql(String tableName, String tableAlias) {
-		return "delete "+tableName + " " + tableAlias;
+		return "delete " + tableName + " " + tableAlias;
 	}
-	
+
 	@Override
 	public DialectType getDialectType() {
 		return DialectType.ORACLE;
 	}
-	
+
 }

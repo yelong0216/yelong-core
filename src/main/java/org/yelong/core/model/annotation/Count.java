@@ -12,8 +12,7 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Target(TYPE)
 /**
- * 标注在model上面。
- * 替换默认的查询记录语句
+ * 标注在model上面。 替换默认的查询记录语句
  * 
  * @author PengFei
  */
@@ -25,5 +24,5 @@ public @interface Count {
 	 * @return count sql
 	 */
 	String value() default "";
-	
+
 }

@@ -8,7 +8,7 @@ import org.yelong.core.jdbc.sql.condition.ConditionSqlFragment;
  * 
  * @author PengFei
  */
-public interface UpdateSqlFragment extends SqlFragmentExecutable{
+public interface UpdateSqlFragment extends SqlFragmentExecutable {
 
 	/**
 	 * 设置条件
@@ -28,7 +28,7 @@ public interface UpdateSqlFragment extends SqlFragmentExecutable{
 	/**
 	 * 是否存在条件
 	 * 
-	 * @return  <tt>true</tt> 存在条件
+	 * @return <tt>true</tt> 存在条件
 	 */
 	default boolean existConditionSqlFragment() {
 		return null != getConditionSqlFragment();

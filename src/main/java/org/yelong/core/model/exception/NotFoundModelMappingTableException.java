@@ -11,17 +11,16 @@ import org.yelong.core.model.annotation.Table;
  * 
  * @author PengFei
  */
-public class NotFoundModelMappingTableException extends RuntimeException{
-	
+public class NotFoundModelMappingTableException extends ModelAndTableException {
+
 	private static final long serialVersionUID = -8129112948834680096L;
-	
-	
+
 	public NotFoundModelMappingTableException() {
-		
+
 	}
-	
+
 	public NotFoundModelMappingTableException(String message) {
 		super(message);
 	}
-	
+
 }

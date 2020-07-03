@@ -8,8 +8,8 @@ package org.yelong.core.jdbc.sql.exception;
  * 
  * @author PengFei
  */
-public class NotFoundSortVerifierException extends SqlFragmentException{
-	
+public class NotFoundSortVerifierException extends SqlFragmentException {
+
 	private static final long serialVersionUID = 8148883319238683020L;
 
 	public NotFoundSortVerifierException() {
@@ -23,5 +23,5 @@ public class NotFoundSortVerifierException extends SqlFragmentException{
 	public NotFoundSortVerifierException(Throwable t) {
 		super(t);
 	}
-	
+
 }

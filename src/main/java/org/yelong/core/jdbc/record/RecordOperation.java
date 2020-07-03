@@ -16,23 +16,23 @@ import org.yelong.core.jdbc.sql.ddl.Table;
  * @since 1.1.0
  */
 public interface RecordOperation {
-	
+
 	/**
 	 * 新增一条记录
 	 * 
-	 * @param table 新增记录的表
+	 * @param table  新增记录的表
 	 * @param record 记录
 	 * @return 数据操作行数
 	 */
-	Integer insert(Table table,Record record);
-	
+	Integer insert(Table table, Record record);
+
 	/**
 	 * 查询记录
 	 * 
-	 * @param sql sql
+	 * @param sql    sql
 	 * @param params 参数
 	 * @return 查询的记录
 	 */
-	List<Record> select(String sql , Object ... params);
-	
+	List<Record> select(String sql, Object... params);
+
 }

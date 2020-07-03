@@ -14,7 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Target(TYPE)
 /**
- * 标注在model上面。
+ * 标注在model上面。<br/>
  * 替换默认的 select sql
  * 
  * @author PengFei
@@ -27,5 +27,5 @@ public @interface Select {
 	 * @return select sql
 	 */
 	String value() default "";
-	
+
 }

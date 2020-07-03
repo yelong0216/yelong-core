@@ -21,23 +21,23 @@ import org.yelong.core.model.sql.SqlModelResolver;
 public class ModelConfiguration {
 
 	private Dialect dialect;
-	
+
 	@SuppressWarnings("deprecation")
 	private ModelProperties modelProperties;
-	
+
 	private ModelAndTableManager modelAndTableManager;
-	
+
 	private ModelSqlFragmentFactory modelSqlFragmentFactory;
-	
+
 	private ConditionResolver conditionResolver;
-	
+
 	private SqlModelResolver sqlModelResolver;
-	
+
 	private ModelProperty modelProperty;
-	
-	public ModelConfiguration(Dialect dialect,
-			ModelAndTableManager modelAndTableManager , ModelSqlFragmentFactory modelSqlFragmentFactory,
-			ConditionResolver conditionResolver, SqlModelResolver sqlModelResolver) {
+
+	public ModelConfiguration(Dialect dialect, ModelAndTableManager modelAndTableManager,
+			ModelSqlFragmentFactory modelSqlFragmentFactory, ConditionResolver conditionResolver,
+			SqlModelResolver sqlModelResolver) {
 		this.dialect = dialect;
 		this.modelAndTableManager = modelAndTableManager;
 		this.modelSqlFragmentFactory = modelSqlFragmentFactory;
@@ -45,10 +45,10 @@ public class ModelConfiguration {
 		this.sqlModelResolver = sqlModelResolver;
 		this.modelProperty = DefaultModelProperty.INSTANCE;
 	}
-	
+
 	@Deprecated
 	public ModelConfiguration(Dialect dialect, ModelProperties modelProperties,
-			ModelAndTableManager modelAndTableManager , ModelSqlFragmentFactory modelSqlFragmentFactory,
+			ModelAndTableManager modelAndTableManager, ModelSqlFragmentFactory modelSqlFragmentFactory,
 			ConditionResolver conditionResolver, SqlModelResolver sqlModelResolver) {
 		this.dialect = dialect;
 		this.modelProperties = modelProperties;
@@ -121,5 +121,5 @@ public class ModelConfiguration {
 	public void setModelProperty(ModelProperty modelProperty) {
 		this.modelProperty = modelProperty;
 	}
-	
+
 }

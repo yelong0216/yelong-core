@@ -5,6 +5,7 @@ package org.yelong.core.jdbc.sql.defaults;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.yelong.core.annotation.Nullable;
+import org.yelong.core.jdbc.dialect.Dialect;
 import org.yelong.core.jdbc.sql.BoundSql;
 import org.yelong.core.jdbc.sql.condition.ConditionSqlFragment;
 import org.yelong.core.jdbc.sql.executable.AbstractSqlFragmentExecutable;
@@ -16,39 +17,39 @@ import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
  * 
  * @author PengFei
  */
-public class DefaultSelectSqlFragment extends AbstractSqlFragmentExecutable implements SelectSqlFragment{
+public class DefaultSelectSqlFragment extends AbstractSqlFragmentExecutable implements SelectSqlFragment {
 
-	@Nullable 
+	@Nullable
 	private ConditionSqlFragment conditionSqlFragment;
 
-	@Nullable 
+	@Nullable
 	private BoundSql conditionBoundSql;
-	
-	@Nullable 
+
+	@Nullable
 	private SortSqlFragment sortSqlFragment;
-	
-	@Nullable 
+
+	@Nullable
 	private BoundSql sortBoundSql;
 
-	@Nullable 
+	@Nullable
 	private Integer pageNum;
-	
-	@Nullable 
+
+	@Nullable
 	private Integer pageSize;
-	
+
 	private boolean isPage;
-	
-	public DefaultSelectSqlFragment(String sql, Object ... params) {
-		super(sql, params);
+
+	public DefaultSelectSqlFragment(Dialect dialect, String sql, Object... params) {
+		super(dialect, sql, params);
 	}
-	
+
 	@Override
 	public String getSqlFragment() {
 		String sqlFragment = getBaseSql();
-		if( existConditionSqlFragment() ) {
+		if (existConditionSqlFragment()) {
 			sqlFragment = sqlFragment + " " + conditionSqlFragment.getSqlFragment();
 		}
-		if( existSortSqlFragment() ) {
+		if (existSortSqlFragment()) {
 			sqlFragment = sqlFragment + " " + sortSqlFragment.getSqlFragment();
 		}
 		return sqlFragment;
@@ -56,7 +57,7 @@ public class DefaultSelectSqlFragment extends AbstractSqlFragmentExecutable impl
 
 	@Override
 	public Object[] getParams() {
-		if( !existConditionSqlFragment() ) {
+		if (!existConditionSqlFragment()) {
 			return getBaseParams();
 		}
 		return ArrayUtils.addAll(getBaseParams(), conditionBoundSql.getParams());
@@ -92,30 +93,31 @@ public class DefaultSelectSqlFragment extends AbstractSqlFragmentExecutable impl
 		this.pageSize = pageSize;
 		this.isPage = true;
 	}
-	
+
 	@Override
 	public void cancelPage() {
 		this.isPage = false;
 	}
-	
+
 	@Override
 	public boolean isPage() {
 		return this.isPage;
 	}
-	
+
 	@Override
 	public Integer getPageNum() {
-		if( !isPage ) {
+		if (!isPage) {
 			return null;
 		}
 		return this.pageNum;
 	}
+
 	@Override
 	public Integer getPageSize() {
-		if( !isPage ) {
+		if (!isPage) {
 			return null;
 		}
 		return this.pageSize;
 	}
-	
+
 }

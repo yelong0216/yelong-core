@@ -13,7 +13,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class Plugin implements InvocationHandler{
+import org.yelong.commons.annotation.AnnotationUtils;
+
+public class Plugin implements InvocationHandler {
 
 	private final Object target;
 	private final Interceptor interceptor;
@@ -28,23 +30,21 @@ public class Plugin implements InvocationHandler{
 	public static Object wrap(Object target, Interceptor interceptor) {
 		return wrap(target, interceptor, target.getClass().getInterfaces());
 	}
-	
+
 	/**
 	 * target 如果是代理对象的话，无法从target中获取其实现类，需要手动设置
 	 * 
-	 * @param target 源
+	 * @param target      源
 	 * @param interceptor 拦截器
-	 * @param interfaces 实现的接口数组
+	 * @param interfaces  实现的接口数组
 	 * @return 代理后的对象
 	 */
-	public static Object wrap(Object target, Interceptor interceptor , Class<?>[] interfaces) {
+	public static Object wrap(Object target, Interceptor interceptor, Class<?>[] interfaces) {
 		Map<Class<?>, Set<Method>> signatureMap = getSignatureMap(interceptor);
 		Class<?> type = target.getClass();
-		//		Class<?>[] interfaces = getAllInterfaces(type, signatureMap);
+		// Class<?>[] interfaces = getAllInterfaces(type, signatureMap);
 		if (interfaces.length > 0) {
-			return Proxy.newProxyInstance(
-					type.getClassLoader(),
-					interfaces,
+			return Proxy.newProxyInstance(type.getClassLoader(), interfaces,
 					new Plugin(target, interceptor, signatureMap));
 		}
 		return target;
@@ -59,7 +59,7 @@ public class Plugin implements InvocationHandler{
 			}
 			return method.invoke(target, args);
 		} catch (Throwable e) {
-			//把包装的异常拿出来
+			// 把包装的异常拿出来
 			Throwable unwrapped = e;
 			while (true) {
 				if (unwrapped instanceof InvocationTargetException) {
@@ -75,10 +75,13 @@ public class Plugin implements InvocationHandler{
 	}
 
 	private static Map<Class<?>, Set<Method>> getSignatureMap(Interceptor interceptor) {
-		Intercepts interceptsAnnotation = interceptor.getClass().getAnnotation(Intercepts.class);
+		// Intercepts interceptsAnnotation =
+		// interceptor.getClass().getAnnotation(Intercepts.class);
+		Intercepts interceptsAnnotation = AnnotationUtils.getAnnotation(interceptor.getClass(), Intercepts.class, true);
 		// issue #251
 		if (interceptsAnnotation == null) {
-			throw new RuntimeException("No @Intercepts annotation was found in interceptor " + interceptor.getClass().getName());
+			throw new RuntimeException(
+					"No @Intercepts annotation was found in interceptor " + interceptor.getClass().getName());
 		}
 		Signature[] sigs = interceptsAnnotation.value();
 		Map<Class<?>, Set<Method>> signatureMap = new HashMap<>();
@@ -88,7 +91,8 @@ public class Plugin implements InvocationHandler{
 				Method method = sig.type().getMethod(sig.method(), sig.args());
 				methods.add(method);
 			} catch (NoSuchMethodException e) {
-				throw new RuntimeException("Could not find method on " + sig.type() + " named " + sig.method() + ". Cause: " + e, e);
+				throw new RuntimeException(
+						"Could not find method on " + sig.type() + " named " + sig.method() + ". Cause: " + e, e);
 			}
 		}
 		return signatureMap;

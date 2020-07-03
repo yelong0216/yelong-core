@@ -10,25 +10,27 @@ import org.yelong.core.model.Modelable;
  * 
  * @author PengFei
  */
-public abstract class AbstractModelAndTable implements ModelAndTable{
-	
+public abstract class AbstractModelAndTable implements ModelAndTable {
+
+	private static final long serialVersionUID = -1474553367962118950L;
+
 	private Class<?> modelClass;
 
 	private String tableName;
-	
+
 	private String tableAlias;
-	
+
 	private String tableDesc;
-	
+
 	/**
 	 * @param modelClass 模型类型
-	 * @param tableName 映射的表名
+	 * @param tableName  映射的表名
 	 */
 	public AbstractModelAndTable(Class<?> modelClass, String tableName) {
 		this.modelClass = modelClass;
 		this.tableName = tableName;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public <M extends Modelable> Class<M> getModelClass() {
@@ -57,10 +59,23 @@ public abstract class AbstractModelAndTable implements ModelAndTable{
 	public String getTableDesc() {
 		return tableDesc;
 	}
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof ModelAndTable)) {
+			return false;
+		}
+		return equals((ModelAndTable) obj);
+	}
+
+	@Override
+	public boolean equals(ModelAndTable modelAndTable) {
+		return modelAndTable.getModelClass().equals(getModelClass());
+	}
+
 	@Override
 	public String toString() {
-		return "modelClass:"+modelClass+"\ttableName:"+tableName;
+		return "modelClass:" + modelClass + "\ttableName:" + tableName;
 	}
-	
+
 }

@@ -14,19 +14,19 @@ import org.yelong.core.model.Modelable;
 @Retention(RUNTIME)
 @Target(FIELD)
 /**
- * 拓展列
- * 该列仅在查询时映射。
+ * 拓展列<br/>
+ * 该列仅在查询时映射。<br/>
  * 此不映射仅包含增删改。其查询可以映射。
  * 
  * @author PengFei
  */
 public @interface ExtendColumn {
-	
+
 	/**
-	 * 默认的 model class 
+	 * 默认的 model class
 	 */
 	Class<? extends Modelable> DEFAULT_MODEL_CLASS = Modelable.class;
-	
+
 	/**
 	 * 表示该拓展列所属的model
 	 * 
@@ -34,7 +34,7 @@ public @interface ExtendColumn {
 	 * @see #modelClass()
 	 */
 	Class<? extends Modelable> value() default Modelable.class;
-	
+
 	/**
 	 * 表示该拓展列所属的model
 	 * 
@@ -42,14 +42,14 @@ public @interface ExtendColumn {
 	 * @see #value()
 	 */
 	Class<? extends Modelable> modelClass() default Modelable.class;
-	
+
 	/**
 	 * 表示该列所属的表名
 	 * 
 	 * @return 该列所属的表名
 	 */
 	String tableName() default "";
-	
+
 	/**
 	 * 
 	 * 表示该列所属的表的别名
@@ -57,5 +57,5 @@ public @interface ExtendColumn {
 	 * @return 该列所属的表的别名
 	 */
 	String tableAlias() default "";
-	
+
 }

@@ -8,7 +8,7 @@ package org.yelong.core.jdbc.sql.exception;
  * 
  * @author PengFei
  */
-public class NotFoundConditionClauseVerifierException extends SqlFragmentException{
+public class NotFoundConditionClauseVerifierException extends SqlFragmentException {
 
 	private static final long serialVersionUID = -688652983327294776L;
 
@@ -23,5 +23,5 @@ public class NotFoundConditionClauseVerifierException extends SqlFragmentExcepti
 	public NotFoundConditionClauseVerifierException(Throwable t) {
 		super(t);
 	}
-	
+
 }

@@ -5,7 +5,9 @@ package org.yelong.core.jdbc.sql.condition.support;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
+import org.yelong.commons.lang.Strings;
 import org.yelong.core.jdbc.sql.condition.ConditionConnectWay;
 
 /**
@@ -15,15 +17,15 @@ import org.yelong.core.jdbc.sql.condition.ConditionConnectWay;
  */
 public class Condition {
 
-	//列名
+	// 列名
 	private String column;
-	
-	//运算符
+
+	// 运算符
 	private String operator;
-	
-	//列值。
+
+	// 列值。
 	private Object value;
-	
+
 	private Object secondValue;
 
 	private boolean noValue;
@@ -33,39 +35,40 @@ public class Condition {
 	private boolean betweenValue;
 
 	private boolean listValue;
-	
-	//分组名称。在一组Condition中。groupName相同的视为一组条件 用 ()将其包起来，且组第一个connectOperator是该组条件与之前条件的连接符
+
+	// 分组名称。在一组Condition中。groupName相同的视为一组条件
+	// 用 ()将其包起来，且组第一个connectOperator是该组条件与之前条件的连接符
 	private String groupName;
-	
-	//此条件与前一条条件的 连接符 一般为 AND、OR
+
+	// 此条件与前一条条件的 连接符 一般为 AND、OR
 	private ConditionConnectWay connectWay = ConditionConnectWay.AND;
-	
+
 	public Condition(String column, String operator) {
-		this.column = column;
-		this.operator = operator;
+		this.column = Strings.requireNonBlank(column);
+		this.operator = Strings.requireNonBlank(operator);
 		this.noValue = true;
 	}
-	
+
 	public Condition(String column, String operator, Object value) {
-		this.column = column;
-		this.operator = operator;
-		this.value = value;
-		if( value.getClass().isArray() ) {
-			//this.value = Arrays.asList(value); value为数组时经常转换不为集合
-			this.value = Arrays.asList((Object[])value);
+		this.column = Strings.requireNonBlank(column);
+		this.operator = Strings.requireNonBlank(operator);
+		this.value = Objects.requireNonNull(value);
+		if (value.getClass().isArray()) {
+			// this.value = Arrays.asList(value); value为数组时经常转换不为集合
+			this.value = Arrays.asList((Object[]) value);
 			this.listValue = true;
-		} else if(value instanceof List) {
+		} else if (value instanceof List) {
 			this.listValue = true;
 		} else {
 			this.singleValue = true;
 		}
 	}
-	
-	public Condition(String column, String operator, Object value , Object secondValue) {
-		this.column = column;
-		this.operator = operator;
-		this.value = value;
-		this.secondValue = secondValue;
+
+	public Condition(String column, String operator, Object value, Object secondValue) {
+		this.column = Strings.requireNonBlank(column);
+		this.operator = Strings.requireNonBlank(operator);
+		this.value = Objects.requireNonNull(value);
+		this.secondValue = Objects.requireNonNull(secondValue);
 		this.betweenValue = true;
 	}
 
@@ -104,15 +107,15 @@ public class Condition {
 	public void setOperator(String operator) {
 		this.operator = operator;
 	}
-	
+
 	public void setValue(Object value) {
 		this.value = value;
 	}
-	
+
 	public void setColumn(String column) {
 		this.column = column;
 	}
-	
+
 	public String getGroupName() {
 		return groupName;
 	}
@@ -121,11 +124,11 @@ public class Condition {
 		this.groupName = groupName;
 		return this;
 	}
-	
+
 	public ConditionConnectWay getConnectWay() {
 		return connectWay;
 	}
-	
+
 	public Condition setConnectWay(ConditionConnectWay connectWay) {
 		this.connectWay = connectWay;
 		return this;
@@ -138,5 +141,5 @@ public class Condition {
 				+ betweenValue + ", listValue=" + listValue + ", groupName=" + groupName + ", connectWay=" + connectWay
 				+ "]";
 	}
-	
+
 }

@@ -20,22 +20,23 @@ public class InformationSchemaTable {
 	 * 表名称
 	 */
 	public static final String TABLE_NAME = "TABLE_NAME";
-	
+
 	/**
 	 * 表所属的数据库名称
 	 */
 	public static final String TABLE_SCHEMA = "TABLE_SCHEMA";
-	
+
 	/**
 	 * 创建表
+	 * 
 	 * @param record 查询的表的记录
 	 * @return 表
 	 */
-	public static final Table createTable(Map<String,Object> record) {
+	public static final Table createTable(Map<String, Object> record) {
 		Objects.requireNonNull(record);
 		String tableName = (String) record.get(TABLE_NAME);
-		String database = (String)record.get(TABLE_SCHEMA);
-		return new Table(database,tableName);
+		String database = (String) record.get(TABLE_SCHEMA);
+		return new Table(database, tableName);
 	}
-	
+
 }

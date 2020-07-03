@@ -6,6 +6,7 @@ package org.yelong.core.jdbc.sql.defaults;
 import java.util.Objects;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.yelong.core.jdbc.dialect.Dialect;
 import org.yelong.core.jdbc.sql.BoundSql;
 import org.yelong.core.jdbc.sql.attribute.AttributeSqlFragment;
 import org.yelong.core.jdbc.sql.condition.ConditionSqlFragment;
@@ -17,7 +18,7 @@ import org.yelong.core.jdbc.sql.executable.UpdateSqlFragment;
  * 
  * @author PengFei
  */
-public class DefaultUpdateSqlFragment extends AbstractSqlFragmentExecutable implements UpdateSqlFragment{
+public class DefaultUpdateSqlFragment extends AbstractSqlFragmentExecutable implements UpdateSqlFragment {
 
 	private AttributeSqlFragment attributeSqlFragment;
 
@@ -28,28 +29,29 @@ public class DefaultUpdateSqlFragment extends AbstractSqlFragmentExecutable impl
 	private BoundSql conditionBoundSql;
 
 	private String tableName;
-	
-	public DefaultUpdateSqlFragment(String tableName , AttributeSqlFragment attributeSqlFragment) {
+
+	public DefaultUpdateSqlFragment(Dialect dialect, String tableName, AttributeSqlFragment attributeSqlFragment) {
+		super(dialect);
 		Objects.requireNonNull(tableName, "未发现表名称！");
 		Objects.requireNonNull(attributeSqlFragment, "未发现列！");
 		this.tableName = tableName;
 		this.attributeSqlFragment = attributeSqlFragment;
 		this.attributeBoundSql = attributeSqlFragment.getBoundSql();
 	}
-	
-	public DefaultUpdateSqlFragment(String sql , Object ... params) {
-		super(sql,params);
+
+	public DefaultUpdateSqlFragment(Dialect dialect, String sql, Object... params) {
+		super(dialect, sql, params);
 	}
-	
+
 	@Override
 	public String getSqlFragment() {
 		String sql = null;
-		if( existBaseSql() ) {
+		if (existBaseSql()) {
 			sql = getBaseSql();
 		} else {
 			sql = " update " + tableName + " set " + attributeBoundSql.getSql();
 		}
-		if(existConditionSqlFragment()) {
+		if (existConditionSqlFragment()) {
 			sql = sql + " " + conditionBoundSql.getSql();
 		}
 		return sql;
@@ -57,18 +59,19 @@ public class DefaultUpdateSqlFragment extends AbstractSqlFragmentExecutable impl
 
 	@Override
 	public Object[] getParams() {
-		Object [] attrParams = null;
-		if( existBaseSql() ) {
+		Object[] attrParams = null;
+		if (existBaseSql()) {
 			attrParams = super.getBaseParams();
 		} else {
 			attrParams = attributeBoundSql.getParams();
 		}
-		if(!existConditionSqlFragment()) {
+		if (!existConditionSqlFragment()) {
 			return attrParams;
 		} else {
-			return ArrayUtils.addAll(attrParams,conditionBoundSql.getParams());
+			return ArrayUtils.addAll(attrParams, conditionBoundSql.getParams());
 		}
 	}
+
 	@Override
 	public AttributeSqlFragment getAttributeSqlFragment() {
 		return this.attributeSqlFragment;

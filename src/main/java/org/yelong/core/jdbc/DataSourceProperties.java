@@ -11,17 +11,17 @@ package org.yelong.core.jdbc;
 public class DataSourceProperties {
 
 	private String url;
-	
+
 	private String username;
-	
+
 	private String password;
 
 	private String driverClassName;
 
 	public DataSourceProperties() {
-		
+
 	}
-	
+
 	public DataSourceProperties(String url, String username, String password, String driverClassName) {
 		this.url = url;
 		this.username = username;
@@ -60,5 +60,5 @@ public class DataSourceProperties {
 	public void setDriverClassName(String driverClassName) {
 		this.driverClassName = driverClassName;
 	}
-	
+
 }

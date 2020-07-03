@@ -10,7 +10,7 @@ import org.yelong.core.jdbc.sql.condition.ConditionSqlFragment;
  * 
  * @author PengFei
  */
-public interface DeleteSqlFragment extends SqlFragmentExecutable{
+public interface DeleteSqlFragment extends SqlFragmentExecutable {
 
 	/**
 	 * 设置条件
@@ -35,5 +35,5 @@ public interface DeleteSqlFragment extends SqlFragmentExecutable{
 	default boolean existConditionSqlFragment() {
 		return null != getConditionSqlFragment();
 	}
-	
+
 }

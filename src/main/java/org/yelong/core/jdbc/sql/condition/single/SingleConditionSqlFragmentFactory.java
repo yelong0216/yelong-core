@@ -6,6 +6,7 @@ package org.yelong.core.jdbc.sql.condition.single;
 import java.util.Collection;
 import java.util.List;
 
+import org.yelong.core.jdbc.dialect.Dialect;
 import org.yelong.core.jdbc.sql.exception.InvalidConditionException;
 
 /**
@@ -15,48 +16,56 @@ import org.yelong.core.jdbc.sql.exception.InvalidConditionException;
  * @author PengFei
  */
 public interface SingleConditionSqlFragmentFactory {
-	
+
 	/**
 	 * 添加一个条件。该条件是不支持参数的类型。如：is null等。
 	 * 
-	 * @param fieldName 字段名称
+	 * @param column    列名称
 	 * @param condition 条件
 	 * @throws InvalidConditionException 如果这条件是一个无效的条件
 	 */
-	SingleConditionSqlFragment create(String fieldName,String condition) throws InvalidConditionException;
-	
+	SingleConditionSqlFragment create(String column, String condition) throws InvalidConditionException;
+
 	/**
 	 * 添加一个条件。<br/>
-	 * 如果value 实现Collection 则{@link #createConditionClause(String, String, Collection)}
+	 * 如果value 实现Collection
+	 * 则{@link #createConditionClause(String, String, Collection)}
 	 * 
-	 * @param fieldName 字段名称
+	 * @param column    列名称
 	 * @param condition 条件
-	 * @param value 值
+	 * @param value     值
 	 * @throws InvalidConditionException 如果这条件是一个无效的条件
 	 */
-	SingleConditionSqlFragment create(String fieldName,String condition,Object value) throws InvalidConditionException;
-	
+	SingleConditionSqlFragment create(String column, String condition, Object value) throws InvalidConditionException;
+
 	/**
 	 * 添加一个条件。<br/>
 	 * 该条件应该需要多个值
 	 * 
-	 * @param fieldName 字段名称
+	 * @param column    列名称
 	 * @param condition 条件
-	 * @param value 值
+	 * @param value     值
 	 * @throws InvalidConditionException 如果这条件是一个无效的条件
 	 */
-	SingleConditionSqlFragment create(String fieldName,String condition,List<Object> value) throws InvalidConditionException;
-	
+	SingleConditionSqlFragment create(String column, String condition, List<Object> value)
+			throws InvalidConditionException;
+
 	/**
 	 * 添加一个条件。<br/>
 	 * 该条件需要两个值。例如 between
 	 * 
-	 * @param fieldName 字段名称
+	 * @param column    列名称
 	 * @param condition 条件
-	 * @param value1 第一个值
-	 * @param value2 第二个值
+	 * @param value1    第一个值
+	 * @param value2    第二个值
 	 * @throws InvalidConditionException 如果这条件是一个无效的条件
 	 */
-	SingleConditionSqlFragment create(String fieldName,String condition ,Object value1 , Object value2) throws InvalidConditionException;
-	
+	SingleConditionSqlFragment create(String column, String condition, Object value1, Object value2)
+			throws InvalidConditionException;
+
+	/**
+	 * @return 数据库方言
+	 */
+	Dialect getDialect();
+
 }

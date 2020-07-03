@@ -24,22 +24,22 @@ import org.yelong.commons.util.map.MapWrapper;
  * @author PengFei
  * @since 1.1.0
  */
-public class Record extends MapWrapper<String, Object> implements Serializable{
+public class Record extends MapWrapper<String, Object> implements Serializable {
 
 	private static final long serialVersionUID = 1474695239634500326L;
 
 	public Record() {
 		this(LinkedHashMap::new);
 	}
-	
-	public Record(Supplier<Map<String,Object>> mapFactory) {
+
+	public Record(Supplier<Map<String, Object>> mapFactory) {
 		this(mapFactory.get());
 	}
 
-	public Record(Map<String,Object> map) {
+	public Record(Map<String, Object> map) {
 		super(map);
 	}
-	
+
 	/**
 	 * @param columns value with map.
 	 * @return this
@@ -63,7 +63,7 @@ public class Record extends MapWrapper<String, Object> implements Serializable{
 	 * @return this
 	 */
 	public Record remove(String... columns) {
-		if( null != columns ) {
+		if (null != columns) {
 			for (String column : columns) {
 				remove(column);
 			}
@@ -94,15 +94,14 @@ public class Record extends MapWrapper<String, Object> implements Serializable{
 	 */
 	public Record keep(String... columns) {
 		if (columns != null && columns.length > 0) {
-			Map<String, Object> newColumns = new HashMap<String, Object>(columns.length);	// getConfig().containerFactory.getColumnsMap();
+			Map<String, Object> newColumns = new HashMap<String, Object>(columns.length); // getConfig().containerFactory.getColumnsMap();
 			for (String c : columns)
-				if (super.containsKey(c))	// prevent put null value to the newColumns
+				if (super.containsKey(c)) // prevent put null value to the newColumns
 					newColumns.put(c, super.get(c));
-			
+
 			super.clear();
 			super.putAll(newColumns);
-		}
-		else
+		} else
 			super.clear();
 		return this;
 	}
@@ -114,12 +113,11 @@ public class Record extends MapWrapper<String, Object> implements Serializable{
 	 * @return this
 	 */
 	public Record keep(String column) {
-		if (super.containsKey(column)) {	// prevent put null value to the newColumns
+		if (super.containsKey(column)) { // prevent put null value to the newColumns
 			Object keepIt = super.get(column);
 			super.clear();
 			super.put(column, keepIt);
-		}
-		else
+		} else
 			super.clear();
 		return this;
 	}
@@ -162,7 +160,7 @@ public class Record extends MapWrapper<String, Object> implements Serializable{
 	}
 
 	/**
-	 * @param column       列名
+	 * @param column 列名
 	 * @return column 列对应的值(Object 类型)
 	 */
 	public Object getObject(String column) {
@@ -326,18 +324,18 @@ public class Record extends MapWrapper<String, Object> implements Serializable{
 		Collection<Object> columnValueCollection = super.values();
 		return columnValueCollection.toArray(new Object[columnValueCollection.size()]);
 	}
-	
+
 	/**
 	 * @param obj
 	 * @return obj == this || obj.getColumns().equals(getColumns())
 	 */
 	public boolean equals(Object obj) {
-		if( !( obj instanceof Record )) {
+		if (!(obj instanceof Record)) {
 			return false;
 		}
-		return obj == this || ((Record)obj).getMap().equals(this.getMap());
+		return obj == this || ((Record) obj).getMap().equals(this.getMap());
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return getMap().hashCode();

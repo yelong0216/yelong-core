@@ -19,12 +19,8 @@ import org.yelong.core.jdbc.sql.condition.single.SingleConditionSqlFragmentFacto
  * 
  * @author PengFei
  */
-public class DefaultCombinationConditionSqlFragment extends AbstractCombinationConditionSqlFragment{
+public class DefaultCombinationConditionSqlFragment extends AbstractCombinationConditionSqlFragment {
 
-	public DefaultCombinationConditionSqlFragment() {
-		this(new DefaultSingleConditionSqlFragmentFactory());
-	}
-	
 	public DefaultCombinationConditionSqlFragment(SingleConditionSqlFragmentFactory singleConditionSqlFragmentFactory) {
 		super(singleConditionSqlFragmentFactory);
 	}
@@ -35,10 +31,10 @@ public class DefaultCombinationConditionSqlFragment extends AbstractCombinationC
 	 */
 	@Override
 	protected String generateConditionSqlFragment(List<ConditionSqlFragmentWrapper> conditionFragmentList) {
-		List<String> sqlFragment = new ArrayList<String>(conditionFragmentList.size()*2+2);
-		conditionFragmentList.forEach(x->{
+		List<String> sqlFragment = new ArrayList<String>(conditionFragmentList.size() * 2 + 2);
+		conditionFragmentList.forEach(x -> {
 			ConditionSqlFragment conditionFragment = x.getConditionSqlFragment();
-			if( conditionFragment instanceof CombinationConditionSqlFragment ) {
+			if (conditionFragment instanceof CombinationConditionSqlFragment) {
 				sqlFragment.add(x.getConditionSpliceWay().getKeyword());
 				sqlFragment.add("(");
 				sqlFragment.add(conditionFragment.getSqlFragment());
@@ -48,10 +44,9 @@ public class DefaultCombinationConditionSqlFragment extends AbstractCombinationC
 				sqlFragment.add(conditionFragment.getSqlFragment());
 			}
 		});
-		//移除第一个and或者or
+		// 移除第一个and或者or
 		sqlFragment.remove(sqlFragment.indexOf(conditionFragmentList.get(0).getConditionSpliceWay().getKeyword()));
 		return spliceSqlFragment(sqlFragment.toArray(ArrayUtils.EMPTY_STRING_ARRAY));
 	}
-	
-	
+
 }

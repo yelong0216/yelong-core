@@ -5,6 +5,7 @@ package org.yelong.core.jdbc.sql.executable;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.yelong.core.jdbc.dialect.Dialect;
 import org.yelong.core.jdbc.sql.AbstractSqlFragment;
 
 /**
@@ -12,19 +13,21 @@ import org.yelong.core.jdbc.sql.AbstractSqlFragment;
  * 
  * @author PengFei
  */
-public abstract class AbstractSqlFragmentExecutable extends AbstractSqlFragment implements SqlFragmentExecutable{
+public abstract class AbstractSqlFragmentExecutable extends AbstractSqlFragment implements SqlFragmentExecutable {
 
 	private final String sql;
-	
-	private final Object [] params;
-	
-	public AbstractSqlFragmentExecutable() {
+
+	private final Object[] params;
+
+	public AbstractSqlFragmentExecutable(final Dialect dialect) {
+		super(dialect);
 		this.sql = null;
 		this.params = null;
 	}
-	
-	public AbstractSqlFragmentExecutable(String sql , Object ... params) {
-		if( null == sql ) {
+
+	public AbstractSqlFragmentExecutable(final Dialect dialect, String sql, Object... params) {
+		super(dialect);
+		if (null == sql) {
 			throw new NullPointerException("sql 不允许为空！");
 		}
 		this.sql = sql;
@@ -38,9 +41,9 @@ public abstract class AbstractSqlFragmentExecutable extends AbstractSqlFragment 
 	public Object[] getBaseParams() {
 		return params;
 	}
-	
+
 	public boolean existBaseSql() {
 		return StringUtils.isNotEmpty(sql);
 	}
-	
+
 }

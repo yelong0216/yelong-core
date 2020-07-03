@@ -14,12 +14,12 @@ import org.yelong.core.jdbc.sql.function.DatabaseFunction;
 /**
  * @author PengFei
  */
-public class DefaultMapModelFieldAndColumnGetStrategy implements MapModelFieldAndColumnGetStrategy{
+public class DefaultMapModelFieldAndColumnGetStrategy implements MapModelFieldAndColumnGetStrategy {
 
 	private DataDefinitionLanguage dataDefinitionLanguage;
-	
+
 	private DatabaseFunction dataBaseFunction;
-	
+
 	public DefaultMapModelFieldAndColumnGetStrategy(DataDefinitionLanguage dataDefinitionLanguage,
 			DatabaseFunction dataBaseFunction) {
 		this.dataDefinitionLanguage = dataDefinitionLanguage;
@@ -33,7 +33,8 @@ public class DefaultMapModelFieldAndColumnGetStrategy implements MapModelFieldAn
 		List<MapModelFieldAndColumn> fieldAndColumns = new ArrayList<MapModelFieldAndColumn>(columns.size());
 		for (Column column : columns) {
 			String columnName = column.getName();
-			DefaultMapModelFieldAndColumn fieldAndColumn = new DefaultMapModelFieldAndColumn(mapModelAndTable,columnName);
+			DefaultMapModelFieldAndColumn fieldAndColumn = new DefaultMapModelFieldAndColumn(mapModelAndTable,
+					columnName);
 			fieldAndColumn.setAllowNull(column.isAllowNull());
 			fieldAndColumn.setSelectMapping(false);
 			fieldAndColumn.setDesc(column.getComment());

@@ -3,6 +3,8 @@
  */
 package org.yelong.core.jdbc.sql;
 
+import java.util.Objects;
+
 import org.yelong.core.jdbc.dialect.Dialect;
 
 /**
@@ -10,28 +12,18 @@ import org.yelong.core.jdbc.dialect.Dialect;
  * 
  * @author PengFei
  */
-public abstract class AbstractSqlFragment implements SqlFragment{
-	
-	private Dialect dialect;
-	
-	public AbstractSqlFragment() {
-	
+public abstract class AbstractSqlFragment implements SqlFragment {
+
+	private final Dialect dialect;
+
+	public AbstractSqlFragment(final Dialect dialect) {
+		this.dialect = Objects.requireNonNull(dialect);
 	}
-	
-	public AbstractSqlFragment(Dialect dialect) {
-		this.dialect = dialect;
-	}
-	
+
 	public Dialect getDialect() {
 		return dialect;
 	}
 
-	@SuppressWarnings("unchecked")
-	public <S extends AbstractSqlFragment> S setDialect(Dialect dialect) {
-		this.dialect = dialect;
-		return (S) this;
-	}
-	
 	@Override
 	public String toString() {
 		return getSqlFragment();

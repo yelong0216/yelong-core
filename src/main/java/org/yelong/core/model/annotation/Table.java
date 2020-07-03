@@ -17,23 +17,23 @@ import java.lang.annotation.Target;
  * @author PengFei
  */
 public @interface Table {
-	
+
 	/**
 	 * @return 表名称
 	 */
 	String value();
-	
+
 	/**
-	 * 别名
+	 * 别名<br/>
 	 * 默认值：model类名称首字母小写
 	 * 
 	 * @return 表别名
 	 */
 	String alias() default "";
-	
+
 	/**
 	 * @return 表描述
 	 */
 	String desc() default "";
-	
+
 }

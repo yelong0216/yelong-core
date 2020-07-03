@@ -26,14 +26,14 @@ public @interface SelectColumn {
 	 * @return 列名称
 	 */
 	String value() default "";
-	
+
 	/**
 	 * 与 value功能相同，优先级高于 {@link #value()}
 	 * 
 	 * @return 列名称
 	 */
 	String column() default "";
-	
+
 	/**
 	 * 是否在查询后映射到model的字段上。
 	 * 

@@ -17,10 +17,10 @@ public class InterceptorChain {
 		}
 		return target;
 	}
-	
-	public Object pluginAll(Object target ,Class<?>[] targetInterfaces) {
+
+	public Object pluginAll(Object target, Class<?>[] targetInterfaces) {
 		for (Interceptor interceptor : interceptors) {
-			target = Plugin.wrap(target, interceptor,targetInterfaces);
+			target = Plugin.wrap(target, interceptor, targetInterfaces);
 		}
 		return target;
 	}
@@ -36,5 +36,5 @@ public class InterceptorChain {
 	public List<Interceptor> getInterceptors() {
 		return Collections.unmodifiableList(interceptors);
 	}
-	
+
 }

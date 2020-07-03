@@ -7,6 +7,7 @@ import org.yelong.core.jdbc.dialect.Dialect;
 import org.yelong.core.jdbc.sql.attribute.AttributeSqlFragment;
 import org.yelong.core.jdbc.sql.condition.combination.CombinationConditionSqlFragment;
 import org.yelong.core.jdbc.sql.condition.simple.SimpleConditionSqlFragment;
+import org.yelong.core.jdbc.sql.condition.simple.SimpleConditionSqlFragmentFactory;
 import org.yelong.core.jdbc.sql.condition.single.SingleConditionSqlFragmentFactory;
 import org.yelong.core.jdbc.sql.defaults.DefaultAttributeSqlFragment;
 import org.yelong.core.jdbc.sql.defaults.DefaultCombinationConditionSqlFragment;
@@ -15,7 +16,6 @@ import org.yelong.core.jdbc.sql.defaults.DefaultDeleteSqlFragment;
 import org.yelong.core.jdbc.sql.defaults.DefaultInsertSqlFragment;
 import org.yelong.core.jdbc.sql.defaults.DefaultSelectSqlFragment;
 import org.yelong.core.jdbc.sql.defaults.DefaultSimpleConditionSqlFragment;
-import org.yelong.core.jdbc.sql.defaults.DefaultSingleConditionSqlFragmentFactory;
 import org.yelong.core.jdbc.sql.defaults.DefaultSortSqlFragment;
 import org.yelong.core.jdbc.sql.defaults.DefaultUpdateSqlFragment;
 import org.yelong.core.jdbc.sql.executable.CountSqlFragment;
@@ -30,87 +30,87 @@ import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
  * 
  * @author PengFei
  */
-public class DefaultSqlFragmentFactory implements SqlFragmentFactory{
+public class DefaultSqlFragmentFactory implements SqlFragmentFactory {
 
-	private Dialect dialect;
+	private final Dialect dialect;
 
-	private SingleConditionSqlFragmentFactory singleConditionSqlFragmentFactory;
-	
-	public DefaultSqlFragmentFactory(Dialect dialect) {
+	private final SingleConditionSqlFragmentFactory singleConditionSqlFragmentFactory;
+
+	private final SimpleConditionSqlFragmentFactory simpleConditionSqlFragmentFactory;
+
+	public DefaultSqlFragmentFactory(Dialect dialect,
+			SingleConditionSqlFragmentFactory singleConditionSqlFragmentFactory,
+			SimpleConditionSqlFragmentFactory simpleConditionSqlFragmentFactory) {
 		this.dialect = dialect;
+		this.singleConditionSqlFragmentFactory = singleConditionSqlFragmentFactory;
+		this.simpleConditionSqlFragmentFactory = simpleConditionSqlFragmentFactory;
 	}
 
 	@Override
 	public AttributeSqlFragment createAttributeSqlFragment() {
-		return new DefaultAttributeSqlFragment().setDialect(dialect);
+		return new DefaultAttributeSqlFragment(dialect);
 	}
 
 	@Override
 	public SimpleConditionSqlFragment createConditionSqlFragment(String conditionFragment, Object... params) {
-		return new DefaultSimpleConditionSqlFragment(conditionFragment, params);
+		return new DefaultSimpleConditionSqlFragment(dialect, conditionFragment, params);
 	}
 
 	@Override
-	public SingleConditionSqlFragmentFactory getSingleConditionSqlFragmentFactory() {
-		if( null == singleConditionSqlFragmentFactory ) {
-			synchronized (this) {
-				singleConditionSqlFragmentFactory = new DefaultSingleConditionSqlFragmentFactory();
-			}
-		}
-		return singleConditionSqlFragmentFactory;
-	}
-	
-	@Override
-	public void setSingleConditionSqlFragmentFactory(
-			SingleConditionSqlFragmentFactory singleConditionSqlFragmentFactory) {
-		this.singleConditionSqlFragmentFactory = singleConditionSqlFragmentFactory;
-	}
-	
-	@Override
 	public CombinationConditionSqlFragment createCombinationConditionSqlFragment() {
-		return new DefaultCombinationConditionSqlFragment();
+		return new DefaultCombinationConditionSqlFragment(singleConditionSqlFragmentFactory);
 	}
 
 	@Override
 	public SortSqlFragment createSortSqlFragment() {
-		return new DefaultSortSqlFragment();
+		return new DefaultSortSqlFragment(dialect);
 	}
 
 	@Override
 	public InsertSqlFragment createInsertSqlFragment(String tableName, AttributeSqlFragment attributeSqlFragment) {
-		return new DefaultInsertSqlFragment(tableName, attributeSqlFragment);
+		return new DefaultInsertSqlFragment(dialect, tableName, attributeSqlFragment);
 	}
 
 	@Override
 	public InsertSqlFragment createInsertSqlFragment(String sql, Object... params) {
-		return new DefaultInsertSqlFragment(sql, params);
+		return new DefaultInsertSqlFragment(dialect, sql, params);
 	}
-	
+
 	@Override
 	public DeleteSqlFragment createDeleteSqlFragment(String sql, Object... params) {
-		return new DefaultDeleteSqlFragment(sql, params);
+		return new DefaultDeleteSqlFragment(dialect, sql, params);
 	}
 
 	@Override
 	public UpdateSqlFragment createUpdateSqlFragment(String sql, Object... params) {
-		return new DefaultUpdateSqlFragment(sql, params);
+		return new DefaultUpdateSqlFragment(dialect, sql, params);
 	}
 
 	@Override
 	public UpdateSqlFragment createUpdateSqlFragment(String tableName, AttributeSqlFragment attributeSqlFragment) {
-		return new DefaultUpdateSqlFragment(tableName, attributeSqlFragment);
+		return new DefaultUpdateSqlFragment(dialect, tableName, attributeSqlFragment);
 	}
-	
+
 	@Override
 	public SelectSqlFragment createSelectSqlFragment(String sql, Object... params) {
-		return new DefaultSelectSqlFragment(sql, params);
+		return new DefaultSelectSqlFragment(dialect, sql, params);
 	}
 
 	@Override
 	public CountSqlFragment createCountSqlFragment(String sql, Object... params) {
-		return new DefaultCountSqlFragment(sql, params);
+		return new DefaultCountSqlFragment(dialect, sql, params);
 	}
-	
+
+	@Override
+	public SingleConditionSqlFragmentFactory getSingleConditionSqlFragmentFactory() {
+		return singleConditionSqlFragmentFactory;
+	}
+
+	@Override
+	public SimpleConditionSqlFragmentFactory getSimpleConditionSqlFragmentFactory() {
+		return simpleConditionSqlFragmentFactory;
+	}
+
 	public Dialect getDialect() {
 		return dialect;
 	}

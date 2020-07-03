@@ -16,15 +16,15 @@ import org.yelong.core.model.annotation.Table;
  * @author PengFei
  */
 public class ModelClassAnnotation {
-	
+
 	private final Class<? extends Modelable> modelClass;
-	
+
 	private final Table table;
-	
+
 	private final Select select;
-	
+
 	private final Count count;
-	
+
 	/**
 	 * @param modelClass model class
 	 */
@@ -41,43 +41,44 @@ public class ModelClassAnnotation {
 	public String getTableName() {
 		return null == table ? null : table.value();
 	}
-	
+
 	/**
 	 * 别名
+	 * 
 	 * @return
 	 */
 	public String getTableAlias() {
-		if( null == table ) {
+		if (null == table) {
 			return null;
 		}
 		String alias = table.alias();
-		if( StringUtils.isBlank(alias) ) {
-			alias = modelClass.getSimpleName().substring(0, 1).toLowerCase()+modelClass.getSimpleName().substring(1);
+		if (StringUtils.isBlank(alias)) {
+			alias = modelClass.getSimpleName().substring(0, 1).toLowerCase() + modelClass.getSimpleName().substring(1);
 		}
 		return alias;
 	}
-	
+
 	/**
 	 * @return 表说明
 	 */
 	public String getTableDese() {
 		return null == table ? null : table.desc();
 	}
-	
+
 	/**
-	 * @return count sql 
+	 * @return count sql
 	 */
 	public String getCountSql() {
 		return null == count ? null : count.value();
 	}
-	
+
 	/**
 	 * @return select sql
 	 */
 	public String getSelectSql() {
 		return null == select ? null : select.value();
 	}
-	
+
 	/**
 	 * @return model class
 	 */
@@ -105,5 +106,5 @@ public class ModelClassAnnotation {
 	public Count getCount() {
 		return count;
 	}
-	
+
 }

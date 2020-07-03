@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.yelong.core.jdbc.DataBaseOperationType;
+import org.yelong.core.jdbc.dialect.Dialect;
 import org.yelong.core.jdbc.sql.AbstractSqlFragment;
 
 /**
@@ -17,11 +18,15 @@ import org.yelong.core.jdbc.sql.AbstractSqlFragment;
  * 
  * @author PengFei
  */
-public abstract class AbstractAttributeSqlFragment extends AbstractSqlFragment implements AttributeSqlFragment{
+public abstract class AbstractAttributeSqlFragment extends AbstractSqlFragment implements AttributeSqlFragment {
 
 	private DataBaseOperationType dataBaseOperationType;
-	
-	private final Map<String,Object> attributes = new LinkedHashMap<>();
+
+	private final Map<String, Object> attributes = new LinkedHashMap<>();
+
+	public AbstractAttributeSqlFragment(Dialect dialect) {
+		super(dialect);
+	}
 
 	@Override
 	public void addAttr(String attrName, Object value) {
@@ -30,7 +35,7 @@ public abstract class AbstractAttributeSqlFragment extends AbstractSqlFragment i
 
 	@Override
 	public boolean addAttrByValueNotNull(String attrName, Object value) {
-		if( null == value) {
+		if (null == value) {
 			return false;
 		}
 		addAttr(attrName, value);
@@ -39,7 +44,7 @@ public abstract class AbstractAttributeSqlFragment extends AbstractSqlFragment i
 
 	@Override
 	public boolean removeAttr(String attrName) {
-		return attributes.remove(attrName)!=null;
+		return attributes.remove(attrName) != null;
 	}
 
 	@Override
@@ -66,18 +71,19 @@ public abstract class AbstractAttributeSqlFragment extends AbstractSqlFragment i
 	public Object[] getParams() {
 		return getAllValue().toArray();
 	}
-	
+
 	@Override
 	public void setDataBaseOperationType(DataBaseOperationType dataBaseOperationType) {
-		if( dataBaseOperationType != DataBaseOperationType.INSERT || dataBaseOperationType != DataBaseOperationType.UPDATE) {
+		if (dataBaseOperationType != DataBaseOperationType.INSERT
+				|| dataBaseOperationType != DataBaseOperationType.UPDATE) {
 			new IllegalStateException("attribute只支持新增和修改！");
 		}
 		this.dataBaseOperationType = dataBaseOperationType;
 	}
-	
+
 	@Override
 	public DataBaseOperationType getDataBaseOperationType() {
-		if( null == dataBaseOperationType ) {
+		if (null == dataBaseOperationType) {
 			throw new IllegalStateException("未设置操作类型");
 		}
 		return this.dataBaseOperationType;

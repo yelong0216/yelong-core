@@ -5,6 +5,7 @@ package org.yelong.core.jdbc;
 
 /**
  * 数据库操作异常
+ * 
  * @author PengFei
  */
 public class DataBaseOperationException extends RuntimeException {

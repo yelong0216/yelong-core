@@ -8,8 +8,11 @@ import static org.yelong.core.jdbc.sql.SpliceSqlUtils.spliceSqlFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.yelong.core.jdbc.dialect.Dialect;
 import org.yelong.core.jdbc.sql.exception.InvalidSortException;
 import org.yelong.core.jdbc.sql.sort.AbstractSortSqlFragment;
+import org.yelong.core.jdbc.sql.sort.SortDirection;
+import org.yelong.core.jdbc.sql.sort.support.Sort;
 
 /**
  * 默认排序实现<br/>
@@ -17,76 +20,32 @@ import org.yelong.core.jdbc.sql.sort.AbstractSortSqlFragment;
  * 
  * @author PengFei
  */
-public class DefaultSortSqlFragment extends AbstractSortSqlFragment{
-	
+public class DefaultSortSqlFragment extends AbstractSortSqlFragment {
+
 	private static final String COMMA = ",";
-	
+
+	public DefaultSortSqlFragment(Dialect dialect) {
+		super(dialect);
+	}
+
 	@Override
-	protected void validSort(String fieldName, String direction) throws InvalidSortException {
-		if( !SortDirection.test(direction) ) {
-			throw new InvalidSortException("无效的排序方向："+direction);
+	protected void validSort(Sort sort) throws InvalidSortException {
+		if (!SortDirection.test(sort.getDirection())) {
+			throw new InvalidSortException("无效的排序方向：" + sort.getDirection());
 		}
 	}
-	
+
 	@Override
-	protected String generatorSortFragment(List<SortFragmentWrapper> sortFragmentList) {
-		
+	protected String generatorSortFragment(List<Sort> sorts) {
+
 		List<String> sortFragment = new ArrayList<String>();
-		sortFragmentList.forEach(x->{
-			sortFragment.add(x.getFieldName());
+		sorts.forEach(x -> {
+			sortFragment.add(x.getColumn());
 			sortFragment.add(x.getDirection());
 			sortFragment.add(COMMA);
 		});
 		sortFragment.remove(sortFragment.lastIndexOf(COMMA));
 		return spliceSqlFragment(sortFragment.toArray(new String[0]));
 	}
-	
-	/**
-	 * 排序方向
-	 */
-	public enum SortDirection{
-		
-		ASC("ASC"),
-		
-		DESC("DESC");
-		
-		private final String direction;
-		
-		private SortDirection(final String direction) {
-			this.direction = direction;
-		}
-		public String getDirection() {
-			return direction;
-		}
-		
-		/**
-		 * 根据排序方向获取排序方向对象
-		 * 
-		 * @param direction 排序方向
-		 * @return <tt>true</tt> 排序方向的对象
-		 */
-		public static final SortDirection valueOfByDirection(String direction) {
-			for (SortDirection sortDirection : SortDirection.values()) {
-				if( direction.toUpperCase().equals(sortDirection.getDirection()) ) {
-					return sortDirection;
-				}
-			}
-			return null;
-		}
-		
-		/**
-		 * 测试是否存在此排序方向
-		 * 
-		 * @param direction 排序方向
-		 * @return <tt>true</tt>如果存在此排序方向
-		 */
-		public static final boolean test(String direction) {
-			if( null == valueOfByDirection(direction)) {
-				return false;
-			}
-			return true;
-		}
-		
-	}
-	
+
 }

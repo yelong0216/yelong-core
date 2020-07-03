@@ -8,14 +8,14 @@ package org.yelong.core.jdbc.sql.condition.support;
  * 
  * @author PengFei
  */
-public class ConditionResolverException extends RuntimeException{
+public class ConditionResolverException extends RuntimeException {
 
 	private static final long serialVersionUID = 521560169324312675L;
-	
+
 	public ConditionResolverException() {
-		
+
 	}
-	
+
 	public ConditionResolverException(String message) {
 		super(message);
 	}

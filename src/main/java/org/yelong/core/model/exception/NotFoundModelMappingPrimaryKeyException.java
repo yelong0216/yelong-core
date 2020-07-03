@@ -8,21 +8,20 @@ package org.yelong.core.model.exception;
  * 
  * @author PengFei
  */
-public class NotFoundModelMappingPrimaryKeyException extends RuntimeException{
+public class NotFoundModelMappingPrimaryKeyException extends FieldAndColumnException {
 
 	private static final long serialVersionUID = -2144533295765414691L;
-	
-	
+
 	public NotFoundModelMappingPrimaryKeyException() {
-		
+
 	}
-	
+
 	public NotFoundModelMappingPrimaryKeyException(String message) {
 		super(message);
 	}
-	
+
 	public NotFoundModelMappingPrimaryKeyException(Throwable t) {
 		super(t);
 	}
-	
+
 }

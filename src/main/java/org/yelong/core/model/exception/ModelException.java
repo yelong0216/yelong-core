@@ -8,24 +8,24 @@ package org.yelong.core.model.exception;
  * 
  * @author PengFei
  */
-public class ModelException extends RuntimeException{
+public class ModelException extends RuntimeException {
 
 	private static final long serialVersionUID = 8180022466141924432L;
-	
+
 	public ModelException() {
-		
+
 	}
-	
+
 	public ModelException(String message) {
 		super(message);
 	}
-	
+
 	public ModelException(Throwable t) {
 		super(t);
 	}
 
-	public ModelException(String message , Throwable t) {
-		super(message,t);
+	public ModelException(String message, Throwable t) {
+		super(message, t);
 	}
-	
+
 }

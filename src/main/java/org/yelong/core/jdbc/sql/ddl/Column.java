@@ -13,42 +13,42 @@ import org.yelong.commons.lang.Strings;
  * @since 1.1.0
  */
 public class Column {
-	
+
 	private Table table;
-	
+
 	private final String name;
-	
+
 	private String typeName;
-	
+
 	private Long length;
-	
+
 	private Object defaultValue;
-	
+
 	private String comment;
-	
+
 	private boolean primaryKey = false;
-	
+
 	private boolean allowNull = true;
-	
-	private Map<String,Object> attributes = new HashMap<>();
-	
+
+	private Map<String, Object> attributes = new HashMap<>();
+
 	/**
 	 * @param tableName 表明
-	 * @param name 列名
+	 * @param name      列名
 	 */
 	public Column(String tableName, String name) {
-		this(new Table(tableName),name);
+		this(new Table(tableName), name);
 	}
-	
+
 	/**
 	 * @param table 表
-	 * @param name 列
+	 * @param name  列
 	 */
 	public Column(Table table, String name) {
 		this.table = Objects.requireNonNull(table);
 		this.name = Strings.requireNonBlank(name);
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -112,34 +112,34 @@ public class Column {
 	public void setTable(Table table) {
 		this.table = table;
 	}
-	
+
 	public void addAttributes(Map<String, Object> attributes) {
 		this.attributes.putAll(attributes);
 	}
-	
+
 	public void setAttributes(Map<String, Object> attributes) {
 		this.attributes = Objects.requireNonNull(attributes);
 	}
-	
-	public void addAttribute(String attrName,Object attrValue) {
+
+	public void addAttribute(String attrName, Object attrValue) {
 		this.attributes.put(attrName, attrValue);
 	}
-	
+
 	public void removeAttribute(String attrName) {
 		this.attributes.remove(attrName);
 	}
-	
+
 	public Object getAttribute(String attrName) {
 		return this.attributes.get(attrName);
 	}
-	
+
 	public Map<String, Object> getAttributes() {
 		return this.attributes;
 	}
-	
+
 	@Override
 	public String toString() {
 		return name;
 	}
-	
+
 }

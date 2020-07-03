@@ -24,23 +24,23 @@ import org.yelong.core.model.annotation.Transient;
  * @author PengFei
  */
 public class ModelFieldAnnotation {
-	
+
 	private final Field field;
-	
+
 	private final Column column;
-	
+
 	private final Id id;
-	
+
 	private final PrimaryKey primaryKey;
-	
+
 	private final ExtendColumn extendColumn;
-	
+
 	private final ExtendColumnIgnore extendColumnIgnore;
-	
+
 	private final SelectColumn selectColumn;
-	
+
 	private final Transient tran;
-	
+
 	public ModelFieldAnnotation(final Field field) {
 		this.field = Objects.requireNonNull(field);
 		this.column = AnnotationUtils.getAnnotation(field, Column.class);
@@ -51,126 +51,130 @@ public class ModelFieldAnnotation {
 		this.selectColumn = AnnotationUtils.getAnnotation(field, SelectColumn.class);
 		this.tran = AnnotationUtils.getAnnotation(field, Transient.class);
 	}
-	
+
 	/**
 	 * @return 列名
 	 */
 	public String getColumnCode() {
-		if( null == column ) {
+		if (null == column) {
 			return field.getName();
 		}
 		String columnCode = null;
 		columnCode = column.column();
-		if( StringUtils.isBlank(columnCode) ) {
+		if (StringUtils.isBlank(columnCode)) {
 			columnCode = column.value();
 		}
-		if( StringUtils.isBlank(columnCode) ) {
+		if (StringUtils.isBlank(columnCode)) {
 			columnCode = field.getName();
 		}
 		return columnCode;
 	}
-	
+
 	/**
 	 * @return 列名称。如 姓名、年龄等
 	 */
 	public String getColumnName() {
 		return null == column ? null : column.columnName();
 	}
-	
+
 	/**
 	 * @return 列允许的最大长度
 	 */
 	public long getMaxLength() {
 		return null == column ? Long.MAX_VALUE : column.maxLength();
 	}
-	
+
 	/**
 	 * @return 列允许的最小长度
 	 */
 	public long getMinLength() {
 		return null == column ? 0L : column.minLength();
 	}
-	
+
 	/**
 	 * 是否允许字符串类型为空白
+	 * 
 	 * @return <tt>true</tt> 允许
 	 */
 	public boolean isAllowBlank() {
-		if(isPrimaryKey()) {//主键默认不允许为空
+		if (isPrimaryKey()) {// 主键默认不允许为空
 			return false;
 		}
 		return null == column ? true : column.allowBlank();
 	}
-	
+
 	/**
 	 * 是否允许为 <code>null</code>
+	 * 
 	 * @return <tt>true</tt> 允许
 	 */
 	public boolean isAllowNull() {
-		if(isPrimaryKey()) {//主键默认不允许为空
+		if (isPrimaryKey()) {// 主键默认不允许为空
 			return false;
 		}
 		return null == column ? true : column.allowNull();
 	}
-	
+
 	/**
 	 * @return 列描述
 	 */
 	public String getDesc() {
-		return null == column ? null :column.desc();
+		return null == column ? null : column.desc();
 	}
-	
+
 	/**
 	 * @return 列映射的数据库数据类型
 	 */
 	public String getJdbcType() {
 		return null == column ? null : column.jdbcType();
 	}
-	
+
 	/**
 	 * 是否是主键
+	 * 
 	 * @return <tt>true</tt> 字段映射的列为主键
 	 */
 	public boolean isPrimaryKey() {
 		return null != primaryKey || null != id;
 	}
-	
+
 	/**
 	 * 是否是拓展列
+	 * 
 	 * @return <tt>true</tt> 拓展字段（列）
 	 */
 	public boolean isExtendColumn() {
-		if( null != extendColumn ) {
+		if (null != extendColumn) {
 			return true;
 		}
-		//忽略了拓展列
-		if( null != extendColumnIgnore ) {
+		// 忽略了拓展列
+		if (null != extendColumnIgnore) {
 			return false;
 		}
 		return field.getDeclaringClass().isAnnotationPresent(ExtendTable.class);
 	}
-	
+
 	/**
 	 * 获取拓展列所属的model class
 	 * 
 	 * @return 拓展列所属的model class
 	 * @throws UnsupportedOperationException 该列不是拓展列
 	 */
-	public Class<? extends Modelable> getExtendColumnModelClass(){
-		if(!isExtendColumn()) {
-			throw new UnsupportedOperationException("["+field.getName()+"]字段不是拓展列，无法获取拓展列所属的 model class");
+	public Class<? extends Modelable> getExtendColumnModelClass() {
+		if (!isExtendColumn()) {
+			throw new UnsupportedOperationException("[" + field.getName() + "]字段不是拓展列，无法获取拓展列所属的 model class");
 		}
-		if( null == extendColumn ) {
+		if (null == extendColumn) {
 			return null;
 		}
 		Class<? extends Modelable> modelClass = null;
 		modelClass = extendColumn.value();
-		if( modelClass == ExtendColumn.DEFAULT_MODEL_CLASS) {
+		if (modelClass == ExtendColumn.DEFAULT_MODEL_CLASS) {
 			modelClass = extendColumn.modelClass();
 		}
 		return modelClass == ExtendColumn.DEFAULT_MODEL_CLASS ? null : modelClass;
 	}
-	
+
 	/**
 	 * 获取拓展列所属的表名
 	 * 
@@ -178,24 +182,24 @@ public class ModelFieldAnnotation {
 	 * @throws UnsupportedOperationException 该列不是拓展列
 	 */
 	public String getExtendColumnTableName() {
-		if(!isExtendColumn()) {
-			throw new UnsupportedOperationException("["+field.getName()+"]字段不是拓展列，无法获取拓展列所属的表名");
+		if (!isExtendColumn()) {
+			throw new UnsupportedOperationException("[" + field.getName() + "]字段不是拓展列，无法获取拓展列所属的表名");
 		}
-		if( null == extendColumn ) {
+		if (null == extendColumn) {
 			return null;
 		}
 		String tableName = extendColumn.tableName();
-		if(StringUtils.isNotBlank(tableName)) {
+		if (StringUtils.isNotBlank(tableName)) {
 			return tableName;
 		}
 		Class<? extends Modelable> extendColumnModelClass = getExtendColumnModelClass();
-		if( null == extendColumnModelClass) {
+		if (null == extendColumnModelClass) {
 			return null;
 		}
 		ModelClassAnnotation modelClassAnnotation = new ModelClassAnnotation(extendColumnModelClass);
 		return modelClassAnnotation.getTableName();
 	}
-	
+
 	/**
 	 * 获取拓展列所属的表的别名
 	 * 
@@ -203,24 +207,24 @@ public class ModelFieldAnnotation {
 	 * @throws UnsupportedOperationException 该列不是拓展列
 	 */
 	public String getExtendColumnTableAlias() {
-		if(!isExtendColumn()) {
-			throw new UnsupportedOperationException("["+field.getName()+"]字段不是拓展列，无法获取拓展列所属表的别名");
+		if (!isExtendColumn()) {
+			throw new UnsupportedOperationException("[" + field.getName() + "]字段不是拓展列，无法获取拓展列所属表的别名");
 		}
-		if( null == extendColumn ) {
+		if (null == extendColumn) {
 			return null;
 		}
 		String tableAlias = extendColumn.tableAlias();
-		if(StringUtils.isNotBlank(tableAlias)) {
+		if (StringUtils.isNotBlank(tableAlias)) {
 			return tableAlias;
 		}
 		Class<? extends Modelable> extendColumnModelClass = getExtendColumnModelClass();
-		if( null == extendColumnModelClass) {
+		if (null == extendColumnModelClass) {
 			return null;
 		}
 		ModelClassAnnotation modelClassAnnotation = new ModelClassAnnotation(extendColumnModelClass);
 		return modelClassAnnotation.getTableAlias();
 	}
-	
+
 	/**
 	 * 是否是临时的字段
 	 * 
@@ -229,31 +233,31 @@ public class ModelFieldAnnotation {
 	public boolean isTransient() {
 		return null != tran;
 	}
-	
+
 	/**
 	 * @return 查询时的字段映射的列名称
 	 */
 	public String getSelectColumnCode() {
-		if( null == selectColumn ) {
+		if (null == selectColumn) {
 			return getColumnCode();
 		}
 		String selectColumnCode = selectColumn.column();
-		if(StringUtils.isBlank(selectColumnCode)) {
+		if (StringUtils.isBlank(selectColumnCode)) {
 			selectColumnCode = selectColumn.value();
 		}
-		if(StringUtils.isBlank(selectColumnCode)) {
+		if (StringUtils.isBlank(selectColumnCode)) {
 			selectColumnCode = getColumnCode();
 		}
 		return selectColumnCode;
 	}
-	
+
 	/**
 	 * @return 对与ORM框架来说，查询时是否映射该字段
 	 */
 	public boolean isSelectMapping() {
 		return null == selectColumn ? true : selectColumn.mapping();
 	}
-	
+
 	/**
 	 * @return Column annotation
 	 */
@@ -288,7 +292,7 @@ public class ModelFieldAnnotation {
 	public ExtendColumnIgnore getExtendColumnIgnore() {
 		return extendColumnIgnore;
 	}
-	
+
 	/**
 	 * @return SelectColumn annotation
 	 */
@@ -309,5 +313,5 @@ public class ModelFieldAnnotation {
 	public Field getField() {
 		return field;
 	}
-	
+
 }

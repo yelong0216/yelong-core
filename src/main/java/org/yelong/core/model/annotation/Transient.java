@@ -14,12 +14,12 @@ import java.lang.annotation.Target;
 @Target({ TYPE, FIELD })
 
 /**
- * 标注的字段不进行映射，不会被解析为 FieldAndColumn .
- * 这个属性会直接排除，不映射。
+ * 标注的字段不进行映射，不会被解析为 FieldAndColumn <br/>
+ * 这个属性会直接排除，不映射。<br/>
  * 此注解优先级最高
  * 
  * @author PengFei
  */
 public @interface Transient {
-	
+
 }

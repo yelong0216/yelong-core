@@ -12,11 +12,11 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({})
 public @interface Signature {
-	
+
 	Class<?> type();
 
 	String method();
 
 	Class<?>[] args();
-	
+
 }
