@@ -11,8 +11,6 @@ import org.yelong.core.jdbc.sql.exception.InvalidConditionException;
 /**
  * 组合条件<br/>
  * 一组条件
- * 
- * @author PengFei
  */
 public interface CombinationConditionSqlFragment extends ConditionSqlFragment {
 

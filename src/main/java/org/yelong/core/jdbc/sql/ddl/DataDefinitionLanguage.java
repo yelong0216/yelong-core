@@ -11,8 +11,7 @@ import org.yelong.core.jdbc.dialect.Dialect;
 /**
  * 数据定义语言。
  * 
- * @author PengFei
- * @since 1.1.0
+ * @since 1.1
  */
 public interface DataDefinitionLanguage {
 

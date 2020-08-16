@@ -9,8 +9,7 @@ import org.yelong.commons.lang.Strings;
 /**
  * 列
  * 
- * @author PengFei
- * @since 1.1.0
+ * @since 1.1
  */
 public class Column {
 

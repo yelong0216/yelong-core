@@ -3,10 +3,10 @@
  */
 package org.yelong.core.jdbc.sql.exception;
 
+import org.yelong.core.jdbc.sql.SqlFragmentException;
+
 /**
  * 无效的排序异常
- * 
- * @author PengFei
  */
 public class InvalidSortException extends SqlFragmentException {
 

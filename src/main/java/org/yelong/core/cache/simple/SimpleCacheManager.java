@@ -15,11 +15,9 @@ import org.yelong.core.cache.DefaultCacheEntity;
 
 /**
  * 
- * 简单的缓存管理器<br/>
- * 通过 {@link Map}实现对缓存对象的存储与管理
+ * 简单的缓存管理器，通过 {@link Map}实现对缓存对象的存储与管理
  * 
- * @author PengFei
- * @since 1.3.0
+ * @since 1.3
  */
 public class SimpleCacheManager implements CacheManager {
 

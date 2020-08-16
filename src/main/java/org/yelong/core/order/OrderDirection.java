@@ -6,7 +6,7 @@ package org.yelong.core.order;
 /**
  * 顺序方向
  * 
- * @author PengFei
+ * @since 1.3
  */
 public enum OrderDirection {
 
@@ -14,6 +14,6 @@ public enum OrderDirection {
 	DESC,
 
 	/** 升序 */
-	ASC
+	ASC;
 
 }

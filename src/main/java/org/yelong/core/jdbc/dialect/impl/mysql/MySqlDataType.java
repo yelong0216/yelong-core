@@ -10,8 +10,7 @@ import java.util.List;
 /**
  * mysql数据类型
  * 
- * @author PengFei
- * @since 1.1.0
+ * @since 1.1
  */
 public class MySqlDataType {
 

@@ -9,11 +9,9 @@ import org.yelong.core.model.collector.ModelCollector;
 /**
  * 获取单列值模型收集器
  * 
- * @author PengFei
- *
  * @param <M> model type
  * @param <T> return type
- * @since 1.3.0
+ * @since 1.3
  */
 public interface GetSingleColumnModelCollector<M extends Modelable, T>
 		extends ModelCollector<M, T, GetSingleColumnModelCollector<M, T>> {

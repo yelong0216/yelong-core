@@ -12,17 +12,17 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-@Documented
-@Retention(CLASS)
-@Target({ FIELD, PARAMETER, METHOD })
 /**
  * 这只是一个标注属性。<br/>
  * 1、被标注的方法参数可以为null <br/>
  * 2、被标注的属性值可能为null <br/>
  * 3、被标注的方法返回值可能为null <br/>
  * 
- * @author PengFei
+ * @since 1.0
  */
+@Documented
+@Retention(CLASS)
+@Target({ FIELD, PARAMETER, METHOD })
 public @interface Nullable {
 
 	String value() default "";

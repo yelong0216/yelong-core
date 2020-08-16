@@ -12,8 +12,6 @@ import java.lang.annotation.Target;
 /**
  * 标注字段映射的列名<br/>
  * 如果为空或者没有注释该注解的字段将默认字段名称为列名称
- * 
- * @author PengFei
  */
 @Retention(RUNTIME)
 @Target({ FIELD })
@@ -44,14 +42,18 @@ public @interface Column {
 	String columnName() default "";
 
 	/**
+	 * 指定列的最大长度，这个数值只有在正数且大于0时才会生效
+	 * 
 	 * @return 列的最大长度
 	 */
-	long maxLength() default Integer.MAX_VALUE;
+	long maxLength() default -1;
 
 	/**
+	 * 指定列的最小长度，这个数值只有在正数时才会生效
+	 * 
 	 * @return 列的最小长度
 	 */
-	long minLength() default 0;
+	long minLength() default -1;
 
 	/**
 	 * 是否允许为空。<br/>

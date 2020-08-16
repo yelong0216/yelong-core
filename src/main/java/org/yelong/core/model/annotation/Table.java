@@ -13,8 +13,6 @@ import java.lang.annotation.Target;
 @Target({ TYPE })
 /**
  * 映射的表名
- * 
- * @author PengFei
  */
 public @interface Table {
 

@@ -14,8 +14,6 @@ import org.yelong.core.jdbc.sql.sort.support.Sort;
 
 /**
  * 抽象的排序sql实现
- * 
- * @author PengFei
  */
 public abstract class AbstractSortSqlFragment extends AbstractSqlFragment implements SortSqlFragment {
 

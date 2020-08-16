@@ -5,11 +5,12 @@ package org.yelong.core.cache;
 
 import java.util.List;
 
+import org.yelong.core.annotation.Nullable;
+
 /**
  * 缓存管理器工厂
  * 
- * @author PengFei
- * @since 1.3.0
+ * @since 1.3
  */
 public interface CacheManagerFactory {
 
@@ -34,5 +35,11 @@ public interface CacheManagerFactory {
 	 * @return 本实例所创建的所有缓存管理器
 	 */
 	List<CacheManager> getHasCreate();
+
+	/**
+	 * @return 该工厂的名称
+	 */
+	@Nullable
+	String getName();
 
 }

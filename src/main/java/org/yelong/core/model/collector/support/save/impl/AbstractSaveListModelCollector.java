@@ -13,10 +13,8 @@ import org.yelong.core.model.service.SqlModelService;
 /**
  * 抽象的保存模型集合收集器
  * 
- * @author PengFei
- *
  * @param <M> model type
- * @since 1.3.0
+ * @since 1.3
  */
 public abstract class AbstractSaveListModelCollector<M extends Modelable> extends AbstractSaveModelCollector<M, List<M>>
 		implements SaveListModelCollector<M> {

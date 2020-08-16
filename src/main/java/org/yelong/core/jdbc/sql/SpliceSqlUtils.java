@@ -11,8 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * 拼接sql工具类
- * 
- * @author PengFei
  */
 public class SpliceSqlUtils {
 

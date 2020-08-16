@@ -11,15 +11,8 @@ import org.yelong.core.jdbc.sql.BoundSql;
 
 /**
  * sql片段执行器抽象实现
- * 
- * @author PengFei
  */
 public abstract class AbstractSqlFragmentExecutor implements SqlFragmentExecutor {
-
-	@Override
-	public <R> R execute(SqlFragmentExecutable sqlFragment) {
-		throw new UnsupportedOperationException();
-	}
 
 	@Override
 	public Integer execute(InsertSqlFragment insertSqlFragment) {

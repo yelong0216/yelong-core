@@ -4,8 +4,6 @@ import org.yelong.core.jdbc.sql.sort.SortDirection;
 
 /**
  * 排序
- * 
- * @author PengFei
  */
 public class Sort {
 

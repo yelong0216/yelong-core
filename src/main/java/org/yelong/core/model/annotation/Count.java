@@ -13,8 +13,6 @@ import java.lang.annotation.Target;
 @Target(TYPE)
 /**
  * 标注在model上面。 替换默认的查询记录语句
- * 
- * @author PengFei
  */
 public @interface Count {
 

@@ -27,8 +27,7 @@ import org.yelong.core.jdbc.sql.ddl.Table;
 /**
  * mysql 数据库定义语言
  * 
- * @author PengFei
- * @since 1.1.0
+ * @since 1.1
  */
 public class MySqlDataDefinitionLanguage implements DataDefinitionLanguage {
 
@@ -77,8 +76,12 @@ public class MySqlDataDefinitionLanguage implements DataDefinitionLanguage {
 		List<String> sqlFragment = new ArrayList<>();
 		// 列名
 		sqlFragment.add(column.getName());
+		
+		String typeName = column.getTypeName();
+		Strings.requireNonBlank(typeName,column+"列没有指定数据类型！");
+		
 		// 列类型
-		sqlFragment.add(column.getTypeName());
+		sqlFragment.add(typeName);
 		// 列长度
 		if (null != column.getLength()) {
 			sqlFragment.add("(" + column.getLength() + ")");
@@ -92,7 +95,7 @@ public class MySqlDataDefinitionLanguage implements DataDefinitionLanguage {
 			sqlFragment.add("COMMENT '" + column.getComment() + "'");
 		}
 		if (column.isPrimaryKey()) {
-			sqlFragment.add("primary key first");
+			sqlFragment.add("primary key");
 		} else {
 			// 列是否允许为空
 			if (!column.isAllowNull()) {

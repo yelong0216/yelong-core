@@ -8,8 +8,6 @@ import org.yelong.core.jdbc.dialect.impl.oracle.OracleDialect;
 
 /**
  * 默认的数据库方言对应的实现
- * 
- * @author PengFei
  */
 public enum Dialects {
 

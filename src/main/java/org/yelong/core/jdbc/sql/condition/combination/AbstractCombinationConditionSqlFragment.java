@@ -18,46 +18,44 @@ import org.yelong.core.jdbc.sql.exception.InvalidConditionException;
 
 /**
  * 抽象组合条件片段实现
- * 
- * @author PengFei
  */
 public abstract class AbstractCombinationConditionSqlFragment extends AbstractConditionSqlFragment
 		implements CombinationConditionSqlFragment {
 
-	private final SingleConditionSqlFragmentFactory singleconditionSqlFragmentFactory;
+	private final SingleConditionSqlFragmentFactory singleConditionSqlFragmentFactory;
 
 	private final List<ConditionSqlFragmentWrapper> conditionSqlFragmentList = new ArrayList<ConditionSqlFragmentWrapper>();
 
 	public AbstractCombinationConditionSqlFragment(
-			SingleConditionSqlFragmentFactory singleconditionSqlFragmentFactory) {
-		super(Objects.requireNonNull(singleconditionSqlFragmentFactory).getDialect());
-		this.singleconditionSqlFragmentFactory = singleconditionSqlFragmentFactory;
+			SingleConditionSqlFragmentFactory singleConditionSqlFragmentFactory) {
+		super(Objects.requireNonNull(singleConditionSqlFragmentFactory).getDialect());
+		this.singleConditionSqlFragmentFactory = singleConditionSqlFragmentFactory;
 	}
 
 	@Override
-	public CombinationConditionSqlFragment and(String column, String condition) throws InvalidConditionException {
-		return addCondition(ConditionConnectWay.AND, singleconditionSqlFragmentFactory.create(column, condition));
+	public CombinationConditionSqlFragment and(String column, String conditionOperator) throws InvalidConditionException {
+		return addCondition(ConditionConnectWay.AND, singleConditionSqlFragmentFactory.create(column, conditionOperator));
 	}
 
 	@Override
-	public CombinationConditionSqlFragment and(String column, String condition, Object value)
+	public CombinationConditionSqlFragment and(String column, String conditionOperator, Object value)
 			throws InvalidConditionException {
 		return addCondition(ConditionConnectWay.AND,
-				singleconditionSqlFragmentFactory.create(column, condition, value));
+				singleConditionSqlFragmentFactory.create(column, conditionOperator, value));
 	}
 
 	@Override
-	public CombinationConditionSqlFragment and(String column, String condition, List<Object> value)
+	public CombinationConditionSqlFragment and(String column, String conditionOperator, List<Object> value)
 			throws InvalidConditionException {
 		return addCondition(ConditionConnectWay.AND,
-				singleconditionSqlFragmentFactory.create(column, condition, value));
+				singleConditionSqlFragmentFactory.create(column, conditionOperator, value));
 	}
 
 	@Override
-	public CombinationConditionSqlFragment and(String column, String condition, Object value1, Object value2)
+	public CombinationConditionSqlFragment and(String column, String conditionOperator, Object value1, Object value2)
 			throws InvalidConditionException {
 		return addCondition(ConditionConnectWay.AND,
-				singleconditionSqlFragmentFactory.create(column, condition, value1, value2));
+				singleConditionSqlFragmentFactory.create(column, conditionOperator, value1, value2));
 	}
 
 	@Override
@@ -66,27 +64,27 @@ public abstract class AbstractCombinationConditionSqlFragment extends AbstractCo
 	}
 
 	@Override
-	public CombinationConditionSqlFragment or(String column, String condition) throws InvalidConditionException {
-		return addCondition(ConditionConnectWay.OR, singleconditionSqlFragmentFactory.create(column, condition));
+	public CombinationConditionSqlFragment or(String column, String conditionOperator) throws InvalidConditionException {
+		return addCondition(ConditionConnectWay.OR, singleConditionSqlFragmentFactory.create(column, conditionOperator));
 	}
 
 	@Override
-	public CombinationConditionSqlFragment or(String column, String condition, Object value)
+	public CombinationConditionSqlFragment or(String column, String conditionOperator, Object value)
 			throws InvalidConditionException {
-		return addCondition(ConditionConnectWay.OR, singleconditionSqlFragmentFactory.create(column, condition, value));
+		return addCondition(ConditionConnectWay.OR, singleConditionSqlFragmentFactory.create(column, conditionOperator, value));
 	}
 
 	@Override
-	public CombinationConditionSqlFragment or(String column, String condition, List<Object> value)
+	public CombinationConditionSqlFragment or(String column, String conditionOperator, List<Object> value)
 			throws InvalidConditionException {
-		return addCondition(ConditionConnectWay.OR, singleconditionSqlFragmentFactory.create(column, condition, value));
+		return addCondition(ConditionConnectWay.OR, singleConditionSqlFragmentFactory.create(column, conditionOperator, value));
 	}
 
 	@Override
-	public CombinationConditionSqlFragment or(String column, String condition, Object value1, Object value2)
+	public CombinationConditionSqlFragment or(String column, String conditionOperator, Object value1, Object value2)
 			throws InvalidConditionException {
 		return addCondition(ConditionConnectWay.OR,
-				singleconditionSqlFragmentFactory.create(column, condition, value1, value2));
+				singleConditionSqlFragmentFactory.create(column, conditionOperator, value1, value2));
 	}
 
 	@Override
@@ -178,7 +176,7 @@ public abstract class AbstractCombinationConditionSqlFragment extends AbstractCo
 	}
 
 	protected SingleConditionSqlFragmentFactory getSingleconditionSqlFragmentFactory() {
-		return singleconditionSqlFragmentFactory;
+		return singleConditionSqlFragmentFactory;
 	}
 
 	@Override

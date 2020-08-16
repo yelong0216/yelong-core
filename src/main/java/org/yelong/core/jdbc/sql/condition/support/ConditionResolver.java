@@ -11,8 +11,6 @@ import org.yelong.core.jdbc.sql.factory.SqlFragmentFactory;
 
 /**
  * {@link Condition}的解析器
- * 
- * @author PengFei
  */
 public interface ConditionResolver {
 

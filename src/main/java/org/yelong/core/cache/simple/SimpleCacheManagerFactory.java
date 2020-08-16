@@ -12,12 +12,21 @@ import org.yelong.core.cache.CacheManagerFactory;
 /**
  * 简单的缓存管理器工厂
  * 
- * @author PengFei
- * @since 1.3.0
+ * @since 1.3
  */
 public class SimpleCacheManagerFactory implements CacheManagerFactory {
 
 	private final List<CacheManager> cacheManagers = new ArrayList<CacheManager>();
+
+	private final String name;
+
+	public SimpleCacheManagerFactory() {
+		this(null);
+	}
+
+	public SimpleCacheManagerFactory(String name) {
+		this.name = name;
+	}
 
 	@Override
 	public CacheManager create() {
@@ -36,6 +45,11 @@ public class SimpleCacheManagerFactory implements CacheManagerFactory {
 	@Override
 	public List<CacheManager> getHasCreate() {
 		return cacheManagers;
+	}
+
+	@Override
+	public String getName() {
+		return name;
 	}
 
 }

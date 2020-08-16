@@ -11,8 +11,7 @@ import org.yelong.core.model.service.SqlModelService;
  * 
  * 在各个处理器（拦截器）中使用
  * 
- * @author PengFei
- * @since 1.3.0
+ * @since 1.3
  */
 public class ProcessConfig {
 

@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.yelong.commons.annotation.AnnotationUtils;
+import org.yelong.commons.lang.annotation.AnnotationUtilsE;
 
 public class Plugin implements InvocationHandler {
 
@@ -32,7 +32,7 @@ public class Plugin implements InvocationHandler {
 	}
 
 	/**
-	 * target 如果是代理对象的话，无法从target中获取其实现类，需要手动设置
+	 * target 如果是代理对象的话，无法从target中获取其实现接口，需要手动设置
 	 * 
 	 * @param target      源
 	 * @param interceptor 拦截器
@@ -77,7 +77,7 @@ public class Plugin implements InvocationHandler {
 	private static Map<Class<?>, Set<Method>> getSignatureMap(Interceptor interceptor) {
 		// Intercepts interceptsAnnotation =
 		// interceptor.getClass().getAnnotation(Intercepts.class);
-		Intercepts interceptsAnnotation = AnnotationUtils.getAnnotation(interceptor.getClass(), Intercepts.class, true);
+		Intercepts interceptsAnnotation = AnnotationUtilsE.getAnnotation(interceptor.getClass(), Intercepts.class, true);
 		// issue #251
 		if (interceptsAnnotation == null) {
 			throw new RuntimeException(

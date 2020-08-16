@@ -11,10 +11,8 @@ import org.yelong.core.model.service.SqlModelService;
  * 
  * 主要用在需要返回 <code>null</code> 时进行的实现
  * 
- * @author PengFei
- *
  * @param <M> model type
- * @since 1.3.0
+ * @since 1.3
  */
 public final class GetNullModelCollector<M extends Modelable> extends AbstractGetModelCollector<M> {
 

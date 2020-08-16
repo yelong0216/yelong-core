@@ -14,8 +14,6 @@ import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
 
 /**
  * 默认的 select sql 实现
- * 
- * @author PengFei
  */
 public class DefaultSelectSqlFragment extends AbstractSqlFragmentExecutable implements SelectSqlFragment {
 
@@ -47,10 +45,10 @@ public class DefaultSelectSqlFragment extends AbstractSqlFragmentExecutable impl
 	public String getSqlFragment() {
 		String sqlFragment = getBaseSql();
 		if (existConditionSqlFragment()) {
-			sqlFragment = sqlFragment + " " + conditionSqlFragment.getSqlFragment();
+			sqlFragment = sqlFragment + " " + conditionBoundSql.getSql();
 		}
 		if (existSortSqlFragment()) {
-			sqlFragment = sqlFragment + " " + sortSqlFragment.getSqlFragment();
+			sqlFragment = sqlFragment + " " + sortBoundSql.getSql();
 		}
 		return sqlFragment;
 	}

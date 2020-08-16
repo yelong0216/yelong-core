@@ -14,9 +14,7 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Target(FIELD)
 /**
- * 通过该注解修改查询映射时此字段与列的映射名称，以及是否进行映射
- * 
- * @author PengFei
+ * 通过该注解修改查询映射时此字段与列的映射名称，以及是否进行进行查询
  */
 public @interface SelectColumn {
 
@@ -37,7 +35,7 @@ public @interface SelectColumn {
 	/**
 	 * 是否在查询后映射到model的字段上。
 	 * 
-	 * @return <tt>true</tt> 映射
+	 * @return <tt>true</tt> 是否需要查询
 	 */
-	boolean mapping() default true;
+	boolean select() default true;
 }

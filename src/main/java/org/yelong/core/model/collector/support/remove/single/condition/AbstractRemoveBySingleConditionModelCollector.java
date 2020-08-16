@@ -9,10 +9,8 @@ import org.yelong.core.model.collector.support.remove.impl.AbstractRemoveModelCo
 /**
  * 抽象的根据单条件删除模型收集器
  * 
- * @author PengFei
- *
  * @param <M> model type
- * @since 1.3.0
+ * @since 1.3
  */
 public abstract class AbstractRemoveBySingleConditionModelCollector<M extends Modelable>
 		extends AbstractRemoveModelCollector<M> implements RemoveBySingleConditionModelCollector<M> {

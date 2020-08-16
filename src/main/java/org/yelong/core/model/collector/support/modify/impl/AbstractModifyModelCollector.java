@@ -10,10 +10,8 @@ import org.yelong.core.model.collector.support.modify.ModifyModelCollector;
 /**
  * 抽象的修改模型收集器
  * 
- * @author PengFei
- *
  * @param <M> model type
- * @since 1.3.0
+ * @since 1.3
  */
 public abstract class AbstractModifyModelCollector<M extends Modelable>
 		extends ModelCollectorImpl<M, Integer, ModifyModelCollector<M>> implements ModifyModelCollector<M> {

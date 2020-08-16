@@ -9,8 +9,7 @@ import org.yelong.core.model.collector.support.ProcessConfig;
 /**
  * 根据条件删除模型执行器
  * 
- * @author PengFei
- * @since 1.3.0
+ * @since 1.3
  */
 @FunctionalInterface
 public interface RemoveModelBySingleConditionExecutor {

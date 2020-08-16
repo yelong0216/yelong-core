@@ -9,10 +9,8 @@ import org.yelong.core.model.collector.support.remove.RemoveModelCollector;
 /**
  * 根据单列包含某些值进行删除的模型收集器
  * 
- * @author PengFei
- *
  * @param <M> model type
- * @since 1.3.0
+ * @since 1.3
  */
 public interface RemoveBySingleColumnContainsModelCollector<M extends Modelable> extends RemoveModelCollector<M> {
 

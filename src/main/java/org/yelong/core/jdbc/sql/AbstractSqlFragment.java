@@ -9,8 +9,6 @@ import org.yelong.core.jdbc.dialect.Dialect;
 
 /**
  * 抽象的sql片段
- * 
- * @author PengFei
  */
 public abstract class AbstractSqlFragment implements SqlFragment {
 

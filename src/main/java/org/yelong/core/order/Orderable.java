@@ -10,8 +10,7 @@ package org.yelong.core.order;
  * 任何实现了该接口的集合都可以通过后面方法进行排序: list.sort(OrderComparator.ASC_INSTANCE);
  * </pre>
  * 
- * @author PengFei
- * @since 1.3.0
+ * @since 1.3
  */
 public interface Orderable {
 

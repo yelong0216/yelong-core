@@ -10,8 +10,7 @@ import org.yelong.core.jdbc.sql.function.DatabaseFunction;
 /**
  * mysql 数据库函数
  * 
- * @author PengFei
- * @since 1.1.0
+ * @since 1.1
  */
 public class MySqlDatabaseFunction implements DatabaseFunction {
 

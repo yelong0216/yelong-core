@@ -10,15 +10,16 @@ import org.yelong.core.jdbc.sql.condition.support.Condition;
 import org.yelong.core.jdbc.sql.condition.support.ConditionResolver;
 import org.yelong.core.jdbc.sql.factory.SqlFragmentFactory;
 import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
+import org.yelong.core.model.Modelable;
+import org.yelong.core.model.manage.ExtendColumnAttribute;
+import org.yelong.core.model.manage.FieldAndColumn;
+import org.yelong.core.model.manage.ModelManager;
 import org.yelong.core.model.property.ModelProperty;
-import org.yelong.core.model.resolve.ExtendColumnAttribute;
-import org.yelong.core.model.resolve.FieldAndColumn;
-import org.yelong.core.model.resolve.ModelAndTableManager;
 
 /**
- * sql model 解析器
+ * SqlModel 解析器
  * 
- * @author PengFei
+ * @since 1.0
  */
 public interface SqlModelResolver {
 
@@ -26,7 +27,7 @@ public interface SqlModelResolver {
 	 * @see #resolveToCondition(SqlModel, boolean)
 	 */
 	@Nullable
-	default ConditionSqlFragment resolveToCondition(SqlModel sqlModel) {
+	default ConditionSqlFragment resolveToCondition(SqlModel<? extends Modelable> sqlModel) {
 		return resolveToCondition(sqlModel, true);
 	}
 
@@ -53,13 +54,13 @@ public interface SqlModelResolver {
 	 * @return 条件sql
 	 */
 	@Nullable
-	ConditionSqlFragment resolveToCondition(SqlModel sqlModel, boolean tableAlias);
+	ConditionSqlFragment resolveToCondition(SqlModel<? extends Modelable> sqlModel, boolean tableAlias);
 
 	/**
 	 * @see #resolveToSort(SqlModel, boolean)
 	 */
 	@Nullable
-	default SortSqlFragment resolveToSort(SqlModel sqlModel) {
+	default SortSqlFragment resolveToSort(SqlModel<? extends Modelable> sqlModel) {
 		return resolveToSort(sqlModel, true);
 	}
 
@@ -77,12 +78,12 @@ public interface SqlModelResolver {
 	 * @return 排序sql
 	 */
 	@Nullable
-	SortSqlFragment resolveToSort(SqlModel sqlModel, boolean tableAlias);
+	SortSqlFragment resolveToSort(SqlModel<? extends Modelable> sqlModel, boolean tableAlias);
 
 	/**
-	 * @return model 与 table 的管理者
+	 * @return 模型的管理者
 	 */
-	ModelAndTableManager getModelAndTableManager();
+	ModelManager getModelManager();
 
 	/**
 	 * @return sql片段工厂

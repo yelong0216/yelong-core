@@ -18,8 +18,6 @@ import org.yelong.core.jdbc.sql.factory.SqlFragmentFactory;
 
 /**
  * 默认的条件解析器实现
- * 
- * @author PengFei
  */
 public class DefaultConditionResolver extends AbstractConditionResolver {
 
@@ -87,8 +85,8 @@ public class DefaultConditionResolver extends AbstractConditionResolver {
 	@Override
 	public SingleConditionSqlFragment resolve(Condition condition) {
 		String column = condition.getColumn();
-		String operator = condition.getOperator();
-		SingleConditionSqlFragmentFactory f = getSqlFragmentFactory().getSingleConditionSqlFragmentFactory();
+		String operator = condition.getOperator(conditionalOperatorResolver);
+		SingleConditionSqlFragmentFactory f = sqlFragmentFactory.getSingleConditionSqlFragmentFactory();
 		if (condition.isNoValue()) {
 			return f.create(column, operator);
 		} else if (condition.isSingleValue()) {

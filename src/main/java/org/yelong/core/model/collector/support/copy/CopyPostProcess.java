@@ -11,10 +11,8 @@ import org.yelong.core.model.collector.support.ProcessConfig;
 /**
  * 复制的后置处理
  * 
- * @author PengFei
- *
  * @param <M> model type
- * @since 1.3.0
+ * @since 1.3
  */
 @FunctionalInterface
 public interface CopyPostProcess<M extends Modelable> {

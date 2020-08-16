@@ -8,20 +8,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.IteratorUtils;
+import org.yelong.commons.util.CollectionUtilsE;
+import org.yelong.commons.util.ListUtilsE;
 import org.yelong.core.annotation.Nullable;
 
 /**
  * 抽象的数据库操作实现
- * 
- * @author PengFei
  */
 public abstract class AbstractBaseDataBaseOperation implements BaseDataBaseOperation {
 
@@ -33,12 +31,7 @@ public abstract class AbstractBaseDataBaseOperation implements BaseDataBaseOpera
 
 	@Override
 	public Map<String, Object> selectRow(String sql, Object... params) {
-		List<Map<String, Object>> result = select(sql, params);
-		if (CollectionUtils.isEmpty(result)) {
-			return Collections.emptyMap();
-		} else {
-			return result.get(0);
-		}
+		return ListUtilsE.get(select(sql, params), 0, Collections.emptyMap());
 	}
 
 	@Override
@@ -48,26 +41,13 @@ public abstract class AbstractBaseDataBaseOperation implements BaseDataBaseOpera
 		List<Map<String, Object>> resultList = (List<Map<String, Object>>) result;
 		if (CollectionUtils.isEmpty(resultList)) {
 			return Collections.emptyList();
-		} else {
-			return (List<T>) resultList.stream().map(x -> {
-				Collection<Object> values = x.values();
-				if (CollectionUtils.isEmpty(values)) {
-					return null;
-				} else {
-					return IteratorUtils.get(values.iterator(), 0);
-				}
-			}).collect(Collectors.toList());
 		}
+		return (List<T>) resultList.stream().map(x -> CollectionUtilsE.get(x.values(), 0)).collect(Collectors.toList());
 	}
 
 	@Override
 	public <T> T selectSingleObject(String sql, Object... params) {
-		List<T> resultList = selectColumn(sql, params);
-		if (resultList.isEmpty()) {
-			return null;
-		} else {
-			return resultList.get(0);
-		}
+		return ListUtilsE.get(selectColumn(sql, params), 0);
 	}
 
 	@Override

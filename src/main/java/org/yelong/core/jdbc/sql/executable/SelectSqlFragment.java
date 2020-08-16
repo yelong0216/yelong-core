@@ -8,8 +8,6 @@ import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
 
 /**
  * select sql
- * 
- * @author PengFei
  */
 public interface SelectSqlFragment extends SqlFragmentExecutable {
 

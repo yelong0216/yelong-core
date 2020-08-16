@@ -3,56 +3,60 @@
  */
 package org.yelong.core.model;
 
+import org.yelong.core.model.service.ModelService;
+import org.yelong.core.model.sql.SelectSqlColumnMode;
+import org.yelong.core.model.validator.ModelValidator;
+
 /**
  * 模型的配置
  * 
- * @author PengFei
- * @deprecated 1.1.0
+ * @since 2.0
  */
-@Deprecated
 public class ModelProperties {
 
 	/**
-	 * 数据库方言
+	 * 保存时是否验证模型
+	 * 
+	 * @see ModelService#save(Modelable) 等保存方法
+	 * @see ModelValidator
 	 */
-	@Deprecated
-	private String databaseDialect;
+	private boolean saveValidateModel = true;
 
 	/**
-	 * 下划线转换为驼峰
+	 * 修改时是否验证模型
+	 * 
+	 * @see ModelService#modifyById(Modelable) 等修改方法
+	 * @see ModelValidator
 	 */
-	@Deprecated
-	private boolean underscoreToCamelCase;
+	private boolean modifyValidateModel = true;
 
 	/**
-	 * 驼峰转换为下划线
+	 * 查询SQL列模式
 	 */
-	private boolean camelCaseToUnderscore;
-
-	public String getDatabaseDialect() {
-		return databaseDialect;
+	private SelectSqlColumnMode selectSqlColumnMode = SelectSqlColumnMode.STAR;
+	
+	public boolean isSaveValidateModel() {
+		return saveValidateModel;
 	}
 
-	public void setDatabaseDialect(String databaseDialect) {
-		this.databaseDialect = databaseDialect;
+	public void setSaveValidateModel(boolean saveValidateModel) {
+		this.saveValidateModel = saveValidateModel;
 	}
 
-	@Deprecated
-	public boolean isUnderscoreToCamelCase() {
-		return underscoreToCamelCase;
+	public boolean isModifyValidateModel() {
+		return modifyValidateModel;
 	}
 
-	@Deprecated
-	public void setUnderscoreToCamelCase(boolean underscoreToCamelCase) {
-		this.underscoreToCamelCase = underscoreToCamelCase;
+	public void setModifyValidateModel(boolean modifyValidateModel) {
+		this.modifyValidateModel = modifyValidateModel;
 	}
 
-	public boolean isCamelCaseToUnderscore() {
-		return camelCaseToUnderscore;
+	public SelectSqlColumnMode getSelectSqlColumnMode() {
+		return selectSqlColumnMode;
 	}
 
-	public void setCamelCaseToUnderscore(boolean camelCaseToUnderscore) {
-		this.camelCaseToUnderscore = camelCaseToUnderscore;
+	public void setSelectSqlColumnMode(SelectSqlColumnMode selectSqlColumnMode) {
+		this.selectSqlColumnMode = selectSqlColumnMode;
 	}
 
 }

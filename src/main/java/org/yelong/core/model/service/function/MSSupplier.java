@@ -18,11 +18,9 @@ import org.yelong.core.model.service.SqlModelService;
  * });
  * </pre>
  * 
- * @author PengFei
- *
  * @param <R> return type
  * @see SqlModelService#doSupplier(MSSupplier)
- * @since 1.3.0
+ * @since 1.3
  */
 @FunctionalInterface
 public interface MSSupplier<R> extends Supplier<R> {

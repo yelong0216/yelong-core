@@ -5,8 +5,6 @@ package org.yelong.core.jdbc;
 
 /**
  * 数据库属性配置
- * 
- * @author PengFei
  */
 public class DataSourceProperties {
 

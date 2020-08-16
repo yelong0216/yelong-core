@@ -10,10 +10,8 @@ import org.yelong.core.model.collector.support.remove.RemoveModelCollector;
 /**
  * 抽象的删除模型收集器
  * 
- * @author PengFei
- *
  * @param <M> model type
- * @since 1.3.0
+ * @since 1.3
  */
 public abstract class AbstractRemoveModelCollector <M extends Modelable> extends ModelCollectorImpl<M, Integer, RemoveModelCollector<M>> implements RemoveModelCollector<M>{
 

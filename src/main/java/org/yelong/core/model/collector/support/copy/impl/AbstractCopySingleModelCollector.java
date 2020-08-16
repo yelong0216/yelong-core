@@ -15,10 +15,8 @@ import org.yelong.core.model.service.SqlModelService;
 /**
  * 抽象的单个模型复制收集器
  * 
- * @author PengFei
- *
  * @param <M> model type
- * @since 1.3.0
+ * @since 1.3
  */
 public abstract class AbstractCopySingleModelCollector<M extends Modelable> extends AbstractCopyModelCollector<M, M>
 		implements CopySingleModelCollector<M> {
@@ -30,6 +28,9 @@ public abstract class AbstractCopySingleModelCollector<M extends Modelable> exte
 	@Override
 	protected M doCollect(SqlModelService modelService) {
 		M model = getCopySourceModel(modelService);
+		if (null == model) {
+			return null;
+		}
 		List<M> models = new CopyListModelCollectorImpl<M>(modelClass, Arrays.asList(model)).preProcess(copyPreProcess)
 				.beforeSave(beforeSaveModel).saveModel(saveModelExecutor).afterSave(afterSaveModel)
 				.postProcess(copyPostProcess).collect(modelService);

@@ -18,10 +18,8 @@ import org.yelong.core.model.service.SqlModelService;
  * });
  * </pre>
  * 
- * @author PengFei
- *
  * @param <R> result type
- * @since 1.3.0
+ * @since 1.3
  */
 public interface MSFunction<R> extends Function<SqlModelService, R> {
 

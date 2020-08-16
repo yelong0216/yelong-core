@@ -7,7 +7,9 @@ import java.util.List;
 
 import org.yelong.core.annotation.Nullable;
 import org.yelong.core.jdbc.BaseDataBaseOperation;
+import org.yelong.core.jdbc.dialect.impl.DefaultConditionalOperatorResolver;
 import org.yelong.core.jdbc.sql.BoundSql;
+import org.yelong.core.jdbc.sql.condition.ConditionalOperatorResolver;
 import org.yelong.core.jdbc.sql.ddl.DataDefinitionLanguage;
 import org.yelong.core.jdbc.sql.factory.SqlFragmentFactory;
 import org.yelong.core.jdbc.sql.function.DatabaseFunction;
@@ -15,7 +17,7 @@ import org.yelong.core.jdbc.sql.function.DatabaseFunction;
 /**
  * 数据库方言
  * 
- * @author PengFei
+ * @since 1.0
  */
 public interface Dialect {
 
@@ -124,4 +126,12 @@ public interface Dialect {
 	 */
 	SqlFragmentFactory getSqlFragmentFactory();
 
+	/**
+	 * @return 条件运算符解析器
+	 * @since 1.4.0
+	 */
+	default ConditionalOperatorResolver getConditionalOperatorResolver() {
+		return DefaultConditionalOperatorResolver.INSTANCE;
+	}
+	
 }

@@ -9,14 +9,12 @@ import org.yelong.core.model.service.SqlModelService;
 /**
  * 一种可变的模型操作，它将输入元素累积到可变结果容器中，可选地在所有输入元素被处理后将累积的结果转换为最终表示。
  * 
- * @author PengFei
- *
  * @param <M> model type
  * @param <R> return type 返回的结果类型
  * @param <T> this type 模型收集者的最终实现类型
  * @see SqlModelService#collect(ModelCollector)
  * @see ModelCollectors
- * @since 1.3.0
+ * @since 1.3
  */
 public interface ModelCollector<M extends Modelable, R, T extends ModelCollector<M, R, T>> {
 

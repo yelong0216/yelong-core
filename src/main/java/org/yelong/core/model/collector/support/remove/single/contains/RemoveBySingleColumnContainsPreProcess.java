@@ -5,8 +5,7 @@ import org.yelong.core.model.collector.support.ProcessConfig;
 /**
  * 根据单列包含某些值进行删除的前置处理
  * 
- * @author PengFei
- * @since 1.3.0
+ * @since 1.3
  */
 @FunctionalInterface
 public interface RemoveBySingleColumnContainsPreProcess {

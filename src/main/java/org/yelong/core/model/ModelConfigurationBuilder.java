@@ -8,156 +8,105 @@ import java.util.Objects;
 import org.yelong.core.jdbc.dialect.Dialect;
 import org.yelong.core.jdbc.sql.condition.support.ConditionResolver;
 import org.yelong.core.jdbc.sql.condition.support.DefaultConditionResolver;
+import org.yelong.core.model.manage.DefaultModelManager;
+import org.yelong.core.model.manage.ModelManager;
+import org.yelong.core.model.pojo.POJOModelResolver;
+import org.yelong.core.model.pojo.annotation.AnnotationFieldResolver;
+import org.yelong.core.model.pojo.annotation.AnnotationPOJOModelResolver;
+import org.yelong.core.model.property.DefaultModelProperty;
 import org.yelong.core.model.property.ModelProperty;
-import org.yelong.core.model.resolve.AnnotationModelResolver;
-import org.yelong.core.model.resolve.ModelAndTableManager;
+import org.yelong.core.model.resolve.DefaultModelResolverManager;
+import org.yelong.core.model.resolve.ModelResolverManager;
 import org.yelong.core.model.sql.DefaultModelSqlFragmentFactory;
 import org.yelong.core.model.sql.DefaultSqlModelResolver;
 import org.yelong.core.model.sql.ModelSqlFragmentFactory;
 import org.yelong.core.model.sql.SqlModelResolver;
+import org.yelong.core.model.validator.DefaultModelValidator;
+import org.yelong.core.model.validator.ModelValidator;
 
 /**
- * {@link ModelConfiguration}的建造者
- * 
- * @author PengFei
+ * @since 2.0
  */
 public class ModelConfigurationBuilder {
 
-	private Dialect dialect;
+	private final ModelConfiguration mc;
 
-	@SuppressWarnings("deprecation")
-	private ModelProperties modelProperties;
-
-	private ModelAndTableManager modelAndTableManager;
-
-	private ModelSqlFragmentFactory modelSqlFragmentFactory;
-
-	private ConditionResolver conditionResolver;
-
-	private SqlModelResolver sqlModelResolver;
-
-	private ModelProperty modelProperty;
-
-	public ModelConfigurationBuilder() {
-
+	private ModelConfigurationBuilder(ModelConfiguration mc) {
+		this.mc = Objects.requireNonNull(mc);
 	}
 
-	/**
-	 * @param dialect 数据库方言
-	 */
-	public ModelConfigurationBuilder(Dialect dialect) {
-		this.dialect = dialect;
+	public static ModelConfigurationBuilder create(Dialect dialect) {
+		return create(new ModelConfiguration(Objects.requireNonNull(dialect)));
 	}
 
-	/**
-	 * @param dialect         数据库方言
-	 * @param modelProperties 模型属性配置
-	 */
-	@SuppressWarnings("deprecation")
-	public ModelConfigurationBuilder(Dialect dialect, ModelProperties modelProperties) {
-		this.dialect = dialect;
-		this.modelProperties = modelProperties;
+	public static ModelConfigurationBuilder create(final ModelConfiguration modelConfiguration) {
+		return new ModelConfigurationBuilder(modelConfiguration);
 	}
 
-	// =======================set====================
-
-	public ModelConfigurationBuilder setModelAndTableManager(ModelAndTableManager modelAndTableManager) {
-		this.modelAndTableManager = modelAndTableManager;
+	public ModelConfigurationBuilder setModelManager(ModelManager modelManager) {
+		mc.modelManager = Objects.requireNonNull(modelManager);
 		return this;
 	}
 
 	public ModelConfigurationBuilder setModelSqlFragmentFactory(ModelSqlFragmentFactory modelSqlFragmentFactory) {
-		this.modelSqlFragmentFactory = modelSqlFragmentFactory;
+		mc.modelSqlFragmentFactory = Objects.requireNonNull(modelSqlFragmentFactory);
 		return this;
 	}
 
 	public ModelConfigurationBuilder setSqlModelResolver(SqlModelResolver sqlModelResolver) {
-		this.sqlModelResolver = sqlModelResolver;
+		mc.sqlModelResolver = Objects.requireNonNull(sqlModelResolver);
 		return this;
 	}
 
 	public ModelConfigurationBuilder setConditionResolver(ConditionResolver conditionResolver) {
-		this.conditionResolver = conditionResolver;
+		mc.conditionResolver = Objects.requireNonNull(conditionResolver);
 		return this;
 	}
 
-	public ModelConfigurationBuilder setDialect(Dialect dialect) {
-		this.dialect = dialect;
+	public ModelConfigurationBuilder setModelProperties(ModelProperties modelProperties) {
+		mc.modelProperties = Objects.requireNonNull(modelProperties);
 		return this;
 	}
 
-	@SuppressWarnings("deprecation")
-	public void setModelProperties(ModelProperties modelProperties) {
-		this.modelProperties = modelProperties;
+	public ModelConfigurationBuilder setModelProperty(ModelProperty modelProperty) {
+		mc.modelProperty = modelProperty;
+		return this;
 	}
 
-	public void setModelProperty(ModelProperty modelProperty) {
-		this.modelProperty = modelProperty;
+	public ModelConfigurationBuilder setModelValidator(ModelValidator modelValidator) {
+		mc.modelValidator = Objects.requireNonNull(modelValidator);
+		return this;
 	}
 
-	// =======================get====================
-
-	public Dialect getDialect() {
-		return dialect;
-	}
-
-	@SuppressWarnings("deprecation")
-	public ModelProperties getModelProperties() {
-		return modelProperties;
-	}
-
-	public ModelAndTableManager getModelAndTableManager() {
-		return modelAndTableManager;
-	}
-
-	public ModelSqlFragmentFactory getModelSqlFragmentFactory() {
-		return modelSqlFragmentFactory;
-	}
-
-	public ConditionResolver getConditionResolver() {
-		return conditionResolver;
-	}
-
-	public SqlModelResolver getSqlModelResolver() {
-		return sqlModelResolver;
-	}
-
-	public ModelProperty getModelProperty() {
-		return modelProperty;
-	}
-
-	// =======================build====================
-
-	/**
-	 * 构建模型配置
-	 * 
-	 * @return {@link ModelConfiguration}
-	 */
-	@SuppressWarnings("deprecation")
 	public ModelConfiguration build() {
-		Objects.requireNonNull(dialect, "dialect not allow to null");
-		if (null == modelProperties) {
-			this.modelProperties = new ModelProperties();
+		if (null == mc.modelProperties) {
+			setModelProperties(new ModelProperties());
 		}
-		if (null == modelAndTableManager) {
-			this.modelAndTableManager = new ModelAndTableManager(new AnnotationModelResolver(modelProperties));
+		if (null == mc.modelManager) {
+			ModelResolverManager modelResolverManager = new DefaultModelResolverManager();
+			POJOModelResolver modelResolver = new AnnotationPOJOModelResolver();
+			modelResolver.registerFieldResovler(new AnnotationFieldResolver());
+			modelResolverManager.registerModelResolver(modelResolver);
+			ModelManager modelManager = new DefaultModelManager(modelResolverManager);
+			setModelManager(modelManager);
 		}
-		if (null == modelSqlFragmentFactory) {
-			this.modelSqlFragmentFactory = new DefaultModelSqlFragmentFactory(dialect.getSqlFragmentFactory(),
-					modelAndTableManager);
+		if (null == mc.modelSqlFragmentFactory) {
+			setModelSqlFragmentFactory(
+					new DefaultModelSqlFragmentFactory(mc.dialect.getSqlFragmentFactory(), mc.modelManager));
 		}
-		if (null == conditionResolver) {
-			this.conditionResolver = new DefaultConditionResolver(modelSqlFragmentFactory);
+		if (null == mc.conditionResolver) {
+			setConditionResolver(new DefaultConditionResolver(mc.modelSqlFragmentFactory));
 		}
-		if (null == sqlModelResolver) {
-			this.sqlModelResolver = new DefaultSqlModelResolver(modelAndTableManager, conditionResolver);
+		if (null == mc.sqlModelResolver) {
+			setSqlModelResolver(new DefaultSqlModelResolver(mc.modelManager, mc.conditionResolver));
 		}
-		ModelConfiguration modelConfiguration = new ModelConfiguration(dialect, modelProperties, modelAndTableManager,
-				modelSqlFragmentFactory, conditionResolver, sqlModelResolver);
-		if (null != modelProperty) {
-			modelConfiguration.setModelProperty(modelProperty);
+		if (null == mc.modelProperty) {
+			setModelProperty(DefaultModelProperty.INSTANCE);
 		}
-		return modelConfiguration;
+		if (null == mc.modelValidator) {
+			setModelValidator(new DefaultModelValidator(mc.modelManager, mc.modelProperty));
+		}
+		return mc;
 	}
 
 }

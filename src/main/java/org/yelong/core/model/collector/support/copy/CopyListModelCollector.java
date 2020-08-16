@@ -10,10 +10,8 @@ import org.yelong.core.model.Modelable;
 /**
  * 模型复制集合收集者
  * 
- * @author PengFei
- *
  * @param <M> model type
- * @since 1.3.0
+ * @since 1.3
  */
 public interface CopyListModelCollector<M extends Modelable> extends CopyModelCollector<M, List<M>> {
 

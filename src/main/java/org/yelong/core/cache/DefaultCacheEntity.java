@@ -8,10 +8,8 @@ import java.util.Objects;
 /**
  * 默认的缓存实体
  * 
- * @author PengFei
- * 
  * @param <T> cache entity type
- * @since 1.3.0
+ * @since 1.3
  */
 public class DefaultCacheEntity<T> implements CacheEntity<T> {
 

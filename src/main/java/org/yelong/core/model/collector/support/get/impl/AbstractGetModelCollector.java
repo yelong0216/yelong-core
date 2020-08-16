@@ -10,10 +10,8 @@ import org.yelong.core.model.collector.support.get.GetModelCollector;
 /**
  * 抽象的获取模型收集器
  * 
- * @author PengFei
- *
  * @param <M> model type
- * @since 1.3.0
+ * @since 1.3
  */
 public abstract class AbstractGetModelCollector<M extends Modelable>
 		extends ModelCollectorImpl<M, M, GetModelCollector<M>> implements GetModelCollector<M> {

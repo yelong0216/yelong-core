@@ -13,8 +13,6 @@ import org.yelong.core.jdbc.sql.condition.single.AbstractSingleConditionSqlFragm
 
 /**
  * 默认的单一条件实现
- * 
- * @author PengFei
  */
 public class DefaultSingleConditionSqlFragment extends AbstractSingleConditionSqlFragment {
 
@@ -63,12 +61,12 @@ public class DefaultSingleConditionSqlFragment extends AbstractSingleConditionSq
 	@Override
 	public String getSqlFragment() {
 		if (isNoValue()) {
-			return spliceSqlFragment(getColumn(), getConditionOperator());
+			return where(spliceSqlFragment(getColumn(), getConditionOperator()));
 		} else if (isSingleValue()) {
-			return spliceSqlFragment(getColumn(), getConditionOperator(), DEFAULT_PARAM_PLACEHOLDER);
+			return where(spliceSqlFragment(getColumn(), getConditionOperator(), DEFAULT_PARAM_PLACEHOLDER));
 		} else if (isBetweenValue()) {
-			return spliceSqlFragment(getColumn(), getConditionOperator(), DEFAULT_PARAM_PLACEHOLDER, AND,
-					DEFAULT_PARAM_PLACEHOLDER);
+			return where(spliceSqlFragment(getColumn(), getConditionOperator(), DEFAULT_PARAM_PLACEHOLDER, AND,
+					DEFAULT_PARAM_PLACEHOLDER));
 		} else if (isListValue()) {
 			List<Object> conditionValue = (List<Object>) getValue();
 			int length = conditionValue.size();

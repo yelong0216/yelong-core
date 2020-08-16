@@ -9,22 +9,21 @@ import java.util.Objects;
 /**
  * 顺序比较器
  * 
- * @author PengFei
- * @since 1.3.0
+ * @since 1.3
  */
 public class OrderComparator implements Comparator<Orderable> {
 
 	private final OrderDirection orderDirection;
 
 	/**
-	 * 降序排序（从大到小）
-	 */
-	public static OrderComparator DESC_INSTANCE = new OrderComparator(OrderDirection.DESC);
-
-	/**
 	 * 升序排序（从小到大）
 	 */
-	public static OrderComparator ASC_INSTANCE = new OrderComparator(OrderDirection.ASC);
+	public static final OrderComparator ASC_INSTANCE = new OrderComparator(OrderDirection.ASC);
+
+	/**
+	 * 降序排序（从大到小）
+	 */
+	public static final OrderComparator DESC_INSTANCE = new OrderComparator(OrderDirection.DESC);
 
 	public OrderComparator() {
 		this(OrderDirection.ASC);
@@ -32,6 +31,17 @@ public class OrderComparator implements Comparator<Orderable> {
 
 	public OrderComparator(OrderDirection orderDirection) {
 		this.orderDirection = Objects.requireNonNull(orderDirection);
+	}
+
+	public static OrderComparator getOrderComparator(OrderDirection orderDirection) {
+		Objects.requireNonNull(orderDirection);
+		switch (orderDirection) {
+		case ASC:
+			return ASC_INSTANCE;
+		case DESC:
+			return DESC_INSTANCE;
+		}
+		throw new UnsupportedOperationException();
 	}
 
 	@Override

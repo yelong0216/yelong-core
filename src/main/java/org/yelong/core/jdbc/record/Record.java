@@ -21,8 +21,7 @@ import org.yelong.commons.util.map.MapWrapper;
 /**
  * 记录，对应数据中的一条记录
  * 
- * @author PengFei
- * @since 1.1.0
+ * @since 1.1
  */
 public class Record extends MapWrapper<String, Object> implements Serializable {
 
@@ -187,12 +186,32 @@ public class Record extends MapWrapper<String, Object> implements Serializable {
 	}
 
 	/**
+	 * @param column       列名
+	 * @param defaultValue 不存在该列时返回的默认值
+	 * @return {@link #getObject(String)#toString()}
+	 */
+	public String getString(String column, String defaultValue) {
+		String value = getString(column);
+		return value != null ? value : defaultValue;
+	}
+
+	/**
 	 * @param column 列名
 	 * @return {@link #getNumber(String)#intValue()}
 	 */
 	public Integer getInt(String column) {
 		Number number = getNumber(column);
 		return number != null ? number.intValue() : null;
+	}
+
+	/**
+	 * @param column       列名
+	 * @param defaultValue 不存在该列时返回的默认值
+	 * @return {@link #getNumber(String)#intValue()}
+	 */
+	public Integer getInt(String column, Integer defaultValue) {
+		Integer value = getInt(column);
+		return value != null ? value : defaultValue;
 	}
 
 	/**
@@ -205,11 +224,31 @@ public class Record extends MapWrapper<String, Object> implements Serializable {
 	}
 
 	/**
+	 * @param column       列名
+	 * @param defaultValue 不存在该列时返回的默认值
+	 * @return {@link #getNumber(String)#longValue()}
+	 */
+	public Long getLong(String column, Long defaultValue) {
+		Long value = getLong(column);
+		return value != null ? value : defaultValue;
+	}
+
+	/**
 	 * @param column 列名
 	 * @return {@link (BigInteger)#getObject(String)}
 	 */
 	public BigInteger getBigInteger(String column) {
 		return (BigInteger) getObject(column);
+	}
+
+	/**
+	 * @param column       列名
+	 * @param defaultValue 不存在该列时返回的默认值
+	 * @return {@link (BigInteger)#getObject(String)}
+	 */
+	public BigInteger getBigInteger(String column, BigInteger defaultValue) {
+		BigInteger value = getBigInteger(column);
+		return value != null ? value : defaultValue;
 	}
 
 	/**
@@ -221,6 +260,16 @@ public class Record extends MapWrapper<String, Object> implements Serializable {
 	}
 
 	/**
+	 * @param column       列名
+	 * @param defaultValue 不存在该列时返回的默认值
+	 * @return {@link (Date)#getObject(String)}
+	 */
+	public Date getDate(String column, Date defaultValue) {
+		Date value = getDate(column);
+		return value != null ? value : defaultValue;
+	}
+
+	/**
 	 * @param column 列名
 	 * @return {@link (Time)#getObject(String)}
 	 */
@@ -229,11 +278,31 @@ public class Record extends MapWrapper<String, Object> implements Serializable {
 	}
 
 	/**
+	 * @param column       列名
+	 * @param defaultValue 不存在该列时返回的默认值
+	 * @return {@link (Time)#getObject(String)}
+	 */
+	public Time getTime(String column, Time defaultValue) {
+		Time value = getTime(column);
+		return value != null ? value : defaultValue;
+	}
+
+	/**
 	 * @param column 列名
 	 * @return {@link (Timestamp)#getObject(String)}
 	 */
 	public Timestamp getTimestamp(String column) {
 		return (Timestamp) getObject(column);
+	}
+
+	/**
+	 * @param column       列名
+	 * @param defaultValue 不存在该列时返回的默认值
+	 * @return {@link (Timestamp)#getObject(String)}
+	 */
+	public Timestamp getTimestamp(String column, Timestamp defaultValue) {
+		Timestamp value = getTimestamp(column);
+		return value != null ? value : defaultValue;
 	}
 
 	/**
@@ -246,12 +315,32 @@ public class Record extends MapWrapper<String, Object> implements Serializable {
 	}
 
 	/**
+	 * @param column       列名
+	 * @param defaultValue 不存在该列时返回的默认值
+	 * @return {@link #getNumber(String)#doubleValue()}
+	 */
+	public Double getDouble(String column, Double defaultValue) {
+		Double value = getDouble(column);
+		return value != null ? value : defaultValue;
+	}
+
+	/**
 	 * @param column 列名
 	 * @return {@link #getNumber(String)#floatValue()}
 	 */
 	public Float getFloat(String column) {
 		Number number = getNumber(column);
 		return number != null ? number.floatValue() : null;
+	}
+
+	/**
+	 * @param column       列名
+	 * @param defaultValue 不存在该列时返回的默认值
+	 * @return {@link #getNumber(String)#floatValue()}
+	 */
+	public Float getFloat(String column, Float defaultValue) {
+		Float value = getFloat(column);
+		return value != null ? value : defaultValue;
 	}
 
 	/**
@@ -264,12 +353,32 @@ public class Record extends MapWrapper<String, Object> implements Serializable {
 	}
 
 	/**
+	 * @param column       列名
+	 * @param defaultValue 不存在该列时返回的默认值
+	 * @return {@link #getNumber(String)#shortValue()}
+	 */
+	public Short getShort(String column, Short defaultValue) {
+		Short value = getShort(column);
+		return value != null ? value : defaultValue;
+	}
+
+	/**
 	 * @param column 列名
 	 * @return {@link #getNumber(String)#byteValue()}
 	 */
 	public Byte getByte(String column) {
 		Number number = getNumber(column);
 		return number != null ? number.byteValue() : null;
+	}
+
+	/**
+	 * @param column       列名
+	 * @param defaultValue 不存在该列时返回的默认值
+	 * @return {@link #getNumber(String)#byteValue()}
+	 */
+	public Byte getByte(String column, Byte defaultValue) {
+		Byte value = getByte(column);
+		return value != null ? value : defaultValue;
 	}
 
 	/**
@@ -284,11 +393,33 @@ public class Record extends MapWrapper<String, Object> implements Serializable {
 	}
 
 	/**
+	 * 获取String类型的值，值为1则为true，否则为false 值不存在返回null
+	 * 
+	 * @param column       列名
+	 * @param defaultValue 不存在该列时返回的默认值
+	 * @return {@link #getString(String)#equals("1")}
+	 */
+	public Boolean getBoolean(String column, Boolean defaultValue) {
+		Boolean value = getBoolean(column);
+		return value != null ? value : defaultValue;
+	}
+
+	/**
 	 * @param column 列名
 	 * @return {@link (BigDecimal)#getObject(String)}
 	 */
 	public BigDecimal getBigDecimal(String column) {
 		return (BigDecimal) getObject(column);
+	}
+
+	/**
+	 * @param column       列名
+	 * @param defaultValue 不存在该列时返回的默认值
+	 * @return {@link (BigDecimal)#getObject(String)}
+	 */
+	public BigDecimal getBigDecimal(String column, BigDecimal defaultValue) {
+		BigDecimal value = getBigDecimal(column);
+		return value != null ? value : defaultValue;
 	}
 
 	/**
@@ -302,11 +433,33 @@ public class Record extends MapWrapper<String, Object> implements Serializable {
 	}
 
 	/**
+	 * 支持类型 blob
+	 * 
+	 * @param column       列名
+	 * @param defaultValue 不存在该列时返回的默认值
+	 * @return {@link (byte[])#getObject(String)}
+	 */
+	public byte[] getBytes(String column, byte[] defaultValue) {
+		byte[] value = getBytes(column);
+		return value != null ? value : defaultValue;
+	}
+
+	/**
 	 * @param column 列名
 	 * @return {@link (Number)#getObject(String)}
 	 */
 	public Number getNumber(String column) {
 		return (Number) getObject(column);
+	}
+
+	/**
+	 * @param column       列名
+	 * @param defaultValue 不存在该列时返回的默认值
+	 * @return {@link (Number)#getObject(String)}
+	 */
+	public Number getNumber(String column, Number defaultValue) {
+		Number value = getNumber(column);
+		return value != null ? value : defaultValue;
 	}
 
 	/**

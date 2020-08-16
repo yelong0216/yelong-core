@@ -5,10 +5,8 @@ import org.yelong.core.model.Modelable;
 /**
  * 保存单个模型的收集器
  * 
- * @author PengFei
- *
  * @param <M> model type
- * @since 1.3.0
+ * @since 1.3
  */
 public interface SaveSingleModelCollector<M extends Modelable> extends SaveModelCollector<M, M> {
 

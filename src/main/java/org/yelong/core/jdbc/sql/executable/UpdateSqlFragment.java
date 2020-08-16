@@ -5,8 +5,6 @@ import org.yelong.core.jdbc.sql.condition.ConditionSqlFragment;
 
 /**
  * update sql片段
- * 
- * @author PengFei
  */
 public interface UpdateSqlFragment extends SqlFragmentExecutable {
 

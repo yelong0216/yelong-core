@@ -10,10 +10,8 @@ import org.yelong.core.model.Modelable;
 /**
  * 保存模型集合收集器
  * 
- * @author PengFei
- *
  * @param <M> model type
- * @since 1.3.0
+ * @since 1.3
  */
 public interface SaveListModelCollector<M extends Modelable> extends SaveModelCollector<M, List<M>> {
 

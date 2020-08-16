@@ -18,8 +18,7 @@ import org.yelong.core.jdbc.sql.factory.SqlFragmentFactory;
 /**
  * 默认的记录操作
  * 
- * @author PengFei
- * @since 1.1.0
+ * @since 1.1
  */
 public class DefaultRecordOperation implements RecordOperation {
 
@@ -36,9 +35,7 @@ public class DefaultRecordOperation implements RecordOperation {
 	public Integer insert(Table table, Record record) {
 		SqlFragmentFactory sqlFragmentFactory = dialect.getSqlFragmentFactory();
 		AttributeSqlFragment attributeSqlFragment = sqlFragmentFactory.createAttributeSqlFragment();
-		record.forEach((k, v) -> {
-			attributeSqlFragment.addAttrByValueNotNull(k, v);
-		});
+		record.forEach(attributeSqlFragment::addAttrByValueNotNull);
 		UpdateSqlFragment updateSqlFragment = sqlFragmentFactory.createUpdateSqlFragment(table.getName(),
 				attributeSqlFragment);
 		BoundSql boundSql = updateSqlFragment.getBoundSql();

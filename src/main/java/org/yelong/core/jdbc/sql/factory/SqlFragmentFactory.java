@@ -18,8 +18,6 @@ import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
 
 /**
  * sql片段工厂
- * 
- * @author PengFei
  */
 public interface SqlFragmentFactory {
 
@@ -48,7 +46,7 @@ public interface SqlFragmentFactory {
 	 * @param params 参数
 	 * @return insert sql
 	 */
-	InsertSqlFragment createInsertSqlFragment(String sql, Object... params);
+	InsertSqlFragment createInsertSqlFragment(String insertSql, Object... params);
 
 	// ==================================================delete==================================================
 
@@ -59,7 +57,7 @@ public interface SqlFragmentFactory {
 	 * @param params 参数
 	 * @return delete sql
 	 */
-	DeleteSqlFragment createDeleteSqlFragment(String sql, Object... params);
+	DeleteSqlFragment createDeleteSqlFragment(String deleteSql, Object... params);
 
 	// ==================================================update==================================================
 
@@ -70,7 +68,7 @@ public interface SqlFragmentFactory {
 	 * @param params 参数
 	 * @return update sql
 	 */
-	UpdateSqlFragment createUpdateSqlFragment(String sql, Object... params);
+	UpdateSqlFragment createUpdateSqlFragment(String updateSql, Object... params);
 
 	/**
 	 * 创建update sql
@@ -90,7 +88,7 @@ public interface SqlFragmentFactory {
 	 * @param params 参数
 	 * @return select sql
 	 */
-	SelectSqlFragment createSelectSqlFragment(String sql, Object... params);
+	SelectSqlFragment createSelectSqlFragment(String selectSql, Object... params);
 
 	/**
 	 * 创建count sql
@@ -99,7 +97,7 @@ public interface SqlFragmentFactory {
 	 * @param params 参数
 	 * @return count sql
 	 */
-	CountSqlFragment createCountSqlFragment(String sql, Object... params);
+	CountSqlFragment createCountSqlFragment(String countSql, Object... params);
 
 	// ==================================================condition==================================================
 
@@ -128,8 +126,7 @@ public interface SqlFragmentFactory {
 	 */
 	SortSqlFragment createSortSqlFragment();
 
-	// ================================================== factory
-	// ==================================================
+	// ==================================================factory==================================================
 
 	/**
 	 * 获取单一条件工厂

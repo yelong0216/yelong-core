@@ -12,8 +12,6 @@ import org.yelong.core.jdbc.sql.exception.InvalidConditionException;
 
 /**
  * 默认的单一条件工厂实现
- * 
- * @author PengFei
  */
 public class DefaultSingleConditionSqlFragmentFactory implements SingleConditionSqlFragmentFactory {
 

@@ -6,11 +6,9 @@ import org.yelong.core.model.service.SqlModelService;
 /**
  * 获取单列 <code>null</code> 模型收集器
  * 
- * @author PengFei
- *
  * @param <M> model type
  * @param <T> return type
- * @since 1.3.0
+ * @since 1.3
  */
 public class GetSingleColumnNullModelCollector<M extends Modelable, T>
 		extends AbstractGetSingleColumnModelCollector<M, T> {

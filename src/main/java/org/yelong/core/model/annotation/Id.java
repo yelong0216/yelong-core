@@ -12,8 +12,8 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Target({ FIELD })
 /**
- * @author PengFei
  * @see PrimaryKey
+ * @since 1.0
  */
 public @interface Id {
 

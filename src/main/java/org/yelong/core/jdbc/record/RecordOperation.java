@@ -12,8 +12,7 @@ import org.yelong.core.jdbc.sql.ddl.Table;
  * 
  * 对数据库记录的增删改查操作。
  * 
- * @author PengFei
- * @since 1.1.0
+ * @since 1.1
  */
 public interface RecordOperation {
 

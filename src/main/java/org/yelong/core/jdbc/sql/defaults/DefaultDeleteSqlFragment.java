@@ -13,8 +13,6 @@ import org.yelong.core.jdbc.sql.executable.DeleteSqlFragment;
 
 /**
  * 默认的delete sql片段实现
- * 
- * @author PengFei
  */
 public class DefaultDeleteSqlFragment extends AbstractSqlFragmentExecutable implements DeleteSqlFragment {
 

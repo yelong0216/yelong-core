@@ -5,8 +5,6 @@ package org.yelong.core.jdbc.dialect;
 
 /**
  * 数据库方言工厂
- * 
- * @author PengFei
  */
 public class DialectFactory {
 

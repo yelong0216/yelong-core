@@ -9,8 +9,6 @@ import org.yelong.core.jdbc.sql.SqlFragment;
  * 条件片段<br/>
  * 表示一个sql的条件语句片段。<br/>
  * 这可能是一组条件，也可能是一个条件
- * 
- * @author PengFei
  */
 public interface ConditionSqlFragment extends SqlFragment {
 

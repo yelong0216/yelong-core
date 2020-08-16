@@ -7,8 +7,6 @@ import org.yelong.core.annotation.Nullable;
 
 /**
  * 简单的条件sql片段工厂
- * 
- * @author PengFei
  */
 @FunctionalInterface
 public interface SimpleConditionSqlFragmentFactory {

@@ -17,8 +17,6 @@ import org.yelong.core.model.Modelable;
  * 拓展列<br/>
  * 该列仅在查询时映射。<br/>
  * 此不映射仅包含增删改。其查询可以映射。
- * 
- * @author PengFei
  */
 public @interface ExtendColumn {
 

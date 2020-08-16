@@ -14,8 +14,6 @@ import org.yelong.core.jdbc.sql.SqlFragment;
 /**
  * 属性片段<br/>
  * 该属性为sql中insert和update的属性片段
- * 
- * @author PengFei
  */
 public interface AttributeSqlFragment extends SqlFragment {
 

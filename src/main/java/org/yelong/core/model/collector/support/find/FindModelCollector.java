@@ -13,10 +13,8 @@ import org.yelong.core.model.collector.ModelCollector;
  * 
  * 查询并返回模型的集合
  * 
- * @author PengFei
- *
  * @param <M> model type
- * @since 1.3.0
+ * @since 2.0
  */
 public interface FindModelCollector<M extends Modelable> extends ModelCollector<M, List<M>, FindModelCollector<M>> {
 

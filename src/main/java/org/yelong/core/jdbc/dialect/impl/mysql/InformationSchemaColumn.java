@@ -12,8 +12,7 @@ import org.yelong.core.jdbc.sql.ddl.Table;
 /**
  * mysql 的查询列时的列
  * 
- * @author PengFei
- * @since 1.0.0
+ * @since 1.0
  */
 public class InformationSchemaColumn {
 

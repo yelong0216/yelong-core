@@ -19,8 +19,7 @@ import java.lang.annotation.Target;
  * 在类级别上，该注解默认应用于声明类。注意，它不适用类层次结构上的子类和父类；
  * 
  * 
- * @author PengFei
- * @since 1.2.0
+ * @since 1.2
  * @see ExtendColumn
  * @see ExtendColumnIgnore
  */

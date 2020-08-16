@@ -18,8 +18,7 @@ import java.lang.annotation.Target;
  * 这个注解会排除 ExtendTable 注解解析为的拓展列， 使列进行正常的映射,而非一个拓展列进行映射<br/>
  * 不会影响 ExtendColumn 。或者可以说该注解比 ExtendColumn 注解优先级低
  * 
- * @author PengFei
- * @since 1.2.0
+ * @since 1.2
  * @see ExtendTable
  * @see ExtendColumn
  */

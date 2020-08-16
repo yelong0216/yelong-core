@@ -11,11 +11,9 @@ import org.yelong.core.model.collector.support.get.GetSingleColumnModelCollector
 /**
  * 抽象的获取单列模型收集器
  * 
- * @author PengFei
- *
  * @param <M> model type
  * @param <T> return type
- * @since 1.3.0
+ * @since 1.3
  */
 public abstract class AbstractGetSingleColumnModelCollector<M extends Modelable, T> extends
 		ModelCollectorImpl<M, T, GetSingleColumnModelCollector<M, T>> implements GetSingleColumnModelCollector<M, T> {

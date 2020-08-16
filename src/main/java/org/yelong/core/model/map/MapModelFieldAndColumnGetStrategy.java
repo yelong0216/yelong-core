@@ -12,8 +12,7 @@ import java.util.List;
  * 
  * 一般通过数据库查询该表来获取
  * 
- * @author PengFei
- * @since 1.0.7
+ * @since 1.1
  */
 public interface MapModelFieldAndColumnGetStrategy {
 

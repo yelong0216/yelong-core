@@ -12,13 +12,11 @@ import org.yelong.core.model.service.SqlModelService;
 /**
  * 查询空的模型收集器
  * 
- * 主要用于返回空集合的实现
+ * 返回空集合的实现
  * 
- * @author PengFei
- *
  * @param <M> model type
  * @see Collections#emptyList()
- * @since 1.3.0
+ * @since 2.0
  */
 public class FindEmptyModelCollector<M extends Modelable> extends AbstractFindModelCollector<M> {
 

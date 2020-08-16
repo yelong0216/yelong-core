@@ -16,11 +16,9 @@ import org.yelong.core.model.collector.support.save.SaveModelExecutor;
  * 
  * 执行顺序：preProcess(准备)->beforeSave(保存前)->saveModel(执行保存)->afterSave(保存后)->postProcess(后置处理)
  * 
- * @author PengFei
- *
  * @param <M> model type
  * @param <R> return type
- * @since 1.3.0
+ * @since 1.3
  */
 public interface CopyModelCollector<M extends Modelable, R> extends ModelCollector<M, R, CopyModelCollector<M, R>> {
 

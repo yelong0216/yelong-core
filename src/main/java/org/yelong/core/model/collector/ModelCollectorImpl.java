@@ -13,12 +13,10 @@ import org.yelong.core.model.service.SqlModelService;
  * 
  * 默认实现了对拦截器的管理、执行操作
  * 
- * @author PengFei
- *
  * @param <M> model type
  * @param <R> return type
  * @param <T> this type
- * @since 1.3.0
+ * @since 1.3
  */
 public abstract class ModelCollectorImpl<M extends Modelable, R, T extends ModelCollector<M, R, T>>
 		implements ModelCollector<M, R, T> {

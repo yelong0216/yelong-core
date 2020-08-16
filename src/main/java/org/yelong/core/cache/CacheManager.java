@@ -11,30 +11,27 @@ import org.yelong.core.annotation.Nullable;
 /**
  * 缓存管理器
  * 
- * @author PengFei
- * @since 1.3.0
+ * @since 1.3
  */
 public interface CacheManager {
 
 	/**
-	 * 添加一个缓存<br/>
-	 * 如果缓存管理器中已经存在该缓存的键值，将替换原来的值
+	 * 添加一个缓存，如果缓存管理器中已经存在该缓存的键值，将替换原来的值
 	 * 
 	 * @param <T>         cache entity type
 	 * @param key         key
 	 * @param cacheEntity 缓存对象
-	 * @return
+	 * @return 缓存的对象
 	 */
 	<T> CacheEntity<T> putCache(String key, CacheEntity<T> cacheEntity);
 
 	/**
-	 * 添加一个缓存<br/>
-	 * 如果缓存管理器中已经存在该缓存的键值，将替换原来的值
+	 * 添加一个缓存，如果缓存管理器中已经存在该缓存的键值，将替换原来的值
 	 * 
 	 * @param <T>    cache entity type
 	 * @param key    key
 	 * @param entity 缓存的实体对象
-	 * @return
+	 * @return 缓存的对象
 	 */
 	<T> CacheEntity<T> putCache(String key, T entity);
 

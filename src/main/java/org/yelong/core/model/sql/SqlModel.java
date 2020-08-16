@@ -12,20 +12,18 @@ import java.util.List;
 import java.util.Map;
 
 import org.yelong.core.annotation.Nullable;
+import org.yelong.core.jdbc.sql.SqlFragment;
 import org.yelong.core.jdbc.sql.condition.support.Condition;
 import org.yelong.core.jdbc.sql.sort.support.Sort;
-import org.yelong.core.model.Model;
 import org.yelong.core.model.Modelable;
 
 /**
- * 支持sql化的模型
+ * 可以转换为 {@link SqlFragment}的Bean，这不是一个模型。
  * 
- * @author PengFei
  * @see SqlModelResolver
+ * @since 1.0
  */
-public class SqlModel extends Model {
-
-	private static final long serialVersionUID = -3986147639250539909L;
+public class SqlModel<M extends Modelable> {
 
 	private final Map<String, String> conditionOperators = new HashMap<>();
 
@@ -35,9 +33,9 @@ public class SqlModel extends Model {
 
 	private final List<Condition> conditions = new ArrayList<>();
 
-	private final Class<? extends Modelable> modelClass;
+	private final Class<M> modelClass;
 
-	private final Modelable model;
+	private final M model;
 
 	/**
 	 * 指定sql model为其本身
@@ -52,7 +50,7 @@ public class SqlModel extends Model {
 	 * 
 	 * @param modelClass
 	 */
-	public SqlModel(Class<? extends Modelable> modelClass) {
+	public SqlModel(final Class<M> modelClass) {
 		this.modelClass = modelClass;
 		this.model = null;
 	}
@@ -60,21 +58,16 @@ public class SqlModel extends Model {
 	/**
 	 * @param model 指定model实体
 	 */
-	public SqlModel(Modelable model) {
-		if (model.getClass() == SqlModel.class) {
-			throw new UnsupportedOperationException("指定的model不能是SqlModel！");
-		}
-		this.modelClass = model.getClass();
+	@SuppressWarnings("unchecked")
+	public SqlModel(final M model) {
+		this.modelClass = (Class<M>) model.getClass();
 		this.model = model;
 	}
 
 	/**
 	 * @param model 指定model实体
 	 */
-	public SqlModel(Modelable model, Class<? extends Modelable> modelClass) {
-		if (model.getClass() == SqlModel.class) {
-			throw new UnsupportedOperationException("指定的model不能是SqlModel！");
-		}
+	public SqlModel(final M model,final Class<M> modelClass) {
 		this.modelClass = modelClass;
 		this.model = model;
 	}
@@ -86,7 +79,7 @@ public class SqlModel extends Model {
 	 * @param operator 条件运算符（LIKE,=等）
 	 * @return this
 	 */
-	public SqlModel addConditionOperator(String column, String operator) {
+	public SqlModel<M> addConditionOperator(String column, String operator) {
 		this.conditionOperators.put(column, operator);
 		return this;
 	}
@@ -107,7 +100,7 @@ public class SqlModel extends Model {
 	 * @return this
 	 */
 	@SuppressWarnings("unchecked")
-	public SqlModel addExtendAttribute(String attrName, Object attrValue) {
+	public SqlModel<M> addExtendAttribute(String attrName, Object attrValue) {
 		if (this.extendAttributes.containsKey(attrName)) {
 			Object value = this.extendAttributes.get(attrName);
 			List<Object> valueList = null;
@@ -146,7 +139,7 @@ public class SqlModel extends Model {
 	 * @return this
 	 * @since 1.0.5
 	 */
-	public SqlModel addExtendAttributeOverride(String attrName, Object attrValue) {
+	public SqlModel<M> addExtendAttributeOverride(String attrName, Object attrValue) {
 		this.extendAttributes.put(attrName, attrValue);
 		return this;
 	}
@@ -157,7 +150,7 @@ public class SqlModel extends Model {
 	 * @param attrName 属性 name
 	 * @return this
 	 */
-	public SqlModel removeExtendAttribute(String attrName) {
+	public SqlModel<M> removeExtendAttribute(String attrName) {
 		this.extendAttributes.remove(attrName);
 		return this;
 	}
@@ -209,7 +202,7 @@ public class SqlModel extends Model {
 	 * @param sortOrder 排序方向
 	 * @return this
 	 */
-	public SqlModel addSortField(String sortField, String sortOrder) {
+	public SqlModel<M> addSortField(String sortField, String sortOrder) {
 		this.sortFields.put(sortField, sortOrder);
 		return this;
 	}
@@ -221,7 +214,7 @@ public class SqlModel extends Model {
 	 * @param sortOrder 排序方向
 	 * @return this
 	 */
-	public SqlModel addSortFields(Map<String, String> sortFields) {
+	public SqlModel<M> addSortFields(Map<String, String> sortFields) {
 		this.sortFields.putAll(sortFields);
 		return this;
 	}
@@ -233,7 +226,7 @@ public class SqlModel extends Model {
 	 * @return this
 	 * @since 1.3.0
 	 */
-	public SqlModel addSort(Sort sort) {
+	public SqlModel<M> addSort(Sort sort) {
 		addSortField(sort.getColumn(), sort.getDirection());
 		return this;
 	}
@@ -245,7 +238,7 @@ public class SqlModel extends Model {
 	 * @return this
 	 * @since 1.3.0
 	 */
-	public SqlModel addSorts(List<Sort> sorts) {
+	public SqlModel<M> addSorts(List<Sort> sorts) {
 		for (Sort sort : sorts) {
 			addSort(sort);
 		}
@@ -259,7 +252,7 @@ public class SqlModel extends Model {
 	 * @return this
 	 * @since 1.0.5
 	 */
-	public SqlModel removeSortField(String sortField) {
+	public SqlModel<M> removeSortField(String sortField) {
 		this.sortFields.remove(sortField);
 		return this;
 	}
@@ -299,7 +292,7 @@ public class SqlModel extends Model {
 	 * @param condition 条件
 	 * @return this
 	 */
-	public SqlModel addCondition(Condition condition) {
+	public SqlModel<M> addCondition(Condition condition) {
 		this.conditions.add(condition);
 		return this;
 	}
@@ -313,7 +306,7 @@ public class SqlModel extends Model {
 	 * @see Condition#Condition(String, String)
 	 * @since 1.2.0
 	 */
-	public SqlModel addCondition(String column, String operator) {
+	public SqlModel<M> addCondition(String column, String operator) {
 		this.conditions.add(new Condition(column, operator));
 		return this;
 	}
@@ -328,7 +321,7 @@ public class SqlModel extends Model {
 	 * @see Condition#Condition(String, String, Object)
 	 * @since 1.2.0
 	 */
-	public SqlModel addCondition(String column, String operator, Object value) {
+	public SqlModel<M> addCondition(String column, String operator, Object value) {
 		this.conditions.add(new Condition(column, operator, value));
 		return this;
 	}
@@ -344,7 +337,7 @@ public class SqlModel extends Model {
 	 * @see Condition#Condition(String, String, Object, Object)
 	 * @since 1.2.0
 	 */
-	public SqlModel addCondition(String column, String operator, Object value, Object secondValue) {
+	public SqlModel<M> addCondition(String column, String operator, Object value, Object secondValue) {
 		this.conditions.add(new Condition(column, operator, value, secondValue));
 		return this;
 	}
@@ -355,7 +348,7 @@ public class SqlModel extends Model {
 	 * @param conditions 条件集合
 	 * @return this
 	 */
-	public SqlModel addConditions(Collection<Condition> conditions) {
+	public SqlModel<M> addConditions(Collection<Condition> conditions) {
 		this.conditions.addAll(conditions);
 		return this;
 	}
@@ -384,7 +377,7 @@ public class SqlModel extends Model {
 	 * @return modelClass
 	 */
 	public Class<? extends Modelable> getModelClass() {
-		return modelClass != null ? modelClass : getClass();
+		return modelClass;
 	}
 
 	/**
@@ -393,8 +386,8 @@ public class SqlModel extends Model {
 	 * @return model实体
 	 * @since 1.0.5
 	 */
-	public Modelable getModel() {
-		return model != null ? model : this;
+	public M getModel() {
+		return model;
 	}
 
 }

@@ -5,14 +5,49 @@ package org.yelong.core.jdbc;
 
 /**
  * SQL 保留关键字
- * 
- * @author PengFei
  */
 public enum SqlKeyword {
 
-	AND("AND"), OR("OR"), IN("IN"), NOT("NOT"), LIKE("LIKE"), EQ("="), NE("<>"), GT(">"), GE(">="), LT("<"), LE("<="),
-	IS_NULL("IS NULL"), IS_NOT_NULL("IS NOT NULL"), GROUP_BY("GROUP BY"), HAVING("HAVING"), ORDER_BY("ORDER BY"),
-	EXISTS("EXISTS"), BETWEEN("BETWEEN"), ASC("ASC"), DESC("DESC");
+	/** 且 */
+	AND("AND"),
+	/** 或者 */
+	OR("OR"),
+	/** 包含 */
+	IN("IN"),
+	/** 非 */
+	NOT("NOT"),
+	/** like */
+	LIKE("LIKE"),
+	/** 等于 */
+	EQ("="),
+	/** 不等于 */
+	NE("<>"),
+	/** 大于 */
+	GT(">"),
+	/** 大于等于 */
+	GE(">="),
+	/** 小于 */
+	LT("<"),
+	/** 小于等于 */
+	LE("<="),
+	/** 为空 */
+	IS_NULL("IS NULL"),
+	/** 非空 */
+	IS_NOT_NULL("IS NOT NULL"),
+	/** 分组 */
+	GROUP_BY("GROUP BY"),
+	/** 分组条件 */
+	HAVING("HAVING"),
+	/** 排序 */
+	ORDER_BY("ORDER BY"),
+	/** 存在 */
+	EXISTS("EXISTS"),
+	/** 两者间 */
+	BETWEEN("BETWEEN"),
+	/** 正序 */
+	ASC("ASC"),
+	/** 倒叙 */
+	DESC("DESC");
 
 	private final String keyword;
 
@@ -25,7 +60,7 @@ public enum SqlKeyword {
 	}
 
 	/**
-	 * 是否存在keyword关键字
+	 * 是否是keyword关键字
 	 * 
 	 * @param keyword 关键字
 	 * @return <tt>true</tt> 如果关键字存在

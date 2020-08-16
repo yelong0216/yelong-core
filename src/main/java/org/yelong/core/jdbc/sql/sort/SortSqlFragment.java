@@ -9,8 +9,6 @@ import org.yelong.core.jdbc.sql.sort.support.Sort;
 
 /**
  * 排序sql
- * 
- * @author PengFei
  */
 public interface SortSqlFragment extends SqlFragment {
 

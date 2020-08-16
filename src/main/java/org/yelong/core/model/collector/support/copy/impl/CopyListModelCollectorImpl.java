@@ -12,10 +12,8 @@ import org.yelong.core.model.service.SqlModelService;
 /**
  * 集合模型复制收集器实现
  * 
- * @author PengFei
- *
  * @param <M> model type
- * @since 1.3.0
+ * @since 1.3
  */
 public class CopyListModelCollectorImpl<M extends Modelable> extends AbstractCopyListModelCollector<M> {
 

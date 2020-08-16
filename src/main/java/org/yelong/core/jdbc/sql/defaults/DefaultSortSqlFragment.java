@@ -17,8 +17,6 @@ import org.yelong.core.jdbc.sql.sort.support.Sort;
 /**
  * 默认排序实现<br/>
  * 默认添加排序验证器
- * 
- * @author PengFei
  */
 public class DefaultSortSqlFragment extends AbstractSortSqlFragment {
 

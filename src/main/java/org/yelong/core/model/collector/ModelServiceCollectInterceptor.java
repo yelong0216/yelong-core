@@ -16,8 +16,7 @@ import org.yelong.core.model.service.SqlModelService;
  * 
  * 添加此拦截器在执行{@link SqlModelService#collect(ModelCollector)}方法时使用拦截器包装后的{@link SqlModelService}解决此问题
  * 
- * @author PengFei
- * @since 1.3.0
+ * @since 1.3
  */
 @Intercepts({ @Signature(type = SqlModelService.class, method = "collect", args = ModelCollector.class) })
 public abstract class ModelServiceCollectInterceptor implements Interceptor {

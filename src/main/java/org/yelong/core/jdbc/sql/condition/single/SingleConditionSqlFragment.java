@@ -8,8 +8,6 @@ import org.yelong.core.jdbc.sql.condition.ConditionSqlFragment;
 
 /**
  * 单个条件语句
- * 
- * @author PengFei
  */
 public interface SingleConditionSqlFragment extends ConditionSqlFragment {
 

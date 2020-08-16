@@ -15,11 +15,9 @@ import org.yelong.core.model.collector.support.save.SavePreProcess;
 /**
  * 抽象的保存模型收集器
  * 
- * @author PengFei
- *
  * @param <M> model type
  * @param <R> return type
- * @since 1.3.0
+ * @since 1.3
  */
 public abstract class AbstractSaveModelCollector<M extends Modelable, R>
 		extends ModelCollectorImpl<M, R, SaveModelCollector<M, R>> implements SaveModelCollector<M, R> {

@@ -20,8 +20,7 @@ import org.yelong.core.jdbc.record.Record;
  * 默认使用 {@link CaseInsensitiveMap}，该map忽略大小写。且默认存储方式为大写。
  * 通过构造方法来设置忽略大小写的map存储的key是大写还是小写{@link KeyStoreMode}
  * 
- * @author PengFei
- * @since 1.1.0
+ * @since 1.1
  */
 public abstract class MapModel extends Record implements MapModelable {
 

@@ -9,8 +9,7 @@ import org.yelong.commons.lang.Strings;
 /**
  * 表
  * 
- * @author PengFei
- * @since 1.1.0
+ * @since 1.1
  */
 public class Table {
 
@@ -67,6 +66,11 @@ public class Table {
 
 	public Table addColumn(Column column) {
 		this.columns.put(column.getName(), column);
+		return this;
+	}
+
+	public Table addColumns(Collection<Column> columns) {
+		columns.forEach(x -> this.columns.put(x.getName(), x));
 		return this;
 	}
 

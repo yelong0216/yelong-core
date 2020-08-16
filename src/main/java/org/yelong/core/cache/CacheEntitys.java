@@ -4,10 +4,9 @@
 package org.yelong.core.cache;
 
 /**
- * 缓存实体功能类<br/>
+ * 缓存实体功能类
  * 
- * @author PengFei
- * @since 1.3.0
+ * @since 1.3
  */
 public final class CacheEntitys {
 
@@ -41,8 +40,6 @@ public final class CacheEntitys {
 	/**
 	 * 空的缓存对象实体
 	 * 
-	 * @author PengFei
-	 *
 	 * @param <T> cache entity type
 	 */
 	private static final class EmptyCacheEntity<T> implements CacheEntity<T> {

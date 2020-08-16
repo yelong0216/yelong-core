@@ -6,19 +6,13 @@ package org.yelong.core.jdbc.sql.executable;
 import java.util.List;
 import java.util.Map;
 
+import org.yelong.core.jdbc.BaseDataBaseOperation;
+
 /**
  * sql 片段执行者<br/>
  * 执行sql片段
- * 
- * @author PengFei
  */
 public interface SqlFragmentExecutor {
-
-	/**
-	 * @Deprecated 不明确的返回值
-	 */
-	@Deprecated
-	<R> R execute(SqlFragmentExecutable sqlFragment);
 
 	/**
 	 * 执行新增sql
@@ -59,5 +53,10 @@ public interface SqlFragmentExecutor {
 	 * @return 多条记录的集合。每条记录的列名对值
 	 */
 	List<Map<String, Object>> execute(SelectSqlFragment selectSqlFragment);
+
+	/**
+	 * @return 基础数据库操作对象
+	 */
+	BaseDataBaseOperation getBaseDataBaseOperation();
 
 }

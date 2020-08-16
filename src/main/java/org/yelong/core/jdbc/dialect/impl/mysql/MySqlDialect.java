@@ -13,8 +13,6 @@ import org.yelong.core.jdbc.sql.function.DatabaseFunction;
 
 /**
  * mysql 数据库方言
- * 
- * @author PengFei
  */
 public class MySqlDialect extends AbstractDialect {
 

@@ -19,8 +19,6 @@ import java.util.Map;
 
 /**
  * Jdbc 工具类
- * 
- * @author PengFei
  */
 public class JdbcUtils {
 

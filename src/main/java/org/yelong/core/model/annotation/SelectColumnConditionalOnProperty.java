@@ -4,23 +4,19 @@
 package org.yelong.core.model.annotation;
 
 import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.RetentionPolicy.CLASS;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-import org.yelong.core.annotation.test.NotImplemented;
-import org.yelong.core.model.Model;
+import org.yelong.core.model.Models;
 
-@Retention(CLASS)
+@Retention(RUNTIME)
 @Target(FIELD)
 /**
  * 
  * 指定列是否进行映射。
- * 
- * @author PengFei
  */
-@NotImplemented
 public @interface SelectColumnConditionalOnProperty {
 
 	/**
@@ -31,7 +27,7 @@ public @interface SelectColumnConditionalOnProperty {
 	String value() default "";
 
 	/**
-	 * 列测试的属性名称。此属性在验证时通过{@link Model#getProperty(String)}去获取<br/>
+	 * 列测试的属性名称。此属性在验证时通过{@link Models#getProperty(String)}去获取<br/>
 	 * 这个名称默认值为字段名称
 	 * 
 	 * @return the names
@@ -43,7 +39,7 @@ public @interface SelectColumnConditionalOnProperty {
 	 * 
 	 * @return the expected value
 	 */
-	String havingValue() default "";
+	String havingValue() default "true";
 
 	/**
 	 * 如果属性不存在，是否应该映射

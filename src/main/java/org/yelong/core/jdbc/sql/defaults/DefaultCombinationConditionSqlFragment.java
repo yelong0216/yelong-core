@@ -16,8 +16,6 @@ import org.yelong.core.jdbc.sql.condition.single.SingleConditionSqlFragmentFacto
 
 /**
  * 默认的组合条件实现
- * 
- * @author PengFei
  */
 public class DefaultCombinationConditionSqlFragment extends AbstractCombinationConditionSqlFragment {
 

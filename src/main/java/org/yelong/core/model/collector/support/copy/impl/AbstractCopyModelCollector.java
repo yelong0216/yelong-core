@@ -15,11 +15,9 @@ import org.yelong.core.model.collector.support.save.SaveModelExecutor;
 /**
  * 抽象的复制模型收集器
  * 
- * @author PengFei
- *
  * @param <M> model type
  * @param <R> return type
- * @since 1.3.0
+ * @since 1.3
  */
 public abstract class AbstractCopyModelCollector<M extends Modelable, R>
 		extends ModelCollectorImpl<M, R, CopyModelCollector<M, R>> implements CopyModelCollector<M, R> {

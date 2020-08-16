@@ -19,8 +19,6 @@ import org.yelong.core.jdbc.sql.factory.SqlFragmentFactory;
 
 /**
  * 抽象的方言实现
- * 
- * @author PengFei
  */
 public abstract class AbstractDialect implements Dialect {
 
@@ -30,7 +28,7 @@ public abstract class AbstractDialect implements Dialect {
 	public String getBaseCountSql(String tableName, String tableAlias) {
 		Strings.requireNonBlank(tableName);
 		Strings.requireNonBlank(tableAlias);
-		return " select count(1) from " + tableName + " " + tableAlias;
+		return " select count(0) from " + tableName + " " + tableAlias;
 	}
 
 	@Override

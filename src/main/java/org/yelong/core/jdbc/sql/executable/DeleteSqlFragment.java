@@ -7,8 +7,6 @@ import org.yelong.core.jdbc.sql.condition.ConditionSqlFragment;
 
 /**
  * delete sql
- * 
- * @author PengFei
  */
 public interface DeleteSqlFragment extends SqlFragmentExecutable {
 

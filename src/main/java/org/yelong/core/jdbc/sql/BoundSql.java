@@ -4,13 +4,13 @@
 package org.yelong.core.jdbc.sql;
 
 import java.util.Arrays;
+import java.util.Objects;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.yelong.core.annotation.Nullable;
 
 /**
  * 绑定的sql 执行的sql语句及sql所需要的参数
- * 
- * @author PengFei
  */
 public class BoundSql {
 
@@ -20,8 +20,8 @@ public class BoundSql {
 	private final Object[] params;
 
 	public BoundSql(String sql, @Nullable Object[] params) {
-		this.sql = sql;
-		this.params = params;
+		this.sql = Objects.requireNonNull(sql);
+		this.params = params != null ? params : ArrayUtils.EMPTY_OBJECT_ARRAY;
 	}
 
 	public String getSql() {

@@ -7,8 +7,6 @@ import org.yelong.core.jdbc.SqlKeyword;
 
 /**
  * 条件拼接方式
- * 
- * @author PengFei
  */
 public enum ConditionConnectWay {
 

@@ -10,8 +10,6 @@ import org.yelong.core.jdbc.dialect.Dialect;
  * sql 片段<br/>
  * 
  * 这个sql片段可能是一段sql( userName = ? )，也可能是一段可执行的sql。
- * 
- * @author PengFei
  */
 public interface SqlFragment {
 

@@ -17,10 +17,6 @@ import org.yelong.core.jdbc.sql.executable.UpdateSqlFragment;
 import org.yelong.core.jdbc.sql.factory.SqlFragmentFactory;
 import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
 
-/**
- * @author PengFei
- *
- */
 public abstract class SqlFragmentFactoryWrapper implements SqlFragmentFactory {
 
 	private final SqlFragmentFactory sqlFragmentFactory;

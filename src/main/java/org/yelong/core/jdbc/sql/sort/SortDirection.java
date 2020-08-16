@@ -3,8 +3,7 @@ package org.yelong.core.jdbc.sql.sort;
 /**
  * 排序方向
  * 
- * @author PengFei
- * @since 1.3.0
+ * @since 1.3
  */
 public enum SortDirection {
 

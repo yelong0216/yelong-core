@@ -8,12 +8,13 @@ import java.util.List;
 import java.util.Objects;
 
 import org.yelong.commons.lang.Strings;
+import org.yelong.core.annotation.Nullable;
 import org.yelong.core.jdbc.sql.condition.ConditionConnectWay;
+import org.yelong.core.jdbc.sql.condition.ConditionalOperator;
+import org.yelong.core.jdbc.sql.condition.ConditionalOperatorResolver;
 
 /**
  * 条件对象
- * 
- * @author PengFei
  */
 public class Condition {
 
@@ -21,7 +22,12 @@ public class Condition {
 	private String column;
 
 	// 运算符
+	@Nullable
 	private String operator;
+
+	// 与 operator 只有一方可以为空
+	@Nullable
+	private ConditionalOperator conditionalOperator;
 
 	// 列值。
 	private Object value;
@@ -49,12 +55,40 @@ public class Condition {
 		this.noValue = true;
 	}
 
+	/**
+	 * @since 2.0
+	 */
+	public Condition(String column, ConditionalOperator conditionalOperator) {
+		this.column = Strings.requireNonBlank(column);
+		this.conditionalOperator = Objects.requireNonNull(conditionalOperator);
+		this.noValue = true;
+	}
+
 	public Condition(String column, String operator, Object value) {
 		this.column = Strings.requireNonBlank(column);
 		this.operator = Strings.requireNonBlank(operator);
 		this.value = Objects.requireNonNull(value);
 		if (value.getClass().isArray()) {
 			// this.value = Arrays.asList(value); value为数组时经常转换不为集合
+			this.value = Arrays.asList((Object[]) value);
+			this.listValue = true;
+		} else if (value instanceof List) {
+			this.listValue = true;
+		} else {
+			this.singleValue = true;
+		}
+	}
+
+	/**
+	 * @since 2.0
+	 */
+	public Condition(String column, ConditionalOperator conditionalOperator, Object value) {
+		this.column = Strings.requireNonBlank(column);
+		this.conditionalOperator = Objects.requireNonNull(conditionalOperator);
+		this.value = value;
+		if (null == value) {
+			this.singleValue = true;
+		} else if (value.getClass().isArray()) {
 			this.value = Arrays.asList((Object[]) value);
 			this.listValue = true;
 		} else if (value instanceof List) {
@@ -72,12 +106,52 @@ public class Condition {
 		this.betweenValue = true;
 	}
 
+	/**
+	 * @since 2.0
+	 */
+	public Condition(String column, ConditionalOperator conditionalOperator, Object value, Object secondValue) {
+		this.column = Strings.requireNonBlank(column);
+		this.conditionalOperator = Objects.requireNonNull(conditionalOperator);
+		this.value = Objects.requireNonNull(value);
+		this.secondValue = Objects.requireNonNull(secondValue);
+		this.betweenValue = true;
+	}
+
 	public String getColumn() {
 		return column;
 	}
 
 	public String getOperator() {
-		return operator;
+		if (this.operator != null) {
+			return operator;
+		}
+		throw new UnsupportedOperationException(
+				"不支持直接获取运算符，该条件使用 ConditionalOperator 对象，应该使用 getConditionalOperator() 或者 getOperator(ConditionalOperatorResolver)");
+	}
+
+	public ConditionalOperator getConditionalOperator() {
+		if (null != this.conditionalOperator) {
+			return conditionalOperator;
+		}
+		throw new UnsupportedOperationException(
+				"不支持直接获取条件运算符，该条件使用 operator 字符串，应该使用 getOperator() 或者 getOperator(ConditionalOperatorResolver)");
+	}
+
+	/**
+	 * 获取运算符<br/>
+	 * 
+	 * 如果使用字符串当作运算符直接返回字符串<br/>
+	 * 如果使用 {@link ConditionalOperator}，则通过解析器解析此运算符并返回
+	 * 
+	 * 
+	 * @param conditionalOperatorResolver 条件运算符解析器
+	 * @return 条件运算符
+	 */
+	public String getOperator(ConditionalOperatorResolver conditionalOperatorResolver) {
+		if (this.operator != null) {
+			return operator;
+		}
+		return conditionalOperatorResolver.resolve(conditionalOperator);
 	}
 
 	public Object getValue() {
@@ -105,7 +179,7 @@ public class Condition {
 	}
 
 	public void setOperator(String operator) {
-		this.operator = operator;
+		this.operator = Strings.requireNonBlank(operator);
 	}
 
 	public void setValue(Object value) {
@@ -113,7 +187,7 @@ public class Condition {
 	}
 
 	public void setColumn(String column) {
-		this.column = column;
+		this.column = Strings.requireNonBlank(column);
 	}
 
 	public String getGroupName() {
@@ -136,10 +210,10 @@ public class Condition {
 
 	@Override
 	public String toString() {
-		return "Condition [column=" + column + ", operator=" + operator + ", value=" + value + ", secondValue="
-				+ secondValue + ", noValue=" + noValue + ", singleValue=" + singleValue + ", betweenValue="
-				+ betweenValue + ", listValue=" + listValue + ", groupName=" + groupName + ", connectWay=" + connectWay
-				+ "]";
+		return "Condition [column=" + column + ", operator=" + operator + ", conditionalOperator=" + conditionalOperator
+				+ ", value=" + value + ", secondValue=" + secondValue + ", noValue=" + noValue + ", singleValue="
+				+ singleValue + ", betweenValue=" + betweenValue + ", listValue=" + listValue + ", groupName="
+				+ groupName + ", connectWay=" + connectWay + "]";
 	}
 
 }

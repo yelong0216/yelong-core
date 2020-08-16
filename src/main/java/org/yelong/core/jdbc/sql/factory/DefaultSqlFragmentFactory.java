@@ -27,8 +27,6 @@ import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
 
 /**
  * 默认的sql片段工厂实现
- * 
- * @author PengFei
  */
 public class DefaultSqlFragmentFactory implements SqlFragmentFactory {
 

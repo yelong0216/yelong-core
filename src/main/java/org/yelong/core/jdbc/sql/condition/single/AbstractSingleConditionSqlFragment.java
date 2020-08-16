@@ -12,8 +12,6 @@ import org.yelong.core.jdbc.sql.condition.AbstractConditionSqlFragment;
 
 /**
  * 单一条件语句的抽象实现
- * 
- * @author PengFei
  */
 public abstract class AbstractSingleConditionSqlFragment extends AbstractConditionSqlFragment
 		implements SingleConditionSqlFragment {
@@ -38,10 +36,10 @@ public abstract class AbstractSingleConditionSqlFragment extends AbstractConditi
 	 * @param column    字段名称
 	 * @param condition 条件
 	 */
-	public AbstractSingleConditionSqlFragment(Dialect dialect, String column, String condition) {
+	public AbstractSingleConditionSqlFragment(Dialect dialect, String column, String conditionOperator) {
 		super(dialect);
 		this.column = column;
-		this.condition = condition;
+		this.condition = conditionOperator;
 		this.noValue = true;
 	}
 
@@ -50,10 +48,10 @@ public abstract class AbstractSingleConditionSqlFragment extends AbstractConditi
 	 * @param condition 条件
 	 * @param value     值。如果value为List类型则表示条件为不定值类型的参数
 	 */
-	public AbstractSingleConditionSqlFragment(Dialect dialect, String column, String condition, Object value) {
+	public AbstractSingleConditionSqlFragment(Dialect dialect, String column, String conditionOperator, Object value) {
 		super(dialect);
 		this.column = column;
-		this.condition = condition;
+		this.condition = conditionOperator;
 		this.value = value;
 		if (value instanceof List<?>) {
 			this.listValue = true;
@@ -70,11 +68,11 @@ public abstract class AbstractSingleConditionSqlFragment extends AbstractConditi
 	 * @param value       第一个值
 	 * @param secondValue 第二个值
 	 */
-	public AbstractSingleConditionSqlFragment(Dialect dialect, String column, String condition, Object value,
+	public AbstractSingleConditionSqlFragment(Dialect dialect, String column, String conditionOperator, Object value,
 			Object secondValue) {
 		super(dialect);
 		this.column = column;
-		this.condition = condition;
+		this.condition = conditionOperator;
 		this.value = value;
 		this.secondValue = secondValue;
 		this.betweenValue = true;

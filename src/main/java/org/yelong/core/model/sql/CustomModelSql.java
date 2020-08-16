@@ -10,6 +10,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.commons.lang3.ClassUtils;
+import org.yelong.core.model.Modelable;
 
 /**
  * 自定义model 的 sql。 定义的sql在{@link ModelSqlFragmentFactory}中进行使用
@@ -24,12 +25,11 @@ import org.apache.commons.lang3.ClassUtils;
  * 
  * 目前只支持定制查询sql
  * 
- * @author PengFei
- * @since 1.0.7
+ * @since 1.0
  */
 public final class CustomModelSql implements Comparable<CustomModelSql> {
 
-	private static final Map<Class<?>, Set<CustomModelSql>> CUSTOM_MODEL_SQL_MAP = new HashMap<>();
+	private static final Map<Class<? extends Modelable>, Set<CustomModelSql>> CUSTOM_MODEL_SQL_MAP = new HashMap<>();
 
 	/**
 	 * 注册查询sql且不指定方言
@@ -37,7 +37,7 @@ public final class CustomModelSql implements Comparable<CustomModelSql> {
 	 * @param modelClass
 	 * @param sql
 	 */
-	public static boolean registerSelect(Class<?> modelClass, String sql) {
+	public static boolean registerSelect(Class<? extends Modelable> modelClass, String sql) {
 		return registerSelect(modelClass, null, sql);
 	}
 
@@ -48,11 +48,11 @@ public final class CustomModelSql implements Comparable<CustomModelSql> {
 	 * @param dialect    方言
 	 * @param sql
 	 */
-	public static boolean registerSelect(Class<?> modelClass, String dialect, String sql) {
+	public static boolean registerSelect(Class<? extends Modelable> modelClass, String dialect, String sql) {
 		return register(modelClass, OperationType.SELECT, dialect, sql);
 	}
 
-	private static synchronized boolean register(Class<?> modelClass, OperationType operationType, String dialect,
+	private static synchronized boolean register(Class<? extends Modelable> modelClass, OperationType operationType, String dialect,
 			String sql) {
 		Set<CustomModelSql> set = CUSTOM_MODEL_SQL_MAP.get(modelClass);
 		if (null == set) {
@@ -71,7 +71,7 @@ public final class CustomModelSql implements Comparable<CustomModelSql> {
 	 * @param dialect       方言
 	 * @return 注册的sql
 	 */
-	public static String getModelSql(Class<?> modelClass, OperationType operationType, String dialect) {
+	public static String getModelSql(Class<? extends Modelable> modelClass, OperationType operationType, String dialect) {
 		Set<CustomModelSql> set = CUSTOM_MODEL_SQL_MAP.get(modelClass);
 		if (null == set) {
 			return null;
@@ -82,7 +82,7 @@ public final class CustomModelSql implements Comparable<CustomModelSql> {
 		return customModelSql == null ? null : customModelSql.getSql();
 	}
 
-	private final Class<?> modelClass;
+	private final Class<? extends Modelable> modelClass;
 
 	private final OperationType operationType;
 
@@ -90,14 +90,14 @@ public final class CustomModelSql implements Comparable<CustomModelSql> {
 
 	private final String sql;
 
-	private CustomModelSql(Class<?> modelClass, OperationType operationType, String dialect, String sql) {
+	private CustomModelSql(Class<? extends Modelable> modelClass, OperationType operationType, String dialect, String sql) {
 		this.modelClass = Objects.requireNonNull(modelClass);
 		this.operationType = Objects.requireNonNull(operationType);
 		this.dialect = dialect;
 		this.sql = sql;
 	}
 
-	public Class<?> getModelClass() {
+	public Class<? extends Modelable> getModelClass() {
 		return modelClass;
 	}
 

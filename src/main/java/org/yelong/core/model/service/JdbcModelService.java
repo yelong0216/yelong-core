@@ -7,32 +7,36 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.yelong.commons.util.map.MapBeanConverter;
 import org.yelong.core.jdbc.BaseDataBaseOperation;
 import org.yelong.core.jdbc.sql.BoundSql;
 import org.yelong.core.jdbc.sql.executable.SelectSqlFragment;
 import org.yelong.core.model.ModelConfiguration;
+import org.yelong.core.model.ModelException;
 import org.yelong.core.model.Modelable;
-import org.yelong.core.model.exception.ModelException;
+import org.yelong.core.model.convertor.DefaultModelAndMapConvertor;
+import org.yelong.core.model.convertor.ModelAndMapConvertor;
 
 /**
- * @author PengFei
+ * JDBC模型业务实现类。通过 {@link ModelAndMapConvertor}将Map转换为模型
+ * 
+ * @since 1.0
+ * @see ModelAndMapConvertor
  */
 public class JdbcModelService extends AbstractSqlModelService {
 
 	private BaseDataBaseOperation db;
 
-	private MapBeanConverter mapBeanConverter;
+	private ModelAndMapConvertor modelAndMapConvertor;
 
 	public JdbcModelService(ModelConfiguration modelConfiguration, BaseDataBaseOperation db) {
-		this(modelConfiguration, db, new MapBeanConverter());
+		this(modelConfiguration, db, DefaultModelAndMapConvertor.INSTANCE);
 	}
 
 	public JdbcModelService(ModelConfiguration modelConfiguration, BaseDataBaseOperation db,
-			MapBeanConverter mapBeanConverter) {
+			ModelAndMapConvertor modelAndMapConvertor) {
 		super(modelConfiguration);
 		this.db = db;
-		this.mapBeanConverter = mapBeanConverter;
+		this.modelAndMapConvertor = modelAndMapConvertor;
 	}
 
 	@Override
@@ -51,21 +55,13 @@ public class JdbcModelService extends AbstractSqlModelService {
 		List<M> modelList = new ArrayList<>(result.size());
 		for (Map<String, Object> map : result) {
 			try {
-				M model = mapBeanConverter.mapConvertBean(map, modelClass);
+				M model = modelAndMapConvertor.toModel(map, modelClass);
 				modelList.add(model);
 			} catch (Exception e) {
-				throw new ModelException("map转换为bean异常", e);
+				throw new ModelException(modelClass, "map转换为model异常", e);
 			}
 		}
 		return modelList;
-	}
-
-	public MapBeanConverter getMapBeanConverter() {
-		return mapBeanConverter;
-	}
-
-	public void setMapBeanConverter(MapBeanConverter mapBeanConverter) {
-		this.mapBeanConverter = mapBeanConverter;
 	}
 
 }

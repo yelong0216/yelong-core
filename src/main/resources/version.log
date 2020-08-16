@@ -73,3 +73,23 @@
 	总计代码行数：12857
 	总文件数：234
 	
+2020-08-16 -> 2.0.0
+
+	---新增包---
+	org.yelong.core.model.validator
+	org.yelong.core.model.pojo
+	org.yelong.core.model.manage
+	org.yelong.core.model.convertor
+	org.yelong.core.model.annotation.support
+
+	---新增类---
+	org.yelong.core.jdbc.sql.count.CountSqlParser count sql 解析器。此类为 pageHelper 包内
+	org.yelong.core.model.Models
+	
+	---修改的功能---
+	org.yelong.core.model.sql.ModelSqlFragmentFactory.createCountSqlFragment(Class<M> modelClass)根据 CountSqlParser 来解析count sql
+	修改解析模型的规则：每个模型解析器指定解析模型的范围。通过寻找模型最佳的解析器进行解析
+	
+	---项目统计---
+	总计代码行数：15380
+	总文件数：279

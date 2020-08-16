@@ -11,8 +11,7 @@ import org.yelong.core.jdbc.sql.ddl.Table;
 /**
  * mysql 查询表时的列
  * 
- * @author PengFei
- * @since 1.1.0
+ * @since 1.1
  */
 public class InformationSchemaTable {
 

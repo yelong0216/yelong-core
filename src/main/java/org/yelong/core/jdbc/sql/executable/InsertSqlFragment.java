@@ -4,8 +4,6 @@ import org.yelong.core.jdbc.sql.attribute.AttributeSqlFragment;
 
 /**
  * insert sql
- * 
- * @author PengFei
  */
 public interface InsertSqlFragment extends SqlFragmentExecutable {
 

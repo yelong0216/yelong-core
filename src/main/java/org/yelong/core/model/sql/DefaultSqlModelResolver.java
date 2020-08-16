@@ -9,27 +9,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.yelong.core.annotation.Nullable;
 import org.yelong.core.jdbc.sql.condition.ConditionSqlFragment;
+import org.yelong.core.jdbc.sql.condition.ConditionalOperatorResolver;
 import org.yelong.core.jdbc.sql.condition.support.Condition;
 import org.yelong.core.jdbc.sql.condition.support.ConditionResolver;
 import org.yelong.core.jdbc.sql.factory.SqlFragmentFactory;
 import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
 import org.yelong.core.model.Modelable;
+import org.yelong.core.model.manage.ExtendColumnAttribute;
+import org.yelong.core.model.manage.FieldAndColumn;
+import org.yelong.core.model.manage.FieldAndColumnType;
+import org.yelong.core.model.manage.ModelAndTable;
+import org.yelong.core.model.manage.ModelManager;
 import org.yelong.core.model.property.DefaultModelProperty;
 import org.yelong.core.model.property.ModelProperty;
-import org.yelong.core.model.resolve.ExtendColumnAttribute;
-import org.yelong.core.model.resolve.FieldAndColumn;
-import org.yelong.core.model.resolve.ModelAndTable;
-import org.yelong.core.model.resolve.ModelAndTableManager;
 
 /**
  * 默认的 sql model 解析器
  * 
- * @author PengFei
+ * @since 1.0
  */
 public class DefaultSqlModelResolver implements SqlModelResolver {
 
@@ -43,33 +46,35 @@ public class DefaultSqlModelResolver implements SqlModelResolver {
 	 */
 	public static final String DOT = ".";
 
-	private final ModelAndTableManager modelAndTableManager;
+	protected final ModelManager modelManager;
 
-	private final ConditionResolver conditionResolver;
+	protected final ConditionResolver conditionResolver;
 
-	private final SqlFragmentFactory sqlFragmentFactory;
+	protected final SqlFragmentFactory sqlFragmentFactory;
 
-	private ModelProperty modelProperty = DefaultModelProperty.INSTANCE;
+	protected ModelProperty modelProperty = DefaultModelProperty.INSTANCE;
 
-	public DefaultSqlModelResolver(ModelAndTableManager modelAndTableManager, ConditionResolver conditionResolver) {
-		this(modelAndTableManager, conditionResolver, conditionResolver.getSqlFragmentFactory());
+	protected final ConditionalOperatorResolver conditionalOperatorResolver;
+
+	public DefaultSqlModelResolver(ModelManager modelManager, ConditionResolver conditionResolver) {
+		this(modelManager, conditionResolver, conditionResolver.getSqlFragmentFactory());
 	}
 
-	public DefaultSqlModelResolver(ModelAndTableManager modelAndTableManager, ConditionResolver conditionResolver,
+	public DefaultSqlModelResolver(ModelManager modelManager, ConditionResolver conditionResolver,
 			SqlFragmentFactory sqlFragmentFactory) {
-		this.modelAndTableManager = modelAndTableManager;
-		this.conditionResolver = conditionResolver;
-		this.sqlFragmentFactory = sqlFragmentFactory;
+		this.modelManager = Objects.requireNonNull(modelManager);
+		this.conditionResolver = Objects.requireNonNull(conditionResolver);
+		this.sqlFragmentFactory = Objects.requireNonNull(sqlFragmentFactory);
+		this.conditionalOperatorResolver = conditionResolver.getSqlFragmentFactory().getDialect()
+				.getConditionalOperatorResolver();
 	}
 
 	@Override
-	public ConditionSqlFragment resolveToCondition(SqlModel sqlModel, boolean isTableAlias) {
+	public ConditionSqlFragment resolveToCondition(SqlModel<? extends Modelable> sqlModel, boolean isTableAlias) {
 		Class<? extends Modelable> modelClass = sqlModel.getModelClass();
 		Modelable model = sqlModel.getModel();
-		boolean isSqlModel = modelClass == SqlModel.class;
-		isTableAlias = isSqlModel ? false : isTableAlias;// 如果时sqlModel，则不支持使用别名
-		ModelAndTable modelAndTable = isSqlModel ? null : modelAndTableManager.getModelAndTable(modelClass);
-		String tableAlias = isSqlModel ? null : modelAndTable.getTableAlias();
+		isTableAlias = null == modelClass ? false : isTableAlias;// 如果时sqlModel，则不支持使用别名
+		String tableAlias = isTableAlias ? modelManager.getModelAndTable(modelClass).getTableAlias() : null;
 		// 字段的条件符
 		Map<String, String> conditionOperatorMap = sqlModel.getConditionOperators();
 		if (isTableAlias) {
@@ -78,7 +83,7 @@ public class DefaultSqlModelResolver implements SqlModelResolver {
 		// 所有的条件（拓展属性与model所有非空属性）
 		Map<String, Object> attributeMap = new HashMap<String, Object>();
 
-		if (model.getClass() != SqlModel.class) {// 当sqlModel对象实例为SqlModel时，不进行属性获取和映射
+		if (null != model) {// 当sqlModel对象实例为SqlModel时，不进行属性获取和映射
 			attributeMap.putAll(getModelNonNullAttributeConditionMap(model, modelClass, isTableAlias));
 		}
 		// 拓展字段条件。如果拓展字段存在于源model相同的条件则会覆盖
@@ -131,11 +136,12 @@ public class DefaultSqlModelResolver implements SqlModelResolver {
 	protected Map<String, Object> getModelNonNullAttributeConditionMap(Modelable model,
 			Class<? extends Modelable> modelClass, boolean isTableAlias) {
 		Map<String, Object> attributeMap = new HashMap<String, Object>();
-		ModelAndTable modelAndTable = modelAndTableManager.getModelAndTable(modelClass);
-		List<FieldAndColumn> fieldAndColumns = modelAndTable.getFieldAndColumns();
+		ModelAndTable modelAndTable = modelManager.getModelAndTable(modelClass);
+		List<FieldAndColumn> fieldAndColumns = modelAndTable.getFieldAndColumns(FieldAndColumnType.ORDINARY,
+				FieldAndColumnType.PRIMARYKEY, FieldAndColumnType.EXTEND);
 		for (FieldAndColumn fieldAndColumn : fieldAndColumns) {
 			String fieldName = fieldAndColumn.getFieldName();
-			Object value = getBeanProperty(model, fieldName);
+			Object value = getModelProperty(model, fieldName);
 			if (null == value || (value instanceof String && StringUtils.isBlank((String) value))) {
 				continue;
 			}
@@ -210,22 +216,21 @@ public class DefaultSqlModelResolver implements SqlModelResolver {
 	 * @param conditions   解析后的条件集合
 	 * @return 解析后的条件集合
 	 */
-	protected List<Condition> afterResolveToCondition(SqlModel sqlModel, boolean isTableAlias,
+	protected List<Condition> afterResolveToCondition(SqlModel<? extends Modelable> sqlModel, boolean isTableAlias,
 			List<Condition> conditions) {
 		return conditions;
 	}
 
 	@Override
-	public SortSqlFragment resolveToSort(SqlModel sqlModel, boolean isTableAlias) {
-		Class<? extends Modelable> modelClass = sqlModel.getModelClass();
-		boolean isSqlModel = modelClass == SqlModel.class;
-		isTableAlias = isSqlModel ? false : isTableAlias;// 如果时sqlModel，则不支持使用别名
-		ModelAndTable modelAndTable = isSqlModel ? null : modelAndTableManager.getModelAndTable(modelClass);
-		String tableAlias = isSqlModel ? null : modelAndTable.getTableAlias();
+	public SortSqlFragment resolveToSort(SqlModel<? extends Modelable> sqlModel, boolean isTableAlias) {
 		Map<String, String> sortFieldMap = sqlModel.getSortFields();
 		if (sortFieldMap.isEmpty()) {
 			return null;
 		}
+		Class<? extends Modelable> modelClass = sqlModel.getModelClass();
+		isTableAlias = modelClass != null && isTableAlias;
+		ModelAndTable modelAndTable = isTableAlias ? modelManager.getModelAndTable(modelClass) : null;
+		String tableAlias = isTableAlias ? modelAndTable.getTableAlias() : null;
 		SortSqlFragment sort = sqlFragmentFactory.createSortSqlFragment();
 		for (Entry<String, String> entry : sortFieldMap.entrySet()) {
 			String fieldName = columnAddTableAlias(entry.getKey(), isTableAlias ? tableAlias : null);
@@ -251,13 +256,13 @@ public class DefaultSqlModelResolver implements SqlModelResolver {
 		return tableAlias + DOT + column;
 	}
 
-	protected Object getBeanProperty(Object bean, String fieldName) {
-		return modelProperty.get(bean, fieldName);
+	protected <M extends Modelable, V> V getModelProperty(M model, String property) {
+		return modelProperty.get(model, property);
 	}
 
 	@Override
-	public ModelAndTableManager getModelAndTableManager() {
-		return this.modelAndTableManager;
+	public ModelManager getModelManager() {
+		return this.modelManager;
 	}
 
 	@Override

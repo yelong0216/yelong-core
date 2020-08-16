@@ -17,8 +17,7 @@ import org.yelong.core.model.service.SqlModelService;
  * });
  * </pre>
  * 
- * @author PengFei
- * @since 1.3.0
+ * @since 1.3
  */
 @FunctionalInterface
 public interface MSConsumer extends Consumer<SqlModelService> {

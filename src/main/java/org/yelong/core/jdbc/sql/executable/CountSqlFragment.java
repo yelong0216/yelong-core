@@ -7,8 +7,6 @@ import org.yelong.core.jdbc.sql.condition.ConditionSqlFragment;
 
 /**
  * count sql 片段
- * 
- * @author PengFei
  */
 public interface CountSqlFragment extends SqlFragmentExecutable {
 

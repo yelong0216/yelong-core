@@ -16,8 +16,6 @@ import java.lang.annotation.Target;
 /**
  * 表明列为主键<br/>
  * 注：主键默认不允许为null和空白值
- * 
- * @author PengFei
  */
 public @interface PrimaryKey {
 

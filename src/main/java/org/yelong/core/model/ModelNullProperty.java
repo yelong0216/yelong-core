@@ -12,8 +12,7 @@ import java.util.Date;
  * model中的对象必须为包装类型，而不是基本类型<br/>
  * 
  * 注意：model的属性不要是基础数据类型
- * 
- * @author PengFei
+ * @since 1.0
  */
 public final class ModelNullProperty {
 
@@ -70,7 +69,7 @@ public final class ModelNullProperty {
 
 		private final Object value;
 
-		private <C> ModelNullPropertyEnum(Class<C> type, C value) {
+		private ModelNullPropertyEnum(Class<?> type, Object value) {
 			this.type = type;
 			this.value = value;
 		}

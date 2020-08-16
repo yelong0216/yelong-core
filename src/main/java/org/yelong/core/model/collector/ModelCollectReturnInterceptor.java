@@ -8,12 +8,10 @@ import org.yelong.core.model.service.SqlModelService;
  * 
  * 可以拦截模型收集后的返回值
  * 
- * @author PengFei
- *
  * @param <M> model type
  * @param <R> return type
  * @see ModelCollector
- * @since 1.3.0
+ * @since 1.3
  */
 public interface ModelCollectReturnInterceptor<M extends Modelable, R> {
 
