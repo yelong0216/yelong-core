@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.yelong0216</groupId>
 	<artifactId>yelong-core</artifactId>
-	<version>2.0.0</version>
+	<version>2.0.1</version>
 	<packaging>jar</packaging>
 	<name>yelong-core</name>
 	<url>https://github.com/yelong0216/yelong-core.git</url>
@@ -26,7 +26,6 @@
 	</scm>
 	<properties>
 		<maven.test.skip>true</maven.test.skip> 
-		<maven.javadoc.skip>true</maven.javadoc.skip>
 		<yelong-commons.version>[2.0.0,2.1.0)</yelong-commons.version>
 		<jsqlparser.version>1.0</jsqlparser.version>
 	</properties>
