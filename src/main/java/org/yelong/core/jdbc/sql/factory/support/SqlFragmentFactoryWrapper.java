@@ -15,6 +15,7 @@ import org.yelong.core.jdbc.sql.executable.InsertSqlFragment;
 import org.yelong.core.jdbc.sql.executable.SelectSqlFragment;
 import org.yelong.core.jdbc.sql.executable.UpdateSqlFragment;
 import org.yelong.core.jdbc.sql.factory.SqlFragmentFactory;
+import org.yelong.core.jdbc.sql.group.GroupSqlFragment;
 import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
 
 public abstract class SqlFragmentFactoryWrapper implements SqlFragmentFactory {
@@ -88,6 +89,11 @@ public abstract class SqlFragmentFactoryWrapper implements SqlFragmentFactory {
 	@Override
 	public SimpleConditionSqlFragmentFactory getSimpleConditionSqlFragmentFactory() {
 		return sqlFragmentFactory.getSimpleConditionSqlFragmentFactory();
+	}
+
+	@Override
+	public GroupSqlFragment createGroupSqlFragment() {
+		return sqlFragmentFactory.createGroupSqlFragment();
 	}
 
 	@Override

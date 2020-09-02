@@ -41,8 +41,11 @@ import org.yelong.core.model.collector.support.exist.ExistModelCollector;
 import org.yelong.core.model.collector.support.exist.impl.AbstractExistModelCollector;
 import org.yelong.core.model.collector.support.exist.impl.NotExistModelCollector;
 import org.yelong.core.model.collector.support.find.FindModelCollector;
+import org.yelong.core.model.collector.support.find.FindSingleColumnModelCollector;
 import org.yelong.core.model.collector.support.find.impl.AbstractFindModelCollector;
+import org.yelong.core.model.collector.support.find.impl.AbstractFindSingleColumnModelCollector;
 import org.yelong.core.model.collector.support.find.impl.FindEmptyModelCollector;
+import org.yelong.core.model.collector.support.find.impl.FindEmptySingleColumnModelCollector;
 import org.yelong.core.model.collector.support.get.GetModelCollector;
 import org.yelong.core.model.collector.support.get.GetSingleColumnModelCollector;
 import org.yelong.core.model.collector.support.get.impl.AbstractGetModelCollector;
@@ -841,7 +844,7 @@ public final class ModelCollectors {
 
 				UpdateSqlFragment updateSqlFragment = modelSqlFragmentFactory.createUpdateSqlFragment(modelClass,
 						attributeSqlFragment);
-				ConditionSqlFragment conditionSqlFragment = sqlModelResolver.resolveToCondition(sqlModel, false);
+				ConditionSqlFragment conditionSqlFragment = sqlModelResolver.resolveToConditionSqlFragment(sqlModel);
 				if (null != conditionSqlFragment) {
 					updateSqlFragment.setConditionSqlFragment(conditionSqlFragment);
 				}
@@ -1085,7 +1088,7 @@ public final class ModelCollectors {
 	// ==================================================find==================================================
 
 	/**
-	 * 获取模型的所有记录数
+	 * 获取模型的所有记录
 	 * 
 	 * @param <M>        model type
 	 * @param modelClass model class
@@ -1384,6 +1387,294 @@ public final class ModelCollectors {
 		};
 	}
 
+	// ==================================================find-single-column==================================================
+
+	/**
+	 * 查询单列的所有记录
+	 * 
+	 * <pre>
+	 * List<String> usernames = modelService.collect(ModelCollectors.findSingleColumnAll(User.class, "username"));
+	 * </pre>
+	 * 
+	 * @param <M>          model type
+	 * @param <T>          return list object type
+	 * @param modelClass   model class
+	 * @param selectColumn 查询的列
+	 * @return 查询单列收集器
+	 */
+	public static <M extends Modelable, T> FindSingleColumnModelCollector<M, T> findSingleColumnAll(Class<M> modelClass,
+			String selectColumn) {
+		return new AbstractFindSingleColumnModelCollector<M, T>(modelClass, selectColumn) {
+			@Override
+			protected List<T> doCollect(SqlModelService modelService) {
+				return modelService.findSingleColumnBySqlFragment(modelClass, selectColumn, null, null);
+			}
+		};
+	}
+
+	/**
+	 * 根据唯一主键包含某些值的条件查询单例数据
+	 * 
+	 * <pre>
+	 * List<String> usernames = modelService.collect(ModelCollectors
+	 * 		.findSingleColumnByOnlyPrimaryKeyContains(User.class, "username", ArrayUtils.toArray("1")));
+	 * </pre>
+	 * 
+	 * @param <M>              model type
+	 * @param <T>              return list object type
+	 * @param modelClass       model class
+	 * @param selectColumn     查询的列
+	 * @param primaryKeyValues 主键值数组
+	 * @return 查询单列收集器
+	 */
+	public static <M extends Modelable, T> FindSingleColumnModelCollector<M, T> findSingleColumnByOnlyPrimaryKeyContains(
+			Class<M> modelClass, String selectColumn, Object[] primaryKeyValues) {
+		return findSingleColumnByOnlyPrimaryKeyContains(modelClass, selectColumn, primaryKeyValues, asList(null));
+	}
+
+	/**
+	 * 根据唯一主键包含某些值的条件排序查询单例数据
+	 * 
+	 * @param <M>              model type
+	 * @param <T>              return list object type
+	 * @param modelClass       model class
+	 * @param selectColumn     查询的列
+	 * @param primaryKeyValues 主键值数组
+	 * @param sort             排序
+	 * @return 查询单列收集器
+	 */
+	public static <M extends Modelable, T> FindSingleColumnModelCollector<M, T> findSingleColumnByOnlyPrimaryKeyContains(
+			Class<M> modelClass, String selectColumn, Object[] primaryKeyValues, @Nullable Sort sort) {
+		return findSingleColumnByOnlyPrimaryKeyContains(modelClass, selectColumn, primaryKeyValues, asList(sort));
+	}
+
+	/**
+	 * 根据唯一主键包含某些值的条件排序查询单例数据
+	 * 
+	 * @param <M>              model type
+	 * @param <T>              return list object type
+	 * @param modelClass       model class
+	 * @param selectColumn     查询的列
+	 * @param primaryKeyValues 主键值数组
+	 * @param sorts            排序集合
+	 * @return 查询单列收集器
+	 */
+	public static <M extends Modelable, T> FindSingleColumnModelCollector<M, T> findSingleColumnByOnlyPrimaryKeyContains(
+			Class<M> modelClass, String selectColumn, final @Nullable Object[] primaryKeyValues,
+			@Nullable List<Sort> sorts) {
+		if (ArrayUtils.isEmpty(primaryKeyValues)) {
+			return new FindEmptySingleColumnModelCollector<M, T>(modelClass, selectColumn);
+		}
+		return new AbstractFindSingleColumnModelCollector<M, T>(modelClass, selectColumn) {
+			@Override
+			protected List<T> doCollect(SqlModelService modelService) {
+				ModelAndTable modelAndTable = modelService.getModelConfiguration().getModelManager()
+						.getModelAndTable(modelClass);
+				FieldAndColumn fieldAndColumn = modelAndTable.getOnlyPrimaryKey();
+				SqlModel<M> sqlModel = new SqlModel<M>(modelClass)
+						.addCondition(new Condition(fieldAndColumn.getColumn(), IN, primaryKeyValues));
+				if (CollectionUtils.isNotEmpty(sorts)) {
+					sqlModel.addSorts(sorts);
+				}
+				return modelService.findSingleColumnBySqlModel(modelClass, selectColumn, sqlModel);
+			}
+		};
+	}
+
+	/**
+	 * 根据单列等于某值的条件查询单列数据
+	 * 
+	 * <pre>
+	 * List<String> usernames = modelService
+	 * 		.collect(ModelCollectors.findSingleColumnBySingleColumnEQ(User.class, "id", "username", "pengfei"));
+	 * </pre>
+	 * 
+	 * @param <M>                  model type
+	 * @param <T>                  return list object type
+	 * @param modelClass           model class
+	 * @param selectColumn         查询的列
+	 * @param conditionColumn      条件列
+	 * @param conditionColumnValue 条件列的值
+	 * @return 查询单列收集器
+	 */
+	public static <M extends Modelable, T> FindSingleColumnModelCollector<M, T> findSingleColumnBySingleColumnEQ(
+			Class<M> modelClass, String selectColumn, String conditionColumn, Object conditionColumnValue) {
+		return findSingleColumnBySingleColumnEQ(modelClass, selectColumn, conditionColumn, conditionColumnValue,
+				asList(null));
+	}
+
+	/**
+	 * 根据单列等于某值的条件排序查询单列数据
+	 * 
+	 * @param <M>                  model type
+	 * @param <T>                  return list object type
+	 * @param modelClass           model class
+	 * @param selectColumn         查询的列
+	 * @param conditionColumn      条件列
+	 * @param conditionColumnValue 条件列的值
+	 * @param sort                 排序
+	 * @return 查询单列收集器
+	 */
+	public static <M extends Modelable, T> FindSingleColumnModelCollector<M, T> findSingleColumnBySingleColumnEQ(
+			Class<M> modelClass, String selectColumn, String conditionColumn, Object conditionColumnValue, Sort sort) {
+		return findSingleColumnBySingleColumnEQ(modelClass, selectColumn, conditionColumn, conditionColumnValue,
+				asList(sort));
+	}
+
+	/**
+	 * 根据单列等于某值的条件排序查询单列数据
+	 * 
+	 * @param <M>                  model type
+	 * @param <T>                  return list object type
+	 * @param modelClass           model class
+	 * @param selectColumn         查询的列
+	 * @param conditionColumn      条件列
+	 * @param conditionColumnValue 条件列的值
+	 * @param sorts                排序集合
+	 * @return 查询单列收集器
+	 */
+	public static <M extends Modelable, T> FindSingleColumnModelCollector<M, T> findSingleColumnBySingleColumnEQ(
+			Class<M> modelClass, String selectColumn, String conditionColumn, Object conditionColumnValue,
+			List<Sort> sorts) {
+		return findSingleColumnByConditionsSorts(modelClass, selectColumn,
+				asList(new Condition(conditionColumn, EQUAL, conditionColumnValue)), sorts);
+	}
+
+	/**
+	 * 根据单列包含某些值的条件查询单列数据
+	 * 
+	 * <pre>
+	 * List<String> usernames = modelService.collect(ModelCollectors.findSingleColumnBySingleColumnContains(User.class,
+	 * 		"username", "username", ArrayUtils.toArray("pengfei", "yelong")));
+	 * </pre>
+	 * 
+	 * @param <M>                   model type
+	 * @param <T>                   return list object type
+	 * @param modelClass            model class
+	 * @param selectColumn          查询的列
+	 * @param conditionColumn       条件列
+	 * @param conditionColumnValues 条件值数组
+	 * @return 查询单列收集器
+	 */
+	public static <M extends Modelable, T> FindSingleColumnModelCollector<M, T> findSingleColumnBySingleColumnContains(
+			Class<M> modelClass, String selectColumn, String conditionColumn, Object[] conditionColumnValues) {
+		return findSingleColumnBySingleColumnContains(modelClass, selectColumn, conditionColumn, conditionColumnValues,
+				asList(null));
+	}
+
+	/**
+	 * 根据单列包含某些值的条件排序查询单列数据
+	 * 
+	 * @param <M>                   model type
+	 * @param <T>                   return list object type
+	 * @param modelClass            model class
+	 * @param selectColumn          查询的列
+	 * @param conditionColumn       条件列
+	 * @param conditionColumnValues 条件值数组
+	 * @param sort                  排序
+	 * @return 查询单列收集器
+	 */
+	public static <M extends Modelable, T> FindSingleColumnModelCollector<M, T> findSingleColumnBySingleColumnContains(
+			Class<M> modelClass, String selectColumn, String conditionColumn, Object[] conditionColumnValues,
+			Sort sort) {
+		return findSingleColumnBySingleColumnContains(modelClass, selectColumn, conditionColumn, conditionColumnValues,
+				asList(sort));
+	}
+
+	/**
+	 * 根据单列包含某些值的条件排序查询单列数据
+	 * 
+	 * @param <M>                   model type
+	 * @param <T>                   return list object type
+	 * @param modelClass            model class
+	 * @param selectColumn          查询的列
+	 * @param conditionColumn       条件列
+	 * @param conditionColumnValues 条件值数组
+	 * @param sorts                 排序
+	 * @return 查询单列收集器
+	 */
+	public static <M extends Modelable, T> FindSingleColumnModelCollector<M, T> findSingleColumnBySingleColumnContains(
+			Class<M> modelClass, String selectColumn, String conditionColumn, Object[] conditionColumnValues,
+			List<Sort> sorts) {
+		return findSingleColumnByConditionsSorts(modelClass, selectColumn,
+				asList(new Condition(conditionColumn, IN, conditionColumnValues)), sorts);
+	}
+
+	/**
+	 * 根据条件查询单列数据
+	 * 
+	 * @param <M>          model type
+	 * @param <T>          return list object type
+	 * @param modelClass   model class
+	 * @param selectColumn 查询的列
+	 * @param condition    条件
+	 * @return 查询单列收集器
+	 */
+	public static <M extends Modelable, T> FindSingleColumnModelCollector<M, T> findSingleColumnByCondition(
+			Class<M> modelClass, String selectColumn, Condition condition) {
+		return findSingleColumnByConditionSort(modelClass, selectColumn, condition, null);
+	}
+
+	/**
+	 * 根据条件排序查询单列数据
+	 * 
+	 * @param <M>          model type
+	 * @param <T>          return list object type
+	 * @param modelClass   model class
+	 * @param selectColumn 查询的列
+	 * @param condition    条件
+	 * @param sort         排序
+	 * @return 查询单列收集器
+	 */
+	public static <M extends Modelable, T> FindSingleColumnModelCollector<M, T> findSingleColumnByConditionSort(
+			Class<M> modelClass, String selectColumn, Condition condition, @Nullable Sort sort) {
+		return findSingleColumnByConditionsSorts(modelClass, selectColumn, asList(condition), asList(sort));
+	}
+
+	/**
+	 * 根据条件排序查询单列数据
+	 * 
+	 * @param <M>          model type
+	 * @param <T>          return list object type
+	 * @param modelClass   model class
+	 * @param selectColumn 查询的列
+	 * @param conditions   条件集合
+	 * @param sorts        排序集合
+	 * @return 查询单列收集器
+	 */
+	public static <M extends Modelable, T> FindSingleColumnModelCollector<M, T> findSingleColumnByConditionsSorts(
+			Class<M> modelClass, String selectColumn, List<Condition> conditions, @Nullable List<Sort> sorts) {
+		List<Condition> removeAfterConditions = removeBySingleNullOrBlankValue(conditions);
+		if (CollectionUtils.isEmpty(removeAfterConditions)) {
+			return new FindEmptySingleColumnModelCollector<M, T>(modelClass, selectColumn);
+		}
+		SqlModel<M> sqlModel = new SqlModel<M>(modelClass).addConditions(conditions);
+		if (null != sorts) {
+			sqlModel.addSorts(sorts);
+		}
+		return findSingleColumnBySqlModel(modelClass, selectColumn, sqlModel);
+	}
+
+	/**
+	 * 根据 sqlModel 查询单列数据
+	 * 
+	 * @param <M>          model type
+	 * @param <T>          return list object type
+	 * @param modelClass   model class
+	 * @param selectColumn 查询的列
+	 * @param sqlModel     sqlModel
+	 * @return 查询单列收集器
+	 */
+	public static <M extends Modelable, T> FindSingleColumnModelCollector<M, T> findSingleColumnBySqlModel(
+			Class<M> modelClass, String selectColumn, SqlModel<M> sqlModel) {
+		return new AbstractFindSingleColumnModelCollector<M, T>(modelClass, selectColumn) {
+			@Override
+			protected List<T> doCollect(SqlModelService modelService) {
+				return modelService.findSingleColumnBySqlModel(modelClass, selectColumn, sqlModel);
+			}
+		};
+	}
+
 	// ==================================================count==================================================
 
 	/**
@@ -1669,7 +1960,7 @@ public final class ModelCollectors {
 	 * @param obj obj
 	 * @return list
 	 */
-	private static final <T> List<T> asList(T obj) {
+	public static final <T> List<T> asList(T obj) {
 		if (null == obj) {
 			return Collections.emptyList();
 		}
@@ -1682,7 +1973,7 @@ public final class ModelCollectors {
 	 * @param conditions 操作的集合
 	 * @return 移除指定条件后的新集合
 	 */
-	private static List<Condition> removeBySingleNullOrBlankValue(List<Condition> conditions) {
+	public static List<Condition> removeBySingleNullOrBlankValue(List<Condition> conditions) {
 		conditions = new ArrayList<>(conditions);
 		conditions.removeIf(x -> {
 			if (x.isSingleValue()) {

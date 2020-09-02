@@ -3,8 +3,6 @@
  */
 package org.yelong.core.cache;
 
-import java.util.Objects;
-
 /**
  * 默认的缓存实体
  * 
@@ -18,7 +16,7 @@ public class DefaultCacheEntity<T> implements CacheEntity<T> {
 	private final T entity;
 
 	public DefaultCacheEntity(final T entity) {
-		this.entity = Objects.requireNonNull(entity);
+		this.entity = entity;
 	}
 
 	@Override
@@ -33,6 +31,9 @@ public class DefaultCacheEntity<T> implements CacheEntity<T> {
 
 	@Override
 	public String toString() {
+		if (null == entity) {
+			return null;
+		}
 		return entity.toString();
 	}
 

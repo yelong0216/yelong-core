@@ -13,6 +13,7 @@ import org.yelong.core.jdbc.sql.defaults.DefaultAttributeSqlFragment;
 import org.yelong.core.jdbc.sql.defaults.DefaultCombinationConditionSqlFragment;
 import org.yelong.core.jdbc.sql.defaults.DefaultCountSqlFragment;
 import org.yelong.core.jdbc.sql.defaults.DefaultDeleteSqlFragment;
+import org.yelong.core.jdbc.sql.defaults.DefaultGroupSqlFragment;
 import org.yelong.core.jdbc.sql.defaults.DefaultInsertSqlFragment;
 import org.yelong.core.jdbc.sql.defaults.DefaultSelectSqlFragment;
 import org.yelong.core.jdbc.sql.defaults.DefaultSimpleConditionSqlFragment;
@@ -23,6 +24,7 @@ import org.yelong.core.jdbc.sql.executable.DeleteSqlFragment;
 import org.yelong.core.jdbc.sql.executable.InsertSqlFragment;
 import org.yelong.core.jdbc.sql.executable.SelectSqlFragment;
 import org.yelong.core.jdbc.sql.executable.UpdateSqlFragment;
+import org.yelong.core.jdbc.sql.group.GroupSqlFragment;
 import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
 
 /**
@@ -109,6 +111,11 @@ public class DefaultSqlFragmentFactory implements SqlFragmentFactory {
 		return simpleConditionSqlFragmentFactory;
 	}
 
+	@Override
+	public GroupSqlFragment createGroupSqlFragment() {
+		return new DefaultGroupSqlFragment(dialect);
+	}
+	
 	public Dialect getDialect() {
 		return dialect;
 	}

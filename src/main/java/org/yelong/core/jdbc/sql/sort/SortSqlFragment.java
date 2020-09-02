@@ -15,7 +15,7 @@ public interface SortSqlFragment extends SqlFragment {
 	/**
 	 * 添加一个排序。
 	 * 
-	 * @param column    字段名称
+	 * @param column    列名称
 	 * @param direction 排序方向：DESC(降序)、ASC（升序）
 	 * @throws InvalidSortException 如果这个排序是无效的
 	 */

@@ -276,7 +276,7 @@ public interface SqlModelService extends ModelService {
 	 * 
 	 * <pre>
 	 * modelService.doFunction((s) -> {
-	 * 	s.collect(ModelCollectors.modifySingleColumnByOnlyPrimaryKey(User.class, "username", "彭飞", "12456"));
+	 * 	s.collect(ModelCollectors.modifySingleColumnByOnlyPrimaryKeyEQ(User.class, "username", "彭飞", "12456"));
 	 * 	return s.saveSelective(model);
 	 * });
 	 * </pre>
@@ -298,8 +298,7 @@ public interface SqlModelService extends ModelService {
 	 * 
 	 * <pre>
 	 * modelService.doConsumer((s) -> {
-	 * 	// 修改委托状态
-	 * 	s.collect(ModelCollectors.modifySingleColumnByOnlyPrimaryKey(User.class, "username", "彭飞", "12456"));
+	 * 	s.collect(ModelCollectors.modifySingleColumnByOnlyPrimaryKeyEQ(User.class, "username", "彭飞", "12456"));
 	 * 	s.saveSelective(model);
 	 * });
 	 * </pre>
@@ -320,7 +319,7 @@ public interface SqlModelService extends ModelService {
 	 * <pre>
 	 * modelService.doOperation(() -> {
 	 * 	modelService
-	 * 			.collect(ModelCollectors.modifySingleColumnByOnlyPrimaryKey(User.class, "username", "彭飞", "12456"));
+	 * 			.collect(ModelCollectors.modifySingleColumnByOnlyPrimaryKeyEQ(User.class, "username", "彭飞", "12456"));
 	 * 	modelService.saveSelective(model);
 	 * });
 	 * </pre>
@@ -340,9 +339,8 @@ public interface SqlModelService extends ModelService {
 	 * 
 	 * <pre>
 	 * Boolean saveResult = modelService.doSupplier(() -> {
-	 * 	// 修改委托状态
 	 * 	modelService
-	 * 			.collect(ModelCollectors.modifySingleColumnByOnlyPrimaryKey(User.class, "username", "彭飞", "12456"));
+	 * 			.collect(ModelCollectors.modifySingleColumnByOnlyPrimaryKeyEQ(User.class, "username", "彭飞", "12456"));
 	 * 	return modelService.saveSelective(model);
 	 * });
 	 * </pre>

@@ -3,6 +3,7 @@
  */
 package org.yelong.core.jdbc.sql.executable;
 
+import org.yelong.core.annotation.Nullable;
 import org.yelong.core.jdbc.sql.condition.ConditionSqlFragment;
 
 /**
@@ -23,6 +24,7 @@ public interface CountSqlFragment extends SqlFragmentExecutable {
 	 * 
 	 * @return 条件
 	 */
+	@Nullable
 	ConditionSqlFragment getConditionSqlFragment();
 
 	/**

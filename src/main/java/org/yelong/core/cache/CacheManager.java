@@ -5,6 +5,7 @@ package org.yelong.core.cache;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 
 import org.yelong.core.annotation.Nullable;
 
@@ -34,6 +35,41 @@ public interface CacheManager {
 	 * @return 缓存的对象
 	 */
 	<T> CacheEntity<T> putCache(String key, T entity);
+
+	/**
+	 * 获取缓存的实体，如果不存在该键值的缓存则工具工厂获取值，在将值放入缓存中
+	 * 
+	 * @param <T>               cache entity type
+	 * @param key               键值
+	 * @param cacheValueFactory 缓存的值工厂
+	 * @return 缓存的实体
+	 * @since 2.1
+	 */
+	default <T> CacheEntity<T> putCacheIfAbsent(String key, Function<String, T> cacheValueFactory) {
+		synchronized (this) {
+			boolean containsKey = containsKey(key);
+			if (containsKey) {
+				return getCache(key);
+			}
+			T entity = cacheValueFactory.apply(key);
+			CacheEntity<T> cacheEntity = CacheEntitys.defaultCacheEntity(entity);
+			putCache(key, cacheEntity);
+			return cacheEntity;
+		}
+	}
+
+	/**
+	 * 获取缓存的值，如果不存在该键值的缓存则工具工厂获取值，在将值放入缓存中
+	 * 
+	 * @param <T>               cache entity type
+	 * @param key               键值
+	 * @param cacheValueFactory 缓存的值工厂
+	 * @return 缓存的值
+	 * @since 2.1
+	 */
+	default <T> T putCacheObjIfAbsent(String key, Function<String, T> cacheValueFactory) {
+		return putCacheIfAbsent(key, cacheValueFactory).get();
+	}
 
 	/**
 	 * 获取缓存信息

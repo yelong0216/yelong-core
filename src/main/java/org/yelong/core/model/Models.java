@@ -9,7 +9,8 @@ import java.util.Map;
 import org.yelong.core.annotation.Nullable;
 
 /**
- * 模型运行时属性配置工具。这些属性仅能获取一次。
+ * 模型运行时属性配置工具。这些属性仅能获取一次。<br/>
+ * 自定义设置的属性键值不要以{@link #MODEL_RUNING_PROPERTY_PREFIX}字符开头，防止与框架中定义的键值冲突
  * 
  * @since 2.0
  */
@@ -17,8 +18,15 @@ public final class Models {
 
 	private static final ModelRuningPropertiesThreadLocal MODEL_RUNNING_PROPERTIES = new ModelRuningPropertiesThreadLocal();
 
+	/**
+	 * 框架中使用的模型运行时属性前缀。自定义的键值最好不要以该字符串开头
+	 */
+	public static final String MODEL_RUNING_PROPERTY_PREFIX = "MODEL_RUNING_PROPERTY_";
+
 	private Models() {
 	}
+
+	// ==================================================get/set==================================================
 
 	/**
 	 * 设置一个属性
@@ -53,10 +61,18 @@ public final class Models {
 	 * @param defaultValue 值不存在时返回的默认值
 	 * @return 属性值。如果这个值为 <code>null</code>则返回默认值
 	 */
-	public static <V> V getProperty(String name, V defaultValue) {
+	@Nullable
+	public static <V> V getProperty(String name,@Nullable V defaultValue) {
 		V value = getProperty(name);
 		return value != null ? value : defaultValue;
 	}
+
+	// ==================================================model-support==================================================
+	
+	
+	
+	
+	// ==================================================thread-local==================================================
 
 	private static final class ModelRuningPropertiesThreadLocal extends ThreadLocal<Map<String, Object>> {
 

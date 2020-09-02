@@ -47,7 +47,8 @@ public abstract class AbstractDialect implements Dialect {
 		}
 		List<String> sqlFragment = new ArrayList<String>();
 		sqlFragment.add("select");
-		sqlFragment.add(columns.stream().map(x -> tableAlias + "." + x).collect(Collectors.joining(" , ")));
+//		sqlFragment.add(columns.stream().map(x -> tableAlias + "." + x).collect(Collectors.joining(" , ")));
+		sqlFragment.add(columns.stream().collect(Collectors.joining(" , ")));
 		sqlFragment.add("from");
 		sqlFragment.add(tableName);
 		sqlFragment.add(tableAlias);

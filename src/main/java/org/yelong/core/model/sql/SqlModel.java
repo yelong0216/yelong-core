@@ -11,6 +11,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.yelong.core.annotation.Nullable;
 import org.yelong.core.jdbc.sql.SqlFragment;
 import org.yelong.core.jdbc.sql.condition.support.Condition;
@@ -30,6 +31,8 @@ public class SqlModel<M extends Modelable> {
 	private final Map<String, Object> extendAttributes = new LinkedHashMap<>();
 
 	private final Map<String, String> sortFields = new LinkedHashMap<>();
+
+	private final List<String> groupColumns = new ArrayList<String>();
 
 	private final List<Condition> conditions = new ArrayList<>();
 
@@ -67,7 +70,7 @@ public class SqlModel<M extends Modelable> {
 	/**
 	 * @param model 指定model实体
 	 */
-	public SqlModel(final M model,final Class<M> modelClass) {
+	public SqlModel(final M model, final Class<M> modelClass) {
 		this.modelClass = modelClass;
 		this.model = model;
 	}
@@ -368,6 +371,67 @@ public class SqlModel<M extends Modelable> {
 	 */
 	public List<Condition> getConditions() {
 		return conditions;
+	}
+
+	/**
+	 * 是否包含指定的分组列
+	 * 
+	 * @param column 是否包含的列
+	 * @return <code>true</code> 包含
+	 * @since 2.1
+	 */
+	public boolean containsGroupColumn(String column) {
+		return this.groupColumns.contains(column);
+	}
+
+	/**
+	 * 移除分组的列
+	 * 
+	 * @param columns 被移除的分组的列
+	 * @return this
+	 * @since 2.1
+	 */
+	public SqlModel<M> removeGroupColumn(String... columns) {
+		if (ArrayUtils.isNotEmpty(columns)) {
+			for (String column : columns) {
+				groupColumns.remove(column);
+			}
+		}
+		return this;
+	}
+
+	/**
+	 * 是否存在分组列
+	 * 
+	 * @return <code>true</code> 存在分组列
+	 * @since 2.1
+	 */
+	public boolean existGroupColumn() {
+		return !this.groupColumns.isEmpty();
+	}
+
+	/**
+	 * 添加分组列
+	 * 
+	 * @param columns 需要分组的列数组
+	 * @return this
+	 * @since 2.1
+	 */
+	public SqlModel<M> addGroupColumns(String... columns) {
+		if (ArrayUtils.isNotEmpty(columns)) {
+			for (String column : columns) {
+				groupColumns.add(column);
+			}
+		}
+		return this;
+	}
+
+	/**
+	 * @return 所有的排序列
+	 * @since 2.1
+	 */
+	public List<String> getGroupColumns() {
+		return groupColumns;
 	}
 
 	/**

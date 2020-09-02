@@ -3,11 +3,13 @@
  */
 package org.yelong.core.jdbc.sql.executable;
 
+import org.yelong.core.annotation.Nullable;
 import org.yelong.core.jdbc.sql.condition.ConditionSqlFragment;
+import org.yelong.core.jdbc.sql.group.GroupSqlFragment;
 import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
 
 /**
- * select sql
+ * select SQL
  */
 public interface SelectSqlFragment extends SqlFragmentExecutable {
 
@@ -24,6 +26,7 @@ public interface SelectSqlFragment extends SqlFragmentExecutable {
 	 * 
 	 * @return 条件
 	 */
+	@Nullable
 	ConditionSqlFragment getConditionSqlFragment();
 
 	/**
@@ -48,6 +51,7 @@ public interface SelectSqlFragment extends SqlFragmentExecutable {
 	 * 
 	 * @return 排序
 	 */
+	@Nullable
 	SortSqlFragment getSortSqlFragment();
 
 	/**
@@ -57,6 +61,29 @@ public interface SelectSqlFragment extends SqlFragmentExecutable {
 	 */
 	default boolean existSortSqlFragment() {
 		return null != getSortSqlFragment();
+	}
+
+	/**
+	 * 设置分组SQL片段
+	 * 
+	 * @param groupSqlFragment 分组SQL片段
+	 * @return this
+	 */
+	SelectSqlFragment setGroupSqlFragment(GroupSqlFragment groupSqlFragment);
+
+	/**
+	 * 获取排序SQL片段
+	 * 
+	 * @return 排序SQL片段
+	 */
+	@Nullable
+	GroupSqlFragment getGroupSqlFragment();
+
+	/**
+	 * @return <code>true</code> 存在分组片段
+	 */
+	default boolean existGroupSqlFragment() {
+		return null != getGroupSqlFragment();
 	}
 
 	/**
@@ -84,6 +111,7 @@ public interface SelectSqlFragment extends SqlFragmentExecutable {
 	 * 
 	 * @return 如果 {@link #isPage()}为false 则返回null
 	 */
+	@Nullable
 	Integer getPageNum();
 
 	/**
@@ -91,6 +119,7 @@ public interface SelectSqlFragment extends SqlFragmentExecutable {
 	 * 
 	 * @return 如果 {@link #isPage()}为false 则返回null
 	 */
+	@Nullable
 	Integer getPageSize();
 
 }

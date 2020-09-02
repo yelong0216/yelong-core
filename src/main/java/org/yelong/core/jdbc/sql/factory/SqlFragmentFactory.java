@@ -14,6 +14,7 @@ import org.yelong.core.jdbc.sql.executable.DeleteSqlFragment;
 import org.yelong.core.jdbc.sql.executable.InsertSqlFragment;
 import org.yelong.core.jdbc.sql.executable.SelectSqlFragment;
 import org.yelong.core.jdbc.sql.executable.UpdateSqlFragment;
+import org.yelong.core.jdbc.sql.group.GroupSqlFragment;
 import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
 
 /**
@@ -116,6 +117,15 @@ public interface SqlFragmentFactory {
 	 * @return 组合条件
 	 */
 	CombinationConditionSqlFragment createCombinationConditionSqlFragment();
+
+	// ==================================================group==================================================
+
+	/**
+	 * 创建分组SQL片段
+	 * 
+	 * @return 分组片段
+	 */
+	GroupSqlFragment createGroupSqlFragment();
 
 	// ==================================================sort==================================================
 

@@ -19,6 +19,7 @@ import org.yelong.core.jdbc.sql.executable.DeleteSqlFragment;
 import org.yelong.core.jdbc.sql.executable.InsertSqlFragment;
 import org.yelong.core.jdbc.sql.executable.SelectSqlFragment;
 import org.yelong.core.jdbc.sql.executable.UpdateSqlFragment;
+import org.yelong.core.jdbc.sql.group.GroupSqlFragment;
 import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
 import org.yelong.core.model.ModelConfiguration;
 import org.yelong.core.model.ModelNullProperty;
@@ -137,11 +138,21 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	@Override
 	public <M extends Modelable> List<M> findBySqlFragment(Class<M> modelClass,
 			ConditionSqlFragment conditionSqlFragment, SortSqlFragment sortSqlFragment) {
+		return findBySqlFragment(modelClass, conditionSqlFragment, null, sortSqlFragment);
+	}
+
+	@Override
+	public <M extends Modelable> List<M> findBySqlFragment(Class<M> modelClass,
+			ConditionSqlFragment conditionSqlFragment, GroupSqlFragment groupSqlFragment,
+			SortSqlFragment sortSqlFragment) {
 		SelectSqlColumnMode selectSqlColumnMode = modelConfiguration.getModelProperties().getSelectSqlColumnMode();
 		SelectSqlFragment selectSqlFragment = getModelSqlFragmentFactory().createSelectSqlFragment(modelClass,
 				selectSqlColumnMode, false);
 		if (null != conditionSqlFragment) {
 			selectSqlFragment.setConditionSqlFragment(conditionSqlFragment);
+		}
+		if (null != groupSqlFragment) {
+			selectSqlFragment.setGroupSqlFragment(groupSqlFragment);
 		}
 		if (null != sortSqlFragment) {
 			selectSqlFragment.setSortSqlFragment(sortSqlFragment);
@@ -152,10 +163,20 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	@Override
 	public <M extends Modelable> List<M> findBySqlFragment(Class<M> modelClass, String selectSql,
 			Object[] selectSqlParams, ConditionSqlFragment conditionSqlFragment, SortSqlFragment sortSqlFragment) {
+		return findBySqlFragment(modelClass, selectSql, selectSqlParams, conditionSqlFragment, null, sortSqlFragment);
+	}
+
+	@Override
+	public <M extends Modelable> List<M> findBySqlFragment(Class<M> modelClass, String selectSql,
+			Object[] selectSqlParams, ConditionSqlFragment conditionSqlFragment, GroupSqlFragment groupSqlFragment,
+			SortSqlFragment sortSqlFragment) {
 		SelectSqlFragment selectSqlFragment = getModelSqlFragmentFactory().createSelectSqlFragment(selectSql,
 				selectSqlParams);
 		if (null != conditionSqlFragment) {
 			selectSqlFragment.setConditionSqlFragment(conditionSqlFragment);
+		}
+		if (null != groupSqlFragment) {
+			selectSqlFragment.setGroupSqlFragment(groupSqlFragment);
 		}
 		if (null != sortSqlFragment) {
 			selectSqlFragment.setSortSqlFragment(sortSqlFragment);
@@ -178,10 +199,26 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	}
 
 	@Override
+	public <M extends Modelable> M findFirstBySqlFragment(Class<M> modelClass,
+			ConditionSqlFragment conditionSqlFragment, GroupSqlFragment groupSqlFragment,
+			SortSqlFragment sortSqlFragment) {
+		return ListUtilsE.get(findBySqlFragment(modelClass, conditionSqlFragment, groupSqlFragment, sortSqlFragment),
+				0);
+	}
+
+	@Override
 	public <M extends Modelable> M findFirstBySqlFragment(Class<M> modelClass, String selectSql,
 			Object[] selectSqlParams, ConditionSqlFragment conditionSqlFragment, SortSqlFragment sortSqlFragment) {
 		return ListUtilsE.get(
 				findBySqlFragment(modelClass, selectSql, selectSqlParams, conditionSqlFragment, sortSqlFragment), 0);
+	}
+
+	@Override
+	public <M extends Modelable> M findFirstBySqlFragment(Class<M> modelClass, String selectSql,
+			Object[] selectSqlParams, ConditionSqlFragment conditionSqlFragment, GroupSqlFragment groupSqlFragment,
+			SortSqlFragment sortSqlFragment) {
+		return ListUtilsE.get(findBySqlFragment(modelClass, selectSql, selectSqlParams, conditionSqlFragment,
+				groupSqlFragment, sortSqlFragment), 0);
 	}
 
 	@Override
@@ -194,10 +231,20 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	@Override
 	public <T> List<T> findSingleColumnBySqlFragment(Class<? extends Modelable> modelClass, String selectColumn,
 			ConditionSqlFragment conditionSqlFragment, SortSqlFragment sortSqlFragment) {
+		return findSingleColumnBySqlFragment(modelClass, selectColumn, conditionSqlFragment, null, sortSqlFragment);
+	}
+
+	@Override
+	public <T> List<T> findSingleColumnBySqlFragment(Class<? extends Modelable> modelClass, String selectColumn,
+			ConditionSqlFragment conditionSqlFragment, GroupSqlFragment groupSqlFragment,
+			SortSqlFragment sortSqlFragment) {
 		SelectSqlFragment selectSqlFragment = getModelSqlFragmentFactory().createSelectSqlFragmentByColumns(modelClass,
 				Arrays.asList(selectColumn));
 		if (null != conditionSqlFragment) {
 			selectSqlFragment.setConditionSqlFragment(conditionSqlFragment);
+		}
+		if (null != groupSqlFragment) {
+			selectSqlFragment.setGroupSqlFragment(groupSqlFragment);
 		}
 		if (null != sortSqlFragment) {
 			selectSqlFragment.setSortSqlFragment(sortSqlFragment);
@@ -214,12 +261,30 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	}
 
 	@Override
+	public <T> T findFirstSingleColumnBySqlFragment(Class<? extends Modelable> modelClass, String selectColumn,
+			ConditionSqlFragment conditionSqlFragment, GroupSqlFragment groupSqlFragment,
+			SortSqlFragment sortSqlFragment) {
+		return ListUtilsE.get(findSingleColumnBySqlFragment(modelClass, selectColumn, conditionSqlFragment,
+				groupSqlFragment, sortSqlFragment), 0);
+	}
+
+	@Override
 	public <T> List<T> findSingleColumnBySqlFragment(String selectSql, Object[] selectSqlParams,
 			ConditionSqlFragment conditionSqlFragment, SortSqlFragment sortSqlFragment) {
+		return findSingleColumnBySqlFragment(selectSql, selectSqlParams, conditionSqlFragment, null, sortSqlFragment);
+	}
+
+	@Override
+	public <T> List<T> findSingleColumnBySqlFragment(String selectSql, Object[] selectSqlParams,
+			ConditionSqlFragment conditionSqlFragment, GroupSqlFragment groupSqlFragment,
+			SortSqlFragment sortSqlFragment) {
 		SelectSqlFragment selectSqlFragment = getModelSqlFragmentFactory().createSelectSqlFragment(selectSql,
 				selectSqlParams);
 		if (null != conditionSqlFragment) {
 			selectSqlFragment.setConditionSqlFragment(conditionSqlFragment);
+		}
+		if (null != groupSqlFragment) {
+			selectSqlFragment.setGroupSqlFragment(groupSqlFragment);
 		}
 		if (null != sortSqlFragment) {
 			selectSqlFragment.setSortSqlFragment(sortSqlFragment);
@@ -235,16 +300,34 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 				findSingleColumnBySqlFragment(selectSql, selectSqlParams, conditionSqlFragment, sortSqlFragment), 0);
 	}
 
+	@Override
+	public <T> T findFirstSingleColumnBySqlFragment(String selectSql, Object[] selectSqlParams,
+			ConditionSqlFragment conditionSqlFragment, GroupSqlFragment groupSqlFragment,
+			SortSqlFragment sortSqlFragment) {
+		return ListUtilsE.get(findSingleColumnBySqlFragment(selectSql, selectSqlParams, conditionSqlFragment,
+				groupSqlFragment, sortSqlFragment), 0);
+	}
+
 	// ==================================================findPage==================================================
 
 	@Override
 	public <M extends Modelable> List<M> findPageBySqlFragment(Class<M> modelClass,
 			ConditionSqlFragment conditionSqlFragment, SortSqlFragment sortSqlFragment, int pageNum, int pageSize) {
+		return findPageBySqlFragment(modelClass, conditionSqlFragment, null, sortSqlFragment, pageNum, pageSize);
+	}
+
+	@Override
+	public <M extends Modelable> List<M> findPageBySqlFragment(Class<M> modelClass,
+			ConditionSqlFragment conditionSqlFragment, GroupSqlFragment groupSqlFragment,
+			SortSqlFragment sortSqlFragment, int pageNum, int pageSize) {
 		SelectSqlColumnMode selectSqlColumnMode = modelConfiguration.getModelProperties().getSelectSqlColumnMode();
 		SelectSqlFragment selectSqlFragment = getModelSqlFragmentFactory().createSelectSqlFragment(modelClass,
 				selectSqlColumnMode, false);
 		if (null != conditionSqlFragment) {
 			selectSqlFragment.setConditionSqlFragment(conditionSqlFragment);
+		}
+		if (null != groupSqlFragment) {
+			selectSqlFragment.setGroupSqlFragment(groupSqlFragment);
 		}
 		if (null != sortSqlFragment) {
 			selectSqlFragment.setSortSqlFragment(sortSqlFragment);
@@ -263,10 +346,21 @@ public abstract class AbstractModelService extends AbstractSqlFragmentExecutor i
 	public <M extends Modelable> List<M> findPageBySqlFragment(Class<M> modelClass, String selectSql,
 			Object[] selectSqlParams, ConditionSqlFragment conditionSqlFragment, SortSqlFragment sortSqlFragment,
 			int pageNum, int pageSize) {
+		return findPageBySqlFragment(modelClass, selectSql, selectSqlParams, conditionSqlFragment, null,
+				sortSqlFragment, pageNum, pageSize);
+	}
+
+	@Override
+	public <M extends Modelable> List<M> findPageBySqlFragment(Class<M> modelClass, String selectSql,
+			Object[] selectSqlParams, ConditionSqlFragment conditionSqlFragment, GroupSqlFragment groupSqlFragment,
+			SortSqlFragment sortSqlFragment, int pageNum, int pageSize) {
 		SelectSqlFragment selectSqlFragment = getModelSqlFragmentFactory().createSelectSqlFragment(selectSql,
 				selectSqlParams);
 		if (null != conditionSqlFragment) {
 			selectSqlFragment.setConditionSqlFragment(conditionSqlFragment);
+		}
+		if (null != groupSqlFragment) {
+			selectSqlFragment.setGroupSqlFragment(groupSqlFragment);
 		}
 		if (null != sortSqlFragment) {
 			selectSqlFragment.setSortSqlFragment(sortSqlFragment);

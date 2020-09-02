@@ -9,17 +9,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Objects;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.yelong.core.annotation.Nullable;
-import org.yelong.core.jdbc.sql.condition.ConditionSqlFragment;
-import org.yelong.core.jdbc.sql.condition.ConditionalOperatorResolver;
 import org.yelong.core.jdbc.sql.condition.support.Condition;
 import org.yelong.core.jdbc.sql.condition.support.ConditionResolver;
 import org.yelong.core.jdbc.sql.factory.SqlFragmentFactory;
-import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
+import org.yelong.core.jdbc.sql.group.GroupSqlFragment;
+import org.yelong.core.jdbc.sql.sort.support.Sort;
 import org.yelong.core.model.Modelable;
 import org.yelong.core.model.manage.ExtendColumnAttribute;
 import org.yelong.core.model.manage.FieldAndColumn;
@@ -34,27 +33,7 @@ import org.yelong.core.model.property.ModelProperty;
  * 
  * @since 1.0
  */
-public class DefaultSqlModelResolver implements SqlModelResolver {
-
-	/**
-	 * 默认的条件运算符
-	 */
-	public static final String DEFAULT_OPERATOR = "=";
-
-	/**
-	 * 表别名与列名的连接符
-	 */
-	public static final String DOT = ".";
-
-	protected final ModelManager modelManager;
-
-	protected final ConditionResolver conditionResolver;
-
-	protected final SqlFragmentFactory sqlFragmentFactory;
-
-	protected ModelProperty modelProperty = DefaultModelProperty.INSTANCE;
-
-	protected final ConditionalOperatorResolver conditionalOperatorResolver;
+public class DefaultSqlModelResolver extends AbstractSqlModelResolver {
 
 	public DefaultSqlModelResolver(ModelManager modelManager, ConditionResolver conditionResolver) {
 		this(modelManager, conditionResolver, conditionResolver.getSqlFragmentFactory());
@@ -62,15 +41,16 @@ public class DefaultSqlModelResolver implements SqlModelResolver {
 
 	public DefaultSqlModelResolver(ModelManager modelManager, ConditionResolver conditionResolver,
 			SqlFragmentFactory sqlFragmentFactory) {
-		this.modelManager = Objects.requireNonNull(modelManager);
-		this.conditionResolver = Objects.requireNonNull(conditionResolver);
-		this.sqlFragmentFactory = Objects.requireNonNull(sqlFragmentFactory);
-		this.conditionalOperatorResolver = conditionResolver.getSqlFragmentFactory().getDialect()
-				.getConditionalOperatorResolver();
+		this(modelManager, conditionResolver, sqlFragmentFactory, DefaultModelProperty.INSTANCE);
+	}
+
+	public DefaultSqlModelResolver(ModelManager modelManager, ConditionResolver conditionResolver,
+			SqlFragmentFactory sqlFragmentFactory, ModelProperty modelProperty) {
+		super(modelManager, conditionResolver, sqlFragmentFactory, modelProperty);
 	}
 
 	@Override
-	public ConditionSqlFragment resolveToCondition(SqlModel<? extends Modelable> sqlModel, boolean isTableAlias) {
+	public List<Condition> resolveToConditions(SqlModel<? extends Modelable> sqlModel, boolean isTableAlias) {
 		Class<? extends Modelable> modelClass = sqlModel.getModelClass();
 		Modelable model = sqlModel.getModel();
 		isTableAlias = null == modelClass ? false : isTableAlias;// 如果时sqlModel，则不支持使用别名
@@ -104,7 +84,77 @@ public class DefaultSqlModelResolver implements SqlModelResolver {
 		if (conditions.isEmpty()) {
 			return null;
 		}
-		return conditionResolver.resolve(conditions);
+		return conditions;
+	}
+
+	@Override
+	public boolean existCondition(SqlModel<? extends Modelable> sqlModel) {
+		if (CollectionUtils.isNotEmpty(sqlModel.getConditions())) {
+			return true;
+		}
+		if (MapUtils.isNotEmpty(sqlModel.getExtendAttributes())) {
+			return true;
+		}
+		Modelable model = sqlModel.getModel();
+		if (null == model) {
+			return false;
+		}
+		ModelAndTable modelAndTable = modelManager.getModelAndTable(sqlModel.getModelClass());
+		List<FieldAndColumn> fieldAndColumns = modelAndTable.getFieldAndColumns(FieldAndColumnType.ORDINARY,
+				FieldAndColumnType.PRIMARYKEY, FieldAndColumnType.EXTEND);
+		for (FieldAndColumn fieldAndColumn : fieldAndColumns) {
+			Object value = modelProperty.get(model, fieldAndColumn.getFieldName());
+			if (null != value) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public GroupSqlFragment resolveToGroupSqlFramgment(SqlModel<? extends Modelable> sqlModel, boolean isTableAlias) {
+		List<String> groupColumns = sqlModel.getGroupColumns();
+		if (CollectionUtils.isEmpty(groupColumns)) {
+			return null;
+		}
+		Class<? extends Modelable> modelClass = sqlModel.getModelClass();
+		isTableAlias = modelClass != null && isTableAlias;
+		ModelAndTable modelAndTable = isTableAlias ? modelManager.getModelAndTable(modelClass) : null;
+		String tableAlias = isTableAlias ? modelAndTable.getTableAlias() : null;
+		GroupSqlFragment groupSqlFragment = sqlFragmentFactory.createGroupSqlFragment();
+		for (String column : groupColumns) {
+			column = columnAddTableAlias(column, isTableAlias ? tableAlias : null);
+			groupSqlFragment.addGroup(column);
+		}
+		return groupSqlFragment;
+	}
+
+	@Override
+	public boolean existGroup(SqlModel<? extends Modelable> sqlModel) {
+		return CollectionUtils.isNotEmpty(sqlModel.getGroupColumns());
+	}
+
+	@Override
+	public List<Sort> resolveToSorts(SqlModel<? extends Modelable> sqlModel, boolean isTableAlias) {
+		Map<String, String> sortFieldMap = sqlModel.getSortFields();
+		if (sortFieldMap.isEmpty()) {
+			return null;
+		}
+		Class<? extends Modelable> modelClass = sqlModel.getModelClass();
+		isTableAlias = modelClass != null && isTableAlias;
+		ModelAndTable modelAndTable = isTableAlias ? modelManager.getModelAndTable(modelClass) : null;
+		String tableAlias = isTableAlias ? modelAndTable.getTableAlias() : null;
+		List<Sort> sorts = new ArrayList<Sort>(sortFieldMap.size());
+		for (Entry<String, String> entry : sortFieldMap.entrySet()) {
+			String column = columnAddTableAlias(entry.getKey(), isTableAlias ? tableAlias : null);
+			sorts.add(new Sort(column, entry.getValue()));
+		}
+		return sorts;
+	}
+
+	@Override
+	public boolean existSort(SqlModel<? extends Modelable> sqlModel) {
+		return MapUtils.isNotEmpty(sqlModel.getSortFields());
 	}
 
 	/**
@@ -219,64 +269,6 @@ public class DefaultSqlModelResolver implements SqlModelResolver {
 	protected List<Condition> afterResolveToCondition(SqlModel<? extends Modelable> sqlModel, boolean isTableAlias,
 			List<Condition> conditions) {
 		return conditions;
-	}
-
-	@Override
-	public SortSqlFragment resolveToSort(SqlModel<? extends Modelable> sqlModel, boolean isTableAlias) {
-		Map<String, String> sortFieldMap = sqlModel.getSortFields();
-		if (sortFieldMap.isEmpty()) {
-			return null;
-		}
-		Class<? extends Modelable> modelClass = sqlModel.getModelClass();
-		isTableAlias = modelClass != null && isTableAlias;
-		ModelAndTable modelAndTable = isTableAlias ? modelManager.getModelAndTable(modelClass) : null;
-		String tableAlias = isTableAlias ? modelAndTable.getTableAlias() : null;
-		SortSqlFragment sort = sqlFragmentFactory.createSortSqlFragment();
-		for (Entry<String, String> entry : sortFieldMap.entrySet()) {
-			String fieldName = columnAddTableAlias(entry.getKey(), isTableAlias ? tableAlias : null);
-			sort.addSort(fieldName, entry.getValue());
-		}
-		return sort;
-	}
-
-	/**
-	 * 列添加表别名
-	 * 
-	 * @param column     列名
-	 * @param tableAlias 表别名 如果别名为null 直接返回列名
-	 * @return 如果列存在“.”字符则之间返回，否则返回 tableAlias.column
-	 */
-	protected String columnAddTableAlias(String column, @Nullable String tableAlias) {
-		if (StringUtils.isBlank(tableAlias)) {
-			return column;
-		}
-		if (column.contains(DOT)) {
-			return column;
-		}
-		return tableAlias + DOT + column;
-	}
-
-	protected <M extends Modelable, V> V getModelProperty(M model, String property) {
-		return modelProperty.get(model, property);
-	}
-
-	@Override
-	public ModelManager getModelManager() {
-		return this.modelManager;
-	}
-
-	@Override
-	public SqlFragmentFactory getSqlFragmentFactory() {
-		return this.sqlFragmentFactory;
-	}
-
-	@Override
-	public ModelProperty getModelProperty() {
-		return this.modelProperty;
-	}
-
-	public void setModelProperty(ModelProperty modelProperty) {
-		this.modelProperty = modelProperty;
 	}
 
 }

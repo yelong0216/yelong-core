@@ -67,8 +67,10 @@ public class Condition {
 	public Condition(String column, String operator, Object value) {
 		this.column = Strings.requireNonBlank(column);
 		this.operator = Strings.requireNonBlank(operator);
-		this.value = Objects.requireNonNull(value);
-		if (value.getClass().isArray()) {
+		this.value = value;
+		if (null == value) {
+			this.singleValue = true;
+		} else if (value.getClass().isArray()) {
 			// this.value = Arrays.asList(value); value为数组时经常转换不为集合
 			this.value = Arrays.asList((Object[]) value);
 			this.listValue = true;
@@ -101,8 +103,8 @@ public class Condition {
 	public Condition(String column, String operator, Object value, Object secondValue) {
 		this.column = Strings.requireNonBlank(column);
 		this.operator = Strings.requireNonBlank(operator);
-		this.value = Objects.requireNonNull(value);
-		this.secondValue = Objects.requireNonNull(secondValue);
+		this.value = value;
+		this.secondValue = secondValue;
 		this.betweenValue = true;
 	}
 
@@ -112,8 +114,8 @@ public class Condition {
 	public Condition(String column, ConditionalOperator conditionalOperator, Object value, Object secondValue) {
 		this.column = Strings.requireNonBlank(column);
 		this.conditionalOperator = Objects.requireNonNull(conditionalOperator);
-		this.value = Objects.requireNonNull(value);
-		this.secondValue = Objects.requireNonNull(secondValue);
+		this.value = value;
+		this.secondValue = secondValue;
 		this.betweenValue = true;
 	}
 

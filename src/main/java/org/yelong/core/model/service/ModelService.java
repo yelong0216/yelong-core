@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.yelong.core.annotation.Nullable;
 import org.yelong.core.jdbc.sql.condition.ConditionSqlFragment;
+import org.yelong.core.jdbc.sql.group.GroupSqlFragment;
 import org.yelong.core.jdbc.sql.sort.SortSqlFragment;
 import org.yelong.core.model.ModelConfiguration;
 import org.yelong.core.model.ModelNullProperty;
@@ -126,6 +127,10 @@ public interface ModelService extends ModelSqlFragmentExecutor {
 	<M extends Modelable> List<M> findBySqlFragment(Class<M> modelClass,
 			@Nullable ConditionSqlFragment conditionSqlFragment, @Nullable SortSqlFragment sortSqlFragment);
 
+	<M extends Modelable> List<M> findBySqlFragment(Class<M> modelClass,
+			@Nullable ConditionSqlFragment conditionSqlFragment, @Nullable GroupSqlFragment groupSqlFragment,
+			@Nullable SortSqlFragment sortSqlFragment);
+
 	/**
 	 * 根据查询SQL、参数、条件、排序查询模型对象
 	 * 
@@ -139,6 +144,10 @@ public interface ModelService extends ModelSqlFragmentExecutor {
 	 */
 	<M extends Modelable> List<M> findBySqlFragment(Class<M> modelClass, String selectSql, Object[] selectSqlParams,
 			@Nullable ConditionSqlFragment conditionSqlFragment, @Nullable SortSqlFragment sortSqlFragment);
+
+	<M extends Modelable> List<M> findBySqlFragment(Class<M> modelClass, String selectSql, Object[] selectSqlParams,
+			@Nullable ConditionSqlFragment conditionSqlFragment, @Nullable GroupSqlFragment groupSqlFragment,
+			@Nullable SortSqlFragment sortSqlFragment);
 
 	/**
 	 * 根据指定的SQL和参数查询model
@@ -166,6 +175,11 @@ public interface ModelService extends ModelSqlFragmentExecutor {
 	<M extends Modelable> M findFirstBySqlFragment(Class<M> modelClass,
 			@Nullable ConditionSqlFragment conditionSqlFragment, @Nullable SortSqlFragment sortSqlFragment);
 
+	@Nullable
+	<M extends Modelable> M findFirstBySqlFragment(Class<M> modelClass,
+			@Nullable ConditionSqlFragment conditionSqlFragment, @Nullable GroupSqlFragment groupSqlFragment,
+			@Nullable SortSqlFragment sortSqlFragment);
+
 	/**
 	 * 根据查询SQL、参数、条件、排序查询获取第一个模型对象
 	 * 
@@ -180,6 +194,11 @@ public interface ModelService extends ModelSqlFragmentExecutor {
 	@Nullable
 	<M extends Modelable> M findFirstBySqlFragment(Class<M> modelClass, String selectSql, Object[] selectSqlParams,
 			@Nullable ConditionSqlFragment conditionSqlFragment, @Nullable SortSqlFragment sortSqlFragment);
+
+	@Nullable
+	<M extends Modelable> M findFirstBySqlFragment(Class<M> modelClass, String selectSql, Object[] selectSqlParams,
+			@Nullable ConditionSqlFragment conditionSqlFragment, @Nullable GroupSqlFragment groupSqlFragment,
+			@Nullable SortSqlFragment sortSqlFragment);
 
 	/**
 	 * 根据指定的SQL和参数查询第一个记录的model
@@ -207,6 +226,10 @@ public interface ModelService extends ModelSqlFragmentExecutor {
 	<T> List<T> findSingleColumnBySqlFragment(Class<? extends Modelable> modelClass, String selectColumn,
 			@Nullable ConditionSqlFragment conditionSqlFragment, @Nullable SortSqlFragment sortSqlFragment);
 
+	<T> List<T> findSingleColumnBySqlFragment(Class<? extends Modelable> modelClass, String selectColumn,
+			@Nullable ConditionSqlFragment conditionSqlFragment, @Nullable GroupSqlFragment groupSqlFragment,
+			@Nullable SortSqlFragment sortSqlFragment);
+
 	/**
 	 * 查询一列的第一条数据
 	 * 
@@ -217,8 +240,14 @@ public interface ModelService extends ModelSqlFragmentExecutor {
 	 * @param sortSqlFragment      排序
 	 * @return 查询的列的第一条数据
 	 */
+	@Nullable
 	<T> T findFirstSingleColumnBySqlFragment(Class<? extends Modelable> modelClass, String selectColumn,
 			@Nullable ConditionSqlFragment conditionSqlFragment, @Nullable SortSqlFragment sortSqlFragment);
+
+	@Nullable
+	<T> T findFirstSingleColumnBySqlFragment(Class<? extends Modelable> modelClass, String selectColumn,
+			@Nullable ConditionSqlFragment conditionSqlFragment, @Nullable GroupSqlFragment groupSqlFragment,
+			@Nullable SortSqlFragment sortSqlFragment);
 
 	/**
 	 * 根据指定的查询SQL、参数、条件、排序查询第一列数据
@@ -233,6 +262,10 @@ public interface ModelService extends ModelSqlFragmentExecutor {
 	<T> List<T> findSingleColumnBySqlFragment(String selectSql, Object[] selectSqlParams,
 			@Nullable ConditionSqlFragment conditionSqlFragment, @Nullable SortSqlFragment sortSqlFragment);
 
+	<T> List<T> findSingleColumnBySqlFragment(String selectSql, Object[] selectSqlParams,
+			@Nullable ConditionSqlFragment conditionSqlFragment, @Nullable GroupSqlFragment groupSqlFragment,
+			@Nullable SortSqlFragment sortSqlFragment);
+
 	/**
 	 * 根据指定的查询SQL、参数、条件、排序查询第一列的第一条数据
 	 * 
@@ -245,6 +278,10 @@ public interface ModelService extends ModelSqlFragmentExecutor {
 	 */
 	<T> T findFirstSingleColumnBySqlFragment(String selectSql, Object[] selectSqlParams,
 			@Nullable ConditionSqlFragment conditionSqlFragment, @Nullable SortSqlFragment sortSqlFragment);
+
+	<T> T findFirstSingleColumnBySqlFragment(String selectSql, Object[] selectSqlParams,
+			@Nullable ConditionSqlFragment conditionSqlFragment, @Nullable GroupSqlFragment groupSqlFragment,
+			@Nullable SortSqlFragment sortSqlFragment);
 
 	// ==================================================findPage==================================================
 
@@ -263,6 +300,10 @@ public interface ModelService extends ModelSqlFragmentExecutor {
 			@Nullable ConditionSqlFragment conditionSqlFragment, @Nullable SortSqlFragment sortSqlFragment, int pageNum,
 			int pageSize);
 
+	<M extends Modelable> List<M> findPageBySqlFragment(Class<M> modelClass,
+			@Nullable ConditionSqlFragment conditionSqlFragment, @Nullable GroupSqlFragment groupSqlFragment,
+			@Nullable SortSqlFragment sortSqlFragment, int pageNum, int pageSize);
+
 	/**
 	 * 根据指定的查询SQL、参数、条件、排序分页查询
 	 * 
@@ -279,6 +320,10 @@ public interface ModelService extends ModelSqlFragmentExecutor {
 	<M extends Modelable> List<M> findPageBySqlFragment(Class<M> modelClass, String selectSql, Object[] selectSqlParams,
 			@Nullable ConditionSqlFragment conditionSqlFragment, @Nullable SortSqlFragment sortSqlFragment, int pageNum,
 			int pageSize);
+
+	<M extends Modelable> List<M> findPageBySqlFragment(Class<M> modelClass, String selectSql, Object[] selectSqlParams,
+			@Nullable ConditionSqlFragment conditionSqlFragment, @Nullable GroupSqlFragment groupSqlFragment,
+			@Nullable SortSqlFragment sortSqlFragment, int pageNum, int pageSize);
 
 	/**
 	 * 根据指定的SQL和参数分页查询model
