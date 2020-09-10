@@ -844,7 +844,8 @@ public final class ModelCollectors {
 
 				UpdateSqlFragment updateSqlFragment = modelSqlFragmentFactory.createUpdateSqlFragment(modelClass,
 						attributeSqlFragment);
-				ConditionSqlFragment conditionSqlFragment = sqlModelResolver.resolveToConditionSqlFragment(sqlModel);
+				ConditionSqlFragment conditionSqlFragment = sqlModelResolver.resolveToConditionSqlFragment(sqlModel,
+						false);
 				if (null != conditionSqlFragment) {
 					updateSqlFragment.setConditionSqlFragment(conditionSqlFragment);
 				}
