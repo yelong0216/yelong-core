@@ -100,6 +100,8 @@ public class MySqlDataDefinitionLanguage implements DataDefinitionLanguage {
 			// 列是否允许为空
 			if (!column.isAllowNull()) {
 				sqlFragment.add("not null");
+			} else {
+				sqlFragment.add("null");
 			}
 		}
 		return SpliceSqlUtils.spliceSqlFragment(sqlFragment.toArray(new String[] {}));
@@ -196,6 +198,8 @@ public class MySqlDataDefinitionLanguage implements DataDefinitionLanguage {
 			// 列是否允许为空
 			if (!column.isAllowNull()) {
 				sqlFragment.add("not null");
+			} else {
+				sqlFragment.add("null");
 			}
 		}
 		return _exce(sqlFragment);

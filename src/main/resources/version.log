@@ -110,3 +110,7 @@
 	
 	---修改的bug---
 	修改ModelCollectors的Modify方法条件会携带别名的bug
+	
+2020-09-10 -> 2.1.2
+	
+	新增数据库方言获取数据库类型功能的对象（DataType）

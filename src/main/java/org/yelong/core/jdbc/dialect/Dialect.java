@@ -35,8 +35,8 @@ public interface Dialect {
 	 * 
 	 * 例子:
 	 * <p>
-	 * oracle: select ${tableAlias}.* from ${tableName} ${tableAlias} -> 
-	 * 			select student.* from TB_STUDENT student
+	 * oracle: select ${tableAlias}.* from ${tableName} ${tableAlias} -> select
+	 * student.* from TB_STUDENT student
 	 * </p>
 	 * 
 	 * @param tableName  表名称
@@ -51,7 +51,7 @@ public interface Dialect {
 	 * 例子:
 	 * <p>
 	 * oracle: select ${tableAlias}.${column},... from ${tableName} ${tableAlias} ->
-	 * 			select student.stuName , student.age ,... from TB_STUDENT student
+	 * select student.stuName , student.age ,... from TB_STUDENT student
 	 * </p>
 	 * 
 	 * @param tableName  表名
@@ -128,10 +128,16 @@ public interface Dialect {
 
 	/**
 	 * @return 条件运算符解析器
-	 * @since 1.4.0
+	 * @since 2.0.0
 	 */
 	default ConditionalOperatorResolver getConditionalOperatorResolver() {
 		return DefaultConditionalOperatorResolver.INSTANCE;
 	}
-	
+
+	/**
+	 * @return 数据库中的数据类型
+	 * @since 2.1.2
+	 */
+	DataType getDataType();
+
 }

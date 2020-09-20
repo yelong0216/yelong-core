@@ -1,47 +1,23 @@
 /**
  * 
  */
-package org.yelong.core.jdbc.dialect.impl.mysql;
+package org.yelong.core.jdbc.dialect.impl.oracle;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 import org.yelong.core.jdbc.dialect.DataType;
 
 /**
- * mysql数据类型
- * 
- * @since 1.1
+ * @since 2.1.2
  */
-public class MySqlDataType implements DataType {
+public class OracleDataType implements DataType {
 
-	public static final DataType INSTANCE = new MySqlDataType();
-	
-	protected static final List<String> DATA_TYPES = new ArrayList<>();
-
-	static {
-		DATA_TYPES.add("varchar");
-		DATA_TYPES.add("int");
-		DATA_TYPES.add("integer");
-		DATA_TYPES.add("double");
-		DATA_TYPES.add("float");
-		DATA_TYPES.add("timestamp");
-		DATA_TYPES.add("blob");
-		DATA_TYPES.add("text");
-		DATA_TYPES.add("mediumtext");
-		DATA_TYPES.add("longtext");
-	}
-
-	public static List<String> getDataTypes() {
-		return Collections.unmodifiableList(DATA_TYPES);
-	}
+	public static final DataType INSTANCE = new OracleDataType();
 
 	@Override
 	public Class<?> getDefaultMappingJavaType(String dataType) {
 		switch (dataType) {
-		case "varchar":
+		case "varchar2":
 		case "text":
 		case "mediumtext":
 		case "longtext":
@@ -67,12 +43,12 @@ public class MySqlDataType implements DataType {
 		case "java.lang.Stort":
 		case "java.lang.Integer":
 		case "java.lang.Long":
-			return "int";
+			return "integer";
 		case "java.lang.Float":
 		case "java.lang.Double":
 			return "double";
 		case "java.lang.String":
-			return "varchar";
+			return "varchar2";
 		case "java.util.Date":
 			return "timestamp";
 		default:
