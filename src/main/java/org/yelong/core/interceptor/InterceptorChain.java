@@ -29,7 +29,7 @@ public class InterceptorChain {
 		interceptors.add(interceptor);
 	}
 
-	public void addInterceptor(List<Interceptor> interceptors) {
+	public void addInterceptor(List<? extends Interceptor> interceptors) {
 		this.interceptors.addAll(interceptors);
 	}
 
