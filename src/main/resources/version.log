@@ -118,3 +118,7 @@
 2020-09-21 -> 2.1.3
 	
 	新增ModelServiceInterceptor接口
+
+2020-09-21 -> 2.1.4
+	
+	MySqlDataType新增数据类型的解析

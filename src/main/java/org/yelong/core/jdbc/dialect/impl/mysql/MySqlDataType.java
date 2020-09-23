@@ -50,7 +50,8 @@ public class MySqlDataType implements DataType {
 		case "integer":
 			return Integer.class;
 		case "double":
-		case "float":
+		case "float": 
+		case "decimal":
 			return Double.class;
 		case "timestamp":
 			return Date.class;

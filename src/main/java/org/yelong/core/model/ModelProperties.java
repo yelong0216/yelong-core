@@ -25,7 +25,7 @@ public class ModelProperties {
 	/**
 	 * 修改时是否验证模型
 	 * 
-	 * @see ModelService#modifyById(Modelable) 等修改方法
+	 * @see ModelService#modifyBySqlFragment(Modelable) 等修改方法
 	 * @see ModelValidator
 	 */
 	private boolean modifyValidateModel = true;

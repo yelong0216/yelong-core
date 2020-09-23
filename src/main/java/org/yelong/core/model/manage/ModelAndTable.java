@@ -35,6 +35,11 @@ public interface ModelAndTable {
 		return getModelClass().getName();
 	}
 
+	/**
+	 * 是否是一个视图
+	 * 
+	 * @return <code>true</code>是一个视图
+	 */
 	boolean isView();
 
 	/**
@@ -62,6 +67,12 @@ public interface ModelAndTable {
 
 	// ==================================================FieldAndColumn==================================================
 
+	/**
+	 * 获取指定类型的字段列。如果不指定类型则返回所有的字段列
+	 * 
+	 * @param fieldAndColumnTypes 字段列类型
+	 * @return 指定类型的字段列集合
+	 */
 	List<FieldAndColumn> getFieldAndColumns(@Nullable FieldAndColumnType... fieldAndColumnTypes);
 
 	/**
