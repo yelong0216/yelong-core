@@ -119,6 +119,7 @@
 	
 	新增ModelServiceInterceptor接口
 
-2020-09-21 -> 2.1.4
+2020-09-23 -> 2.1.4
 	
 	MySqlDataType新增数据类型的解析
+	新增Delete注解，可以设置模型的删除SQL

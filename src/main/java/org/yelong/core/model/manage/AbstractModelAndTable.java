@@ -27,6 +27,21 @@ public abstract class AbstractModelAndTable implements ModelAndTable {
 	private SelectSqlColumnMode selectSqlColumnMode;
 
 	/**
+	 * @since 2.1.4
+	 */
+	private String selectSql;
+
+	/**
+	 * @since 2.1.4
+	 */
+	private String deleteSql;
+
+	/**
+	 * @since 2.1.4
+	 */
+	private String countSql;
+
+	/**
 	 * 所有字段名称与字段列的映射
 	 */
 	private List<FieldAndColumn> fieldAndColumns;
@@ -77,6 +92,33 @@ public abstract class AbstractModelAndTable implements ModelAndTable {
 
 	public void setView(boolean view) {
 		this.view = view;
+	}
+
+	@Override
+	public String getSelectSql() {
+		return selectSql;
+	}
+
+	public void setSelectSql(String selectSql) {
+		this.selectSql = selectSql;
+	}
+
+	@Override
+	public String getDeleteSql() {
+		return deleteSql;
+	}
+
+	public void setDeleteSql(String deleteSql) {
+		this.deleteSql = deleteSql;
+	}
+
+	@Override
+	public String getCountSql() {
+		return countSql;
+	}
+
+	public void setCountSql(String countSql) {
+		this.countSql = countSql;
 	}
 
 	@Override

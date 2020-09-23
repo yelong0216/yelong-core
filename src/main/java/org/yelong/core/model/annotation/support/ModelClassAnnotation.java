@@ -13,6 +13,7 @@ import org.yelong.commons.support.Entry;
 import org.yelong.core.annotation.Nullable;
 import org.yelong.core.model.Modelable;
 import org.yelong.core.model.annotation.Count;
+import org.yelong.core.model.annotation.Delete;
 import org.yelong.core.model.annotation.ExtendColumns;
 import org.yelong.core.model.annotation.ExtendTable;
 import org.yelong.core.model.annotation.FACWrapperAppointMap;
@@ -41,6 +42,9 @@ public class ModelClassAnnotation {
 	private final Select select;
 
 	@Nullable
+	private final Delete delete;
+
+	@Nullable
 	private final Count count;
 
 	@Nullable
@@ -65,6 +69,7 @@ public class ModelClassAnnotation {
 		this.modelClass = Objects.requireNonNull(modelClass);
 		this.table = AnnotationUtilsE.getAnnotation(modelClass, Table.class, true);
 		this.select = AnnotationUtilsE.getAnnotation(modelClass, Select.class, true);
+		this.delete = AnnotationUtilsE.getAnnotation(modelClass, Delete.class, true);
 		this.count = AnnotationUtilsE.getAnnotation(modelClass, Count.class, true);
 		this.transientsEntry = AnnotationUtilsE.getAnnotationEntry(modelClass, Transients.class, true);
 		this.primaryKeysEntry = AnnotationUtilsE.getAnnotationEntry(modelClass, PrimaryKeys.class, true);
@@ -123,6 +128,14 @@ public class ModelClassAnnotation {
 	}
 
 	/**
+	 * @return delete sql
+	 */
+	@Nullable
+	public String getDeleteSql() {
+		return null == delete ? null : delete.value();
+	}
+
+	/**
 	 * @return 查询列模式
 	 */
 	@Nullable
@@ -148,6 +161,11 @@ public class ModelClassAnnotation {
 		return count;
 	}
 
+	@Nullable
+	public Delete getDelete() {
+		return delete;
+	}
+	
 	@Nullable
 	public Entry<Class<?>, Transients> getTransientsEntry() {
 		return transientsEntry;

@@ -45,6 +45,7 @@ public interface ModelAndTable {
 	/**
 	 * @return model 对应的表名
 	 */
+	@Nullable
 	String getTableName();
 
 	/**
@@ -64,6 +65,29 @@ public interface ModelAndTable {
 	 */
 	@Nullable
 	SelectSqlColumnMode getSelectSqlColumnMode();
+
+	// ==================================================SQL==================================================
+
+	/**
+	 * @return 指定查询该模型的SQL
+	 * @since 2.1.4
+	 */
+	@Nullable
+	String getSelectSql();
+
+	/**
+	 * @return 指定删除该模型的SQL
+	 * @since 2.1.4
+	 */
+	@Nullable
+	String getDeleteSql();
+
+	/**
+	 * @return 指定查询该模型记录数的SQL
+	 * @since 2.1.4
+	 */
+	@Nullable
+	String getCountSql();
 
 	// ==================================================FieldAndColumn==================================================
 

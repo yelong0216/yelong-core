@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.yelong.commons.lang.annotation.AnnotationUtilsE;
 import org.yelong.core.jdbc.sql.BoundSql;
 import org.yelong.core.jdbc.sql.attribute.AttributeSqlFragment;
 import org.yelong.core.jdbc.sql.count.CountSqlParser;
@@ -23,8 +22,6 @@ import org.yelong.core.jdbc.sql.factory.SqlFragmentFactory;
 import org.yelong.core.jdbc.sql.factory.support.SqlFragmentFactoryWrapper;
 import org.yelong.core.model.Modelable;
 import org.yelong.core.model.Models;
-import org.yelong.core.model.annotation.Count;
-import org.yelong.core.model.annotation.Select;
 import org.yelong.core.model.manage.FieldAndColumn;
 import org.yelong.core.model.manage.ModelAndTable;
 import org.yelong.core.model.manage.ModelManager;
@@ -60,8 +57,11 @@ public class DefaultModelSqlFragmentFactory extends SqlFragmentFactoryWrapper im
 	@Override
 	public DeleteSqlFragment createDeleteSqlFragment(Class<? extends Modelable> modelClass) {
 		ModelAndTable modelAndTable = modelManager.getModelAndTable(modelClass);
-		String sql = getDialect().getBaseDeleteSql(modelAndTable.getTableName(), modelAndTable.getTableAlias());
-		return createDeleteSqlFragment(sql);
+		String deleteSql = modelAndTable.getDeleteSql();
+		if(StringUtils.isBlank(deleteSql)) {
+			deleteSql = getDialect().getBaseDeleteSql(modelAndTable.getTableName(), modelAndTable.getTableAlias());
+		}
+		return createDeleteSqlFragment(deleteSql);
 	}
 
 	@Override
@@ -76,11 +76,7 @@ public class DefaultModelSqlFragmentFactory extends SqlFragmentFactoryWrapper im
 			SelectSqlColumnMode selectSqlColumnMode, boolean force) {
 		Objects.requireNonNull(selectSqlColumnMode);
 		ModelAndTable modelAndTable = modelManager.getModelAndTable(modelClass);
-		String selectSql = null;
-		Select select = AnnotationUtilsE.getAnnotation(modelClass, Select.class, true);
-		if (null != select) {
-			selectSql = select.value();
-		}
+		String selectSql = modelAndTable.getSelectSql();
 		if (StringUtils.isEmpty(selectSql)) {
 			selectSql = CustomModelSql.getModelSql(modelClass, OperationType.SELECT, getDialect().getName());
 		}
@@ -164,13 +160,9 @@ public class DefaultModelSqlFragmentFactory extends SqlFragmentFactoryWrapper im
 
 	@Override
 	public CountSqlFragment createCountSqlFragment(Class<? extends Modelable> modelClass) {
-		String countSql = null;
+		ModelAndTable modelAndTable = modelManager.getModelAndTable(modelClass);
+		String countSql = modelAndTable.getCountSql();
 		Object[] params = {};
-
-		Count count = modelClass.isAnnotationPresent(Count.class) ? modelClass.getAnnotation(Count.class) : null;
-		if (null != count) {
-			countSql = count.value();
-		}
 		if (StringUtils.isEmpty(countSql)) {
 			SelectSqlFragment selectSqlFragment = createSelectSqlFragment(modelClass);
 			BoundSql boundSql = selectSqlFragment.getBoundSql();

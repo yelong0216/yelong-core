@@ -58,6 +58,10 @@ public class ModelManagerTest {
 		System.out.println(fieldAndColumns);
 		FieldAndColumn onlyPrimaryKey = modelAndTable.getOnlyPrimaryKey();
 		System.out.println(onlyPrimaryKey.getColumn());
+		System.out.println(modelAndTable.getCountSql());
+		System.out.println(modelAndTable.getSelectSql());
+		System.out.println(modelAndTable.getDeleteSql());
+		System.out.println(modelAndTable.getSelectSqlColumnMode());
 	}
 	
 	@Test

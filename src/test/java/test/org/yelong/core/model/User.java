@@ -4,6 +4,7 @@
 package test.org.yelong.core.model;
 
 import org.yelong.core.model.annotation.Column;
+import org.yelong.core.model.annotation.Delete;
 import org.yelong.core.model.annotation.FACWrapperAppoint;
 import org.yelong.core.model.annotation.FACWrapperAppointMap;
 import org.yelong.core.model.annotation.FACWrapperAppoints;
@@ -18,6 +19,9 @@ import test.org.yelong.core.model.annotation.UserPasswordFieldAndColumn;
 @Transients("creatorRealName")
 @FACWrapperAppoints({
 		@FACWrapperAppointMap(fieldName = "id", appoint = @FACWrapperAppoint(UserIdFieldAndColumn.class)) })
+@Delete("delete co_user,co_user_role\r\n" + 
+		"from co_user\r\n" + 
+		"join co_user_role on co_user.id = co_user_role.userId")
 public class User extends BaseModel<User> {
 
 	private static final long serialVersionUID = -4675897263388346958L;

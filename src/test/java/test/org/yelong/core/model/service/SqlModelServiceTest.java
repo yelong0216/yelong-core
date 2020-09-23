@@ -61,4 +61,12 @@ public class SqlModelServiceTest {
 		System.out.println(users);
 	}
 	
+	@Test
+	public void remove() {
+		SqlModel<User> sqlModel = new SqlModel<User>(User.class);
+		sqlModel.addCondition("co_user.username", "=", "123");
+		Integer result = modelService.removeBySqlModel(User.class, sqlModel);
+		System.out.println(result);
+	}
+	
 }

@@ -36,7 +36,7 @@ public class ModelAndTableWrapper implements ModelAndTable {
 	public boolean isView() {
 		return getModelAndTable().isView();
 	}
-	
+
 	@Override
 	public String getTableName() {
 		return getModelAndTable().getTableName();
@@ -50,6 +50,21 @@ public class ModelAndTableWrapper implements ModelAndTable {
 	@Override
 	public String getTableDesc() {
 		return getModelAndTable().getTableDesc();
+	}
+
+	@Override
+	public String getSelectSql() {
+		return getModelAndTable().getSelectSql();
+	}
+
+	@Override
+	public String getDeleteSql() {
+		return getModelAndTable().getDeleteSql();
+	}
+
+	@Override
+	public String getCountSql() {
+		return getModelAndTable().getCountSql();
 	}
 
 	@Override

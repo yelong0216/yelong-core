@@ -29,6 +29,9 @@ public final class ModelClassAnnotations {
 		modelAndTable.setTableDesc(modelClassAnnotation.getTableDese());
 		modelAndTable.setView(modelClassAnnotation.isView());
 		modelAndTable.setSelectSqlColumnMode(modelClassAnnotation.getSelectSqlColumnMode());
+		modelAndTable.setSelectSql(modelClassAnnotation.getSelectSql());
+		modelAndTable.setDeleteSql(modelClassAnnotation.getDeleteSql());
+		modelAndTable.setCountSql(modelClassAnnotation.getCountSql());
 	}
 
 	/**
