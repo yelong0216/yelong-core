@@ -123,3 +123,8 @@
 	
 	MySqlDataType新增数据类型的解析
 	新增Delete注解，可以设置模型的删除SQL
+	
+2020-10-11 -> 2.1.5
+
+	添加数据库备份功能
+	修改function、collector拦截器的实现接口

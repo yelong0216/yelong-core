@@ -4,6 +4,7 @@
 package org.yelong.core.jdbc.dialect.impl.oracle;
 
 import org.yelong.core.jdbc.BaseDataBaseOperation;
+import org.yelong.core.jdbc.database.backup.DatabaseBackup;
 import org.yelong.core.jdbc.dialect.AbstractDialect;
 import org.yelong.core.jdbc.dialect.DataType;
 import org.yelong.core.jdbc.dialect.DialectType;
@@ -44,4 +45,9 @@ public class OracleDialect extends AbstractDialect {
 		return OracleDataType.INSTANCE;
 	}
 
+	@Override
+	public DatabaseBackup getDatabaseBackup() {
+		throw new UnsupportedOperationException();
+	}
+	
 }

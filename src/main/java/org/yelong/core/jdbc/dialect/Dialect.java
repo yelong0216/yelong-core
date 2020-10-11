@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.yelong.core.annotation.Nullable;
 import org.yelong.core.jdbc.BaseDataBaseOperation;
+import org.yelong.core.jdbc.database.backup.DatabaseBackup;
 import org.yelong.core.jdbc.dialect.impl.DefaultConditionalOperatorResolver;
 import org.yelong.core.jdbc.sql.BoundSql;
 import org.yelong.core.jdbc.sql.condition.ConditionalOperatorResolver;
@@ -140,4 +141,10 @@ public interface Dialect {
 	 */
 	DataType getDataType();
 
+	/**
+	 * @return 数据库备份
+	 * @since 2.1.5
+	 */
+	DatabaseBackup getDatabaseBackup();
+	
 }

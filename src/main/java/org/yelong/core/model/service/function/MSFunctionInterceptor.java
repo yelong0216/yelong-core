@@ -10,6 +10,7 @@ import org.yelong.core.interceptor.Intercepts;
 import org.yelong.core.interceptor.Invocation;
 import org.yelong.core.interceptor.Signature;
 import org.yelong.core.model.collector.ModelCollector;
+import org.yelong.core.model.service.ModelServiceInterceptor;
 import org.yelong.core.model.service.SqlModelService;
 
 /**
@@ -24,7 +25,7 @@ import org.yelong.core.model.service.SqlModelService;
 @Intercepts({
 		@Signature(type = SqlModelService.class, method = MSFunctionInterceptor.DO_FUNCTION_METHOD_NAME, args = MSFunction.class),
 		@Signature(type = SqlModelService.class, method = MSFunctionInterceptor.DO_CONSUMER_METHOD_NAME, args = MSConsumer.class) })
-public abstract class MSFunctionInterceptor implements Interceptor {
+public abstract class MSFunctionInterceptor implements ModelServiceInterceptor {
 
 	protected static final String DO_FUNCTION_METHOD_NAME = "doFunction";
 
@@ -43,7 +44,7 @@ public abstract class MSFunctionInterceptor implements Interceptor {
 			consumer.accept(getInterceptorWrapAfterSqlModelService());
 			return null;
 		}
-		throw new UnsupportedOperationException("");
+		throw new UnsupportedOperationException();
 	}
 
 	/**

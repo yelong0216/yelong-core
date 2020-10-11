@@ -7,6 +7,7 @@ import org.yelong.core.interceptor.Interceptor;
 import org.yelong.core.interceptor.Intercepts;
 import org.yelong.core.interceptor.Invocation;
 import org.yelong.core.interceptor.Signature;
+import org.yelong.core.model.service.ModelServiceInterceptor;
 import org.yelong.core.model.service.SqlModelService;
 
 /**
@@ -19,7 +20,7 @@ import org.yelong.core.model.service.SqlModelService;
  * @since 1.3
  */
 @Intercepts({ @Signature(type = SqlModelService.class, method = "collect", args = ModelCollector.class) })
-public abstract class ModelServiceCollectInterceptor implements Interceptor {
+public abstract class ModelServiceCollectInterceptor implements ModelServiceInterceptor {
 
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {

@@ -9,12 +9,12 @@ import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.yelong.commons.io.FileUtilsE;
-import org.yelong.core.interceptor.Interceptor;
 import org.yelong.core.interceptor.Intercepts;
 import org.yelong.core.interceptor.Invocation;
 import org.yelong.core.interceptor.Signature;
 import org.yelong.core.jdbc.sql.condition.ConditionSqlFragment;
 import org.yelong.core.model.service.ModelService;
+import org.yelong.core.model.service.ModelServiceInterceptor;
 import org.yelong.core.model.service.SqlModelService;
 import org.yelong.core.model.sql.SqlModel;
 
@@ -25,7 +25,7 @@ import org.yelong.core.model.sql.SqlModel;
 		@Signature(type = ModelService.class, method = "removeBySqlFragment", args = { Class.class,
 				ConditionSqlFragment.class }),
 		@Signature(type = SqlModelService.class, method = "removeBySqlModel", args = { Class.class, SqlModel.class }) })
-public class RemoveFileModelInterceptor implements Interceptor {
+public class RemoveFileModelInterceptor implements ModelServiceInterceptor {
 
 	public static final String removeBySqlFragmentMethodName = "removeBySqlFragment";
 

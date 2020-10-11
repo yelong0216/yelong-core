@@ -5,6 +5,7 @@ package org.yelong.core.jdbc.dialect.impl.mysql;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.yelong.core.jdbc.BaseDataBaseOperation;
+import org.yelong.core.jdbc.database.backup.DatabaseBackup;
 import org.yelong.core.jdbc.dialect.AbstractDialect;
 import org.yelong.core.jdbc.dialect.DataType;
 import org.yelong.core.jdbc.dialect.DialectType;
@@ -62,6 +63,11 @@ public class MySqlDialect extends AbstractDialect {
 	@Override
 	public DataType getDataType() {
 		return MySqlDataType.INSTANCE;
+	}
+
+	@Override
+	public DatabaseBackup getDatabaseBackup() {
+		return MysqlDatabaseBackup.INSTANCE;
 	}
 
 }
