@@ -25,36 +25,36 @@ public interface SqlFragmentFactory {
 	// ==================================================attribute==================================================
 
 	/**
-	 * @return 属性sql
+	 * @return 属性SQL
 	 */
 	AttributeSqlFragment createAttributeSqlFragment();
 
 	// ==================================================insert==================================================
 
 	/**
-	 * 创建insert sql
+	 * 创建insert SQL
 	 * 
 	 * @param tableName            表名
-	 * @param attributeSqlFragment 属性sql
-	 * @return insert sql
+	 * @param attributeSqlFragment 属性SQL
+	 * @return insert SQL
 	 */
 	InsertSqlFragment createInsertSqlFragment(String tableName, AttributeSqlFragment attributeSqlFragment);
 
 	/**
-	 * 创建insert sql
+	 * 创建insert SQL
 	 * 
-	 * @param sql    sql
+	 * @param sql    SQL
 	 * @param params 参数
-	 * @return insert sql
+	 * @return insert SQL
 	 */
 	InsertSqlFragment createInsertSqlFragment(String insertSql, Object... params);
 
 	// ==================================================delete==================================================
 
 	/**
-	 * 创建delete sql
+	 * 创建delete SQL
 	 * 
-	 * @param sql    sql
+	 * @param sql    SQL
 	 * @param params 参数
 	 * @return delete sql
 	 */
@@ -63,40 +63,40 @@ public interface SqlFragmentFactory {
 	// ==================================================update==================================================
 
 	/**
-	 * 创建update sql
+	 * 创建update SQL
 	 * 
-	 * @param sql    sql
+	 * @param sql    SQL
 	 * @param params 参数
-	 * @return update sql
+	 * @return update SQL
 	 */
 	UpdateSqlFragment createUpdateSqlFragment(String updateSql, Object... params);
 
 	/**
-	 * 创建update sql
+	 * 创建update SQL
 	 * 
-	 * @param tableName            表明
-	 * @param attributeSqlFragment 属性sql
-	 * @return update sql
+	 * @param tableName            表名
+	 * @param attributeSqlFragment 属性SQL
+	 * @return update SQL
 	 */
 	UpdateSqlFragment createUpdateSqlFragment(String tableName, AttributeSqlFragment attributeSqlFragment);
 
 	// ==================================================select==================================================
 
 	/**
-	 * 创建select sql
+	 * 创建select SQL
 	 * 
-	 * @param sql    sql
+	 * @param sql    SQL
 	 * @param params 参数
-	 * @return select sql
+	 * @return select SQL
 	 */
 	SelectSqlFragment createSelectSqlFragment(String selectSql, Object... params);
 
 	/**
-	 * 创建count sql
+	 * 创建count SQL
 	 * 
-	 * @param sql    sql
+	 * @param sql    SQL
 	 * @param params 参数
-	 * @return count sql
+	 * @return count SQL
 	 */
 	CountSqlFragment createCountSqlFragment(String countSql, Object... params);
 
@@ -105,7 +105,7 @@ public interface SqlFragmentFactory {
 	/**
 	 * 创建简单的条件
 	 * 
-	 * @param conditionSqlFragment 条件sql
+	 * @param conditionSqlFragment 条件SQL
 	 * @param params               参数
 	 * @return 简单的条件
 	 */

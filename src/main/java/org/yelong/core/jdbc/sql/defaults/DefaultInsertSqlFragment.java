@@ -20,9 +20,6 @@ public class DefaultInsertSqlFragment extends AbstractSqlFragmentExecutable impl
 	@Nullable
 	private AttributeSqlFragment attributeSqlFragment;
 
-	@Nullable
-	private BoundSql attributeBoundSql;
-
 	private String tableName;
 
 	public DefaultInsertSqlFragment(Dialect dialect, String tableName, AttributeSqlFragment attributeSqlFragment) {
@@ -31,7 +28,6 @@ public class DefaultInsertSqlFragment extends AbstractSqlFragmentExecutable impl
 		Objects.requireNonNull(attributeSqlFragment, "未发现列！");
 		this.tableName = tableName;
 		this.attributeSqlFragment = attributeSqlFragment;
-		this.attributeBoundSql = attributeSqlFragment.getBoundSql();
 	}
 
 	public DefaultInsertSqlFragment(Dialect dialect, String sql, Object... params) {
@@ -43,7 +39,7 @@ public class DefaultInsertSqlFragment extends AbstractSqlFragmentExecutable impl
 		if (existBaseSql()) {
 			return super.getBaseSql();
 		}
-		return "insert into " + tableName + " " + attributeBoundSql.getSql();
+		return "insert into " + tableName + " " + getAttributeBoundSql().getSql();
 	}
 
 	@Override
@@ -51,12 +47,16 @@ public class DefaultInsertSqlFragment extends AbstractSqlFragmentExecutable impl
 		if (existBaseSql()) {
 			return super.getBaseParams();
 		}
-		return attributeBoundSql.getParams();
+		return getAttributeBoundSql().getParams();
 	}
 
 	@Override
 	public AttributeSqlFragment getAttributeSqlFragment() {
 		return this.attributeSqlFragment;
+	}
+
+	public BoundSql getAttributeBoundSql() {
+		return getAttributeSqlFragment().getBoundSql();
 	}
 
 }

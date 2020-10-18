@@ -23,16 +23,16 @@ import org.yelong.core.jdbc.sql.function.DatabaseFunction;
 public interface Dialect {
 
 	/**
-	 * 获取基础的delete sql
+	 * 获取基础的delete SQL
 	 * 
 	 * @param tableName  表名称
 	 * @param tableAlias 表别名
-	 * @return delete sql
+	 * @return delete SQL
 	 */
 	String getBaseDeleteSql(String tableName, String tableAlias);
 
 	/**
-	 * 获取基础的select sql。 列使用 “*”
+	 * 获取基础的select SQL。 列使用 “*”
 	 * 
 	 * 例子:
 	 * <p>
@@ -42,7 +42,7 @@ public interface Dialect {
 	 * 
 	 * @param tableName  表名称
 	 * @param tableAlias 表别名
-	 * @return select sql
+	 * @return select SQL
 	 */
 	String getBaseSelectSql(String tableName, String tableAlias);
 
@@ -58,16 +58,24 @@ public interface Dialect {
 	 * @param tableName  表名
 	 * @param tableAlias 表别名
 	 * @param columns    需要查询的列名
-	 * @return select sql
+	 * @return select SQL
 	 */
 	String getBaseSelectSql(String tableName, String tableAlias, List<String> columns);
 
 	/**
-	 * 获取基础的 count sql
+	 * 获取基础的 count SQL
+	 * 
+	 * @param tableName  表名称
+	 * @return count SQL
+	 */
+	String getBaseCountSql(String tableName);
+	
+	/**
+	 * 获取基础的 count SQL
 	 * 
 	 * @param tableName  表名称
 	 * @param tableAlias 表别名
-	 * @return count sql
+	 * @return count SQL
 	 */
 	String getBaseCountSql(String tableName, String tableAlias);
 

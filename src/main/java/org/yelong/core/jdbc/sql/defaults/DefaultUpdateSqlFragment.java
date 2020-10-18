@@ -20,8 +20,6 @@ public class DefaultUpdateSqlFragment extends AbstractSqlFragmentExecutable impl
 
 	private AttributeSqlFragment attributeSqlFragment;
 
-	private BoundSql attributeBoundSql;
-
 	private ConditionSqlFragment conditionSqlFragment;
 
 	private BoundSql conditionBoundSql;
@@ -34,7 +32,6 @@ public class DefaultUpdateSqlFragment extends AbstractSqlFragmentExecutable impl
 		Objects.requireNonNull(attributeSqlFragment, "未发现列！");
 		this.tableName = tableName;
 		this.attributeSqlFragment = attributeSqlFragment;
-		this.attributeBoundSql = attributeSqlFragment.getBoundSql();
 	}
 
 	public DefaultUpdateSqlFragment(Dialect dialect, String sql, Object... params) {
@@ -47,7 +44,7 @@ public class DefaultUpdateSqlFragment extends AbstractSqlFragmentExecutable impl
 		if (existBaseSql()) {
 			sql = getBaseSql();
 		} else {
-			sql = " update " + tableName + " set " + attributeBoundSql.getSql();
+			sql = " update " + tableName + " set " + getAttributeBoundSql().getSql();
 		}
 		if (existConditionSqlFragment()) {
 			sql = sql + " " + conditionBoundSql.getSql();
@@ -61,7 +58,7 @@ public class DefaultUpdateSqlFragment extends AbstractSqlFragmentExecutable impl
 		if (existBaseSql()) {
 			attrParams = super.getBaseParams();
 		} else {
-			attrParams = attributeBoundSql.getParams();
+			attrParams = getAttributeBoundSql().getParams();
 		}
 		if (!existConditionSqlFragment()) {
 			return attrParams;
@@ -73,6 +70,10 @@ public class DefaultUpdateSqlFragment extends AbstractSqlFragmentExecutable impl
 	@Override
 	public AttributeSqlFragment getAttributeSqlFragment() {
 		return this.attributeSqlFragment;
+	}
+	
+	public BoundSql getAttributeBoundSql() {
+		return getAttributeSqlFragment().getBoundSql();
 	}
 
 	@Override

@@ -128,3 +128,7 @@
 
 	添加数据库备份功能
 	修改function、collector拦截器的实现接口
+	
+2020-10-18 -> 2.1.6
+
+	添加org.yelong.core.data包。实现数据类型转换

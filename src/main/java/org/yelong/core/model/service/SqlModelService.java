@@ -207,14 +207,14 @@ public interface SqlModelService extends ModelService {
 	/**
 	 * 根据指定的查询SQL、参数、SqlModel的条件、排序部分进行分页查询
 	 * 
-	 * @param <M> model type
-	 * @param modelClass model class
-	 * @param selectSql 查询SQL
+	 * @param <M>             model type
+	 * @param modelClass      model class
+	 * @param selectSql       查询SQL
 	 * @param selectSqlParams 查询SQL参数
-	 * @param sqlModel SqlModel取条件、排序部分
-	 * @param sqlModel   SqlModel取条件、排序部分
-	 * @param pageNum    页码
-	 * @param pageSize   页面大小
+	 * @param sqlModel        SqlModel取条件、排序部分
+	 * @param sqlModel        SqlModel取条件、排序部分
+	 * @param pageNum         页码
+	 * @param pageSize        页面大小
 	 * @return 模型对象集合
 	 */
 	<M extends Modelable> List<M> findPageBySqlModel(Class<M> modelClass, String selectSql, Object[] selectSqlParams,
@@ -318,8 +318,8 @@ public interface SqlModelService extends ModelService {
 	 * 
 	 * <pre>
 	 * modelService.doOperation(() -> {
-	 * 	modelService
-	 * 			.collect(ModelCollectors.modifySingleColumnByOnlyPrimaryKeyEQ(User.class, "username", "彭飞", "12456"));
+	 * 	modelService.collect(
+	 * 			ModelCollectors.modifySingleColumnByOnlyPrimaryKeyEQ(User.class, "username", "彭飞", "12456"));
 	 * 	modelService.saveSelective(model);
 	 * });
 	 * </pre>
@@ -339,8 +339,8 @@ public interface SqlModelService extends ModelService {
 	 * 
 	 * <pre>
 	 * Boolean saveResult = modelService.doSupplier(() -> {
-	 * 	modelService
-	 * 			.collect(ModelCollectors.modifySingleColumnByOnlyPrimaryKeyEQ(User.class, "username", "彭飞", "12456"));
+	 * 	modelService.collect(
+	 * 			ModelCollectors.modifySingleColumnByOnlyPrimaryKeyEQ(User.class, "username", "彭飞", "12456"));
 	 * 	return modelService.saveSelective(model);
 	 * });
 	 * </pre>
@@ -348,6 +348,7 @@ public interface SqlModelService extends ModelService {
 	 * @param <R>      return type
 	 * @param supplier supplier
 	 * @return a result
+	 * @throws Exception 操作异常
 	 * @see MSSupplier
 	 * @since 1.3.0
 	 */

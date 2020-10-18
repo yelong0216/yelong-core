@@ -32,6 +32,11 @@ public abstract class AbstractAttributeSqlFragment extends AbstractSqlFragment i
 	}
 
 	@Override
+	public void addAttrs(Map<String, Object> attrs) {
+		attributes.putAll(attrs);
+	}
+
+	@Override
 	public boolean addAttrByValueNotNull(String attrName, Object value) {
 		if (null == value) {
 			return false;
@@ -43,6 +48,11 @@ public abstract class AbstractAttributeSqlFragment extends AbstractSqlFragment i
 	@Override
 	public boolean removeAttr(String attrName) {
 		return attributes.remove(attrName) != null;
+	}
+
+	@Override
+	public Object getAttr(String attrName) {
+		return attributes.get(attrName);
 	}
 
 	@Override

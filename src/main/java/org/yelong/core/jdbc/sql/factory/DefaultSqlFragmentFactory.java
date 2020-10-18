@@ -3,6 +3,7 @@
  */
 package org.yelong.core.jdbc.sql.factory;
 
+import org.yelong.core.jdbc.DataBaseOperationType;
 import org.yelong.core.jdbc.dialect.Dialect;
 import org.yelong.core.jdbc.sql.attribute.AttributeSqlFragment;
 import org.yelong.core.jdbc.sql.condition.combination.CombinationConditionSqlFragment;
@@ -68,6 +69,7 @@ public class DefaultSqlFragmentFactory implements SqlFragmentFactory {
 
 	@Override
 	public InsertSqlFragment createInsertSqlFragment(String tableName, AttributeSqlFragment attributeSqlFragment) {
+		attributeSqlFragment.setDataBaseOperationType(DataBaseOperationType.INSERT);
 		return new DefaultInsertSqlFragment(dialect, tableName, attributeSqlFragment);
 	}
 
@@ -88,6 +90,7 @@ public class DefaultSqlFragmentFactory implements SqlFragmentFactory {
 
 	@Override
 	public UpdateSqlFragment createUpdateSqlFragment(String tableName, AttributeSqlFragment attributeSqlFragment) {
+		attributeSqlFragment.setDataBaseOperationType(DataBaseOperationType.UPDATE);
 		return new DefaultUpdateSqlFragment(dialect, tableName, attributeSqlFragment);
 	}
 

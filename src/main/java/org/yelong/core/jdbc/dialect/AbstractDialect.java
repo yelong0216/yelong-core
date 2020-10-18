@@ -25,6 +25,12 @@ public abstract class AbstractDialect implements Dialect {
 	protected SqlFragmentFactory sqlFragmentFactory;
 
 	@Override
+	public String getBaseCountSql(String tableName) {
+		Strings.requireNonBlank(tableName);
+		return " select count(0) from " + tableName;
+	}
+
+	@Override
 	public String getBaseCountSql(String tableName, String tableAlias) {
 		Strings.requireNonBlank(tableName);
 		Strings.requireNonBlank(tableAlias);

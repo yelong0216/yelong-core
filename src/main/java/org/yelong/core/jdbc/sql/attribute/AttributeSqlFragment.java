@@ -17,6 +17,8 @@ import org.yelong.core.jdbc.sql.SqlFragment;
  */
 public interface AttributeSqlFragment extends SqlFragment {
 
+	// ==================================================添加属性==================================================
+
 	/**
 	 * 添加属性<br/>
 	 * 注意：如果attrName属性已存在，则之前的会被替换
@@ -25,6 +27,13 @@ public interface AttributeSqlFragment extends SqlFragment {
 	 * @param value    属性值
 	 */
 	void addAttr(String attrName, @Nullable Object value);
+
+	/**
+	 * 添加一组属性
+	 * 
+	 * @param attrs 属性映射
+	 */
+	void addAttrs(Map<String, Object> attrs);
 
 	/**
 	 * 添加属性，仅当value不为null时添加
@@ -36,12 +45,35 @@ public interface AttributeSqlFragment extends SqlFragment {
 	boolean addAttrByValueNotNull(String attrName, @Nullable Object value);
 
 	/**
+	 * 添加一组属性，仅当value不为null时添加
+	 * 
+	 * @param attrs 属性映射
+	 */
+	default void addAttrsByValueNotNull(Map<String, Object> attrs) {
+		attrs.forEach(this::addAttrByValueNotNull);
+	}
+
+	// ==================================================删除属性==================================================
+
+	/**
 	 * 移除一条属性
 	 * 
 	 * @param attrName 属性名称
 	 * @return <tt>true</tt> 属性被移除（如果属性不存在则是返回false）
 	 */
 	boolean removeAttr(String attrName);
+
+	// ==================================================添获取性==================================================
+
+	/**
+	 * 获取属性的值
+	 * 
+	 * @param attrName 属性名称
+	 * @return 属性值
+	 * @since 2.1.6
+	 */
+	@Nullable
+	Object getAttr(String attrName);
 
 	/**
 	 * 获取所有的属性名称
