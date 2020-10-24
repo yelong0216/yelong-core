@@ -3,8 +3,6 @@
  */
 package org.yelong.core.model.service.function;
 
-import java.util.function.Supplier;
-
 import org.yelong.core.model.service.SqlModelService;
 
 /**
@@ -23,6 +21,8 @@ import org.yelong.core.model.service.SqlModelService;
  * @since 1.3
  */
 @FunctionalInterface
-public interface MSSupplier<R> extends Supplier<R> {
+public interface MSSupplier<R> {
+
+	R get() throws Exception;
 
 }

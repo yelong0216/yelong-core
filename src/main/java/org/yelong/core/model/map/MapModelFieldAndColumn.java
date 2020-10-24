@@ -18,8 +18,9 @@ public interface MapModelFieldAndColumn extends FieldAndColumn {
 
 	@Override
 	default Field getField() {
-		throw new UnsupportedOperationException(
-				"map model 不支持获取 Field 实例 ， 因为在这些字段是不存在的。你可以使用 getFieldName 来获取字段名称（也就是map的key）");
+		// map model 不支持获取 Field 实例 ， 因为在这些字段是不存在的。你可以使用 getFieldName
+		// 来获取字段名称（也就是map的key）
+		return null;
 	}
 
 }

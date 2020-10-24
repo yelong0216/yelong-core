@@ -19,9 +19,6 @@ package org.yelong.core.model.service.function;
 @FunctionalInterface
 public interface MSOperation {
 
-	/**
-	 * 执行操作
-	 */
-	void process();
+	void process() throws Exception;
 
 }

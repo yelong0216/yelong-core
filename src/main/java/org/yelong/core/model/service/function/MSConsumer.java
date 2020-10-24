@@ -3,8 +3,6 @@
  */
 package org.yelong.core.model.service.function;
 
-import java.util.function.Consumer;
-
 import org.yelong.core.model.service.SqlModelService;
 
 /**
@@ -20,6 +18,8 @@ import org.yelong.core.model.service.SqlModelService;
  * @since 1.3
  */
 @FunctionalInterface
-public interface MSConsumer extends Consumer<SqlModelService> {
+public interface MSConsumer {
+
+	void accept(SqlModelService modelService) throws Exception;
 
 }

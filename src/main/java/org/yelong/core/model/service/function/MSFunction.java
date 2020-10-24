@@ -3,8 +3,6 @@
  */
 package org.yelong.core.model.service.function;
 
-import java.util.function.Function;
-
 import org.yelong.core.model.service.SqlModelService;
 
 /**
@@ -21,6 +19,8 @@ import org.yelong.core.model.service.SqlModelService;
  * @param <R> result type
  * @since 1.3
  */
-public interface MSFunction<R> extends Function<SqlModelService, R> {
+public interface MSFunction<R> {
+
+	R apply(SqlModelService modelService) throws Exception;
 
 }

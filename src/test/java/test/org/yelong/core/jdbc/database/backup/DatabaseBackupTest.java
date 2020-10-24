@@ -1,4 +1,4 @@
-package test.org.yelong.core.jdbc.database;
+package test.org.yelong.core.jdbc.database.backup;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -16,7 +16,7 @@ public class DatabaseBackupTest {
 	public static void main(String[] args) throws DatabaseBackupException, IOException {
 		Properties properties = new Properties();
 		properties.put(MysqlDatabaseBackup.MYSQLDUMP_BIN_PATH_NAME, "D:/mysql/MySQL Server 5.5/bin");
-		DatabaseBackupConfig databaseBackupConfig = new DatabaseBackupConfig("root", "123456", "localhost", "C:\\temp");
+		DatabaseBackupConfig databaseBackupConfig = new DatabaseBackupConfig("root", "123456", "localhost", "K:\\");
 		CommandExecuteResult commandExecuteResult = databaseBackup.backup(databaseBackupConfig, "test", "co_dict", properties);
 		System.out.println(commandExecuteResult.getErrorInfo());
 		System.out.println("----------------");

@@ -288,7 +288,11 @@ public interface SqlModelService extends ModelService {
 	 * @since 1.3.0
 	 */
 	default <R> R doFunction(MSFunction<R> function) {
-		return function.apply(this);
+		try {
+			return function.apply(this);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
@@ -308,7 +312,11 @@ public interface SqlModelService extends ModelService {
 	 * @since 1.3.0
 	 */
 	default void doConsumer(MSConsumer consumer) {
-		consumer.accept(this);
+		try {
+			consumer.accept(this);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
@@ -329,7 +337,11 @@ public interface SqlModelService extends ModelService {
 	 * @since 1.3.0
 	 */
 	default void doOperation(MSOperation operation) {
-		operation.process();
+		try {
+			operation.process();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**
@@ -353,7 +365,11 @@ public interface SqlModelService extends ModelService {
 	 * @since 1.3.0
 	 */
 	default <R> R doSupplier(MSSupplier<R> supplier) {
-		return supplier.get();
+		try {
+			return supplier.get();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }
