@@ -864,7 +864,7 @@ public final class ModelCollectors {
 	 * @param modelClass      model class
 	 * @param selectColumn    查询的列
 	 * @param primaryKeyValue 唯一主键值
-	 * @return
+	 * @return 获取单个值模型收集器
 	 */
 	public static <M extends Modelable, T> GetSingleColumnModelCollector<M, T> getSingleValueByOnlyPrimaryKeyEQ(
 			Class<M> modelClass, String selectColumn, Object primaryKeyValue) {
@@ -1002,7 +1002,7 @@ public final class ModelCollectors {
 	}
 
 	/**
-	 * 根据单例等于某值的条件获取第一个模型
+	 * 根据单列等于某值的条件获取第一个模型
 	 * 
 	 * <pre>
 	 * User user = modelService.collect(ModelCollectors.getModelBySingleColumnEQ(User.class, "userName", "夜龙"));
@@ -1414,7 +1414,7 @@ public final class ModelCollectors {
 	}
 
 	/**
-	 * 根据唯一主键包含某些值的条件查询单例数据
+	 * 根据唯一主键包含某些值的条件查询单列数据
 	 * 
 	 * <pre>
 	 * List<String> usernames = modelService.collect(ModelCollectors
@@ -1434,7 +1434,7 @@ public final class ModelCollectors {
 	}
 
 	/**
-	 * 根据唯一主键包含某些值的条件排序查询单例数据
+	 * 根据唯一主键包含某些值的条件排序查询单列数据
 	 * 
 	 * @param <M>              model type
 	 * @param <T>              return list object type
@@ -1450,7 +1450,7 @@ public final class ModelCollectors {
 	}
 
 	/**
-	 * 根据唯一主键包含某些值的条件排序查询单例数据
+	 * 根据唯一主键包含某些值的条件排序查询单列数据
 	 * 
 	 * @param <M>              model type
 	 * @param <T>              return list object type
